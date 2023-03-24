@@ -16,6 +16,8 @@ int main(int argc, char *argv[])
     int opt;
     int board_size = 8;
     char board_shape = 'c';
+    char *player1_path = NULL;
+    char *player2_path = NULL;
     while ((opt = getopt(argc, argv, "s:m:")) != -1)
     {
         switch (opt)
@@ -29,8 +31,21 @@ int main(int argc, char *argv[])
         }
     }
 
-    printf("Un plateau de forme %c et de taille %d \n", board_shape, board_size);
-    printf("Nom du client 1 : %s\n", (*get_name)());
+    if (optind < argc)
+    {
+        player1_path = argv[optind++];
+    }
+    if (optind < argc) 
+    {
+        player2_path = argv[optind++];
+    }
+      if (!player1_path || !player2_path) {
+        fprintf(stderr, "Usage: %s -m [M] -t [T] player1_path player2_path\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+    
+    printf("Board shape : %c and size : %d \n", board_shape, board_size);
+    printf("Path to first client %s, path to second client %s \n",player1_path, player2_path);
     dlclose(client_1);
 
     return EXIT_SUCCESS;
