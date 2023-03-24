@@ -4,11 +4,24 @@ LDFLAGS = -lm -lgsl -lgslcblas -ldl \
 	-L$(GSL_PATH)/lib -L$(GSL_PATH)/lib64 \
 	-Wl,--rpath=${GSL_PATH}/lib
 
+
+COMPILER = gcc
+BUILDDIR = build
+INSTALLDIR = install
+SOURCEDIR = src
+
+LDFLAGS = -I$(SOURCEDIR)/
+
+
 all: build
+
+%.o: $(SOURCEDIR)/%.c
+	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
 build: server client
 
-server:
+server: server.o
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/server
 
 client:
 
@@ -19,6 +32,6 @@ test: alltests
 install: server client test
 
 clean:
-	@rm -f *~ src/*~
+	@rm -f *~ src/*~ build/* install/*
 
 .PHONY: client install test clean
