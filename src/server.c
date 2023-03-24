@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     const char *(*get_name)(void);
     void *client_1;
 
-    client_1 = dlopen("./build/client_1.so", RTLD_LAZY);
+    client_1 = dlopen("./install/client_1.so", RTLD_LAZY);
     get_name = dlsym(client_1, "get_player_name");
 
     int opt;
