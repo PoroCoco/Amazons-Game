@@ -1,6 +1,8 @@
 #ifndef _AMAZON_MATRIX_H
 #define _AMAZON_MATRIX_H
 
+#include "graph.h" 
+
 /// @brief Enum specifiyng different kinds of graph
 enum graph_type{
     SQUARE,
@@ -32,9 +34,9 @@ void remove_edge(struct graph_t *g, unsigned int v1, unsigned int v2);
 /// @param g The graph to free
 void destroy_graph(struct graph_t *g);
 
-
-
-
+/// @brief print the graph given
+/// @param g graph to print
+void print_graph(struct graph_t* g);
 
 
 

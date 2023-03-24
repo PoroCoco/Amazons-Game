@@ -10,7 +10,7 @@ BUILDDIR = build
 INSTALLDIR = install
 SOURCEDIR = src
 TESTDIR = tst
-TESTFILES = test.o test_dummy.o
+TESTFILES = test.o test_graph.o
 
 LDFLAGS += -I$(SOURCEDIR)/
 
