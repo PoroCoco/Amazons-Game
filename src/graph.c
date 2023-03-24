@@ -40,6 +40,31 @@ unsigned int get_neighbor(int m, unsigned int idx, enum dir_t d)
     }
 }
 
+// return the direction of v1 --> v2
+enum dir_t get_dir(unsigned int m, unsigned int v1, unsigned int v2)
+{
+
+    if (v2 == v1 - m - 1)
+        return DIR_NW;
+    if (v2 == v1 - m)
+        return DIR_NORTH;
+    if (v2 == v1 - m + 1)
+        return DIR_NE;
+    if (v2 == v1 - 1)
+        return DIR_WEST;
+    if (v2 == v1 + 1)
+        return DIR_EAST;
+    if (v2 == v1 + m - 1)
+        return DIR_SW;
+    if (v2 == v1 + m)
+        return DIR_SOUTH;
+    if (v2 == v1 + m + 1)
+        return DIR_SE;
+    else
+        return NO_DIR;
+
+}
+
 struct graph_t *create_graph(unsigned int m, enum graph_type shape)
 {
     struct graph_t *graph = malloc(1 * sizeof(struct graph_t));
