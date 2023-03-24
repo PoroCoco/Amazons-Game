@@ -1,4 +1,4 @@
-#include"test_project.h"
+#include"test.h"
 
 #define RED  "\x1B[31m"
 #define GRN  "\x1B[32m"
@@ -22,14 +22,12 @@ struct test {
 };
 
 struct test tests[] = {
-    {test_dummy,"dummy"}
+    {"dummy",test_dummy},
     {0,0}
 };
 
 
 int main (int argc, char *argv[]){
-    time_t t;
-    srand((unsigned) time(&t));
     if (argc == 1){
         for (struct test* pt = tests; pt->name && pt->function; pt++){
             print_result(pt->function(),pt->name);
