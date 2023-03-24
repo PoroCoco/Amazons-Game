@@ -11,6 +11,6 @@
 /*                                test dummy                                  */
 /* ************************************************************************** */
 
-int test_dummy(void);
+void test_square_graph();
 
 #endif

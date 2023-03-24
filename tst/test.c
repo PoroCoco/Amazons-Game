@@ -22,7 +22,7 @@ struct test {
 };
 
 struct test tests[] = {
-    {"dummy",test_dummy},
+    {"square_graph",test_square_graph},
     {0,0}
 };
 
