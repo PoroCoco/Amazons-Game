@@ -73,7 +73,7 @@ struct graph_t *create_graph(unsigned int m, enum graph_type shape)
     case SQUARE:
         graph->num_vertices=m*m;
 
-        for (size_t vertex=0; vertex<graph->num_vertices; vertex++)
+        for (size_t vertex=0; vertex<m; vertex++)
             for (enum dir_t dir=FIRST_DIR; dir<LAST_DIR; dir++)
                 gsl_spmatrix_uint_set(mat, vertex, get_neighbor(m,vertex,dir), dir);
         
@@ -96,9 +96,9 @@ void destroy_graph(struct graph_t *g)
 void print_graph(struct graph_t* g)
 {
     gsl_spmatrix_uint_fprintf(stdout, g->t, "%u");
-    for (size_t i = 0; i < g->t->size1; i++)
+    for (size_t i = 0; i < g->t->size2; i++)
     {
-        for (size_t j = 0; j < g->t->size2; j++)
+        for (size_t j = 0; j < g->t->size1; j++)
             printf("%u ",gsl_spmatrix_uint_get(g->t, i, j));
         printf("\n");
     }
