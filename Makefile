@@ -11,6 +11,7 @@ INSTALLDIR = install
 SOURCEDIR = src
 TESTDIR = tst
 TESTFILES = test.o test_graph.o
+SOURCEFILES = graph.o
 
 LDFLAGS += -I$(SOURCEDIR)/
 
@@ -31,8 +32,8 @@ server: server.o
 client_1.so: client_1.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/client_1.so
 
-alltests: $(TESTFILES)
-	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/alltests
+alltests: $(TESTFILES) $(SOURCEFILES)
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/alltests -lgsl
 
 test: alltests
 

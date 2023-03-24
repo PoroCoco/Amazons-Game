@@ -2,10 +2,8 @@
 #include "dir.h"
 
 
-unsigned int get_neighbor(int m, unsigned int idx, enum dir_t d) 
+unsigned int get_neighbor(unsigned int m, unsigned int idx, enum dir_t d) 
 {
-    if (is_dir_in_relation(d) == 0)
-        return UINT_MAX;
     if ((idx < m) && ((d == DIR_NE) || (d == DIR_NORTH) || (d == DIR_NW)))
         return UINT_MAX;
     if ((idx % m == 0) && ((d == DIR_NW) || (d == DIR_WEST) || (d == DIR_SW)))
