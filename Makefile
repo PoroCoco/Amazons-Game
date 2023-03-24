@@ -20,6 +20,9 @@ all: build
 %.o: $(SOURCEDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
+%.o: $(TESTDIR)/%.c
+	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
+
 build: server client_1.so
 
 server: server.o
