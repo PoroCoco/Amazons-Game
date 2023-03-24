@@ -1,8 +1,8 @@
 GSL_PATH ?= /net/ens/renault/save/gsl-2.6/install
 CFLAGS = -std=c99 -Wall -Wextra -fPIC -g3 -I$(GSL_PATH)/include
-LDFLAGS = -lm -lgsl -lgslcblas -ldl \
+LDFLAGS = -lm -lgsl -lgslcblas \
 	-L$(GSL_PATH)/lib -L$(GSL_PATH)/lib64 \
-	-Wl,--rpath=${GSL_PATH}/lib
+	-Wl,--rpath=${GSL_PATH}/lib,--no-as-needed -ldl
 
 
 COMPILER = gcc
@@ -10,7 +10,7 @@ BUILDDIR = build
 INSTALLDIR = install
 SOURCEDIR = src
 
-LDFLAGS = -I$(SOURCEDIR)/
+LDFLAGS += -I$(SOURCEDIR)/
 
 
 all: build
@@ -18,12 +18,13 @@ all: build
 %.o: $(SOURCEDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
-build: server client
+build: server client_1.so
 
 server: server.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/server
 
-client:
+client_1.so: client_1.o
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(BUILDDIR)/client_1.so
 
 alltests:
 
