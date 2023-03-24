@@ -18,14 +18,14 @@ int main(int argc, char *argv[])
     char board_shape = 'c';
     char *player1_path = NULL;
     char *player2_path = NULL;
-    while ((opt = getopt(argc, argv, "s:m:")) != -1)
+    while ((opt = getopt(argc, argv, "t:m:")) != -1)
     {
         switch (opt)
         {
         case 'm':
             board_size = atoi(optarg);
             break;
-        case 's':
+        case 't':
             board_shape = optarg[0];
             break;
         }
