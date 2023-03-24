@@ -2,10 +2,8 @@
 #include "dir.h"
 
 
-unsigned int get_neighbor(int m, unsigned int idx, enum dir_t d) 
+unsigned int get_neighbor(unsigned int m, unsigned int idx, enum dir_t d) 
 {
-    if (is_dir_in_relation(d) == 0)
-        return UINT_MAX;
     if ((idx < m) && ((d == DIR_NE) || (d == DIR_NORTH) || (d == DIR_NW)))
         return UINT_MAX;
     if ((idx % m == 0) && ((d == DIR_NW) || (d == DIR_WEST) || (d == DIR_SW)))
@@ -83,22 +81,25 @@ struct graph_t *create_graph(unsigned int m, enum graph_type shape)
         break;
 
     default:
-        return graph;
+        break;
     }
+
+    return graph;
 }
 
 void destroy_graph(struct graph_t *g)
 {
-    gsl_spmatrix_free(g->t);
+    gsl_spmatrix_uint_free(g->t);
     free(g);
 }
 
 void print_graph(struct graph_t* g)
 {
+    gsl_spmatrix_uint_fprintf(stdout, g->t, "%u");
     for (size_t i = 0; i < g->t->size1; i++)
     {
         for (size_t j = 0; j < g->t->size2; j++)
-            printf("%lu ",gsl_spmatrix_uint_get(g->t, i, j));
+            printf("%u ",gsl_spmatrix_uint_get(g->t, i, j));
         printf("\n");
     }
 }
