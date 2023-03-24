@@ -1,5 +1,6 @@
 #include "player.h"
 
-char const* get_player_name() {
-    return "Aled";
+char const *get_player_name()
+{
+    return "Name";
 }
