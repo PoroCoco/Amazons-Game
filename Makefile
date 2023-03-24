@@ -9,6 +9,8 @@ COMPILER = gcc
 BUILDDIR = build
 INSTALLDIR = install
 SOURCEDIR = src
+TESTDIR = tst
+TESTFILES = test.o test_dummy.o
 
 LDFLAGS = -I$(SOURCEDIR)/
 
@@ -18,6 +20,9 @@ all: build
 %.o: $(SOURCEDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
+%.o: $(TESTDIR)/%.c
+	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
+
 build: server client
 
 server: server.o
@@ -25,7 +30,8 @@ server: server.o
 
 client:
 
-alltests:
+alltests: $(TESTFILES)
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/alltests
 
 test: alltests
 
