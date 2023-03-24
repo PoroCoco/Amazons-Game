@@ -2,5 +2,5 @@
 
 
 int test_dummy(void){
-    return 1;
+    return 0;
 }
