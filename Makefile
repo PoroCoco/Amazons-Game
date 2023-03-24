@@ -9,6 +9,8 @@ COMPILER = gcc
 BUILDDIR = build
 INSTALLDIR = install
 SOURCEDIR = src
+TESTDIR = tst
+TESTFILES = test.o test_dummy.o
 
 LDFLAGS += -I$(SOURCEDIR)/
 
@@ -26,7 +28,8 @@ server: server.o
 client_1.so: client_1.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(BUILDDIR)/client_1.so
 
-alltests:
+alltests: $(TESTFILES)
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/alltests
 
 test: alltests
 

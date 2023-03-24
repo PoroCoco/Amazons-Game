@@ -6,13 +6,13 @@
 
 void print_result(int result, char *test){
     if(result == 0){
-        printf("%sTesting %s... ->%s PASSED\n",NRM,test,GRN);
+        printf("%sTesting %s... ->%s PASSED\n%s",NRM,test,GRN,NRM);
     }
     else if (result != -1){
-        fprintf(stderr,"%sTesting %s... ->%s NOT PASSED\n",NRM,test,RED);
+        fprintf(stderr,"%sTesting %s... ->%s NOT PASSED\n%s",NRM,test,RED,NRM);
     }
     else{
-        fprintf(stderr,"Invalid argument!%d\n",result);
+        fprintf(stderr,"Invalid argument!%d\n%s",result,NRM);
     }
 }
 
