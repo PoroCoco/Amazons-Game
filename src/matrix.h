@@ -2,8 +2,9 @@
 #define _AMAZON_MATRIX_H
 
 #include "graph.h" 
+#include "stdbool.h" 
 
-/// @brief Enum specifiyng different kinds of graph
+/// @brief Enum specifiyng the different kinds of graph
 enum graph_type{
     SQUARE,
     DONUT,
@@ -11,7 +12,7 @@ enum graph_type{
     IN_EIGHT
 };
 
-/// @brief Creates a graph of the given shape on the heap and returns a pointer on it. 
+/// @brief Creates a graph of the given shape on the heap and returns a pointer on it. The graph follows the CSR format.
 /// @param size The size of the graph (size*size)
 /// @param shape The shape of the graph
 struct graph_t *create_graph(unsigned int size, enum graph_type shape);
@@ -20,17 +21,31 @@ struct graph_t *create_graph(unsigned int size, enum graph_type shape);
 /// @param g The graph to update
 /// @param v1 The starting vertex 
 /// @param v2 The ending vertex
-void add_edge(struct graph_t *g, unsigned int v1, unsigned int v2);
+void add_edge(struct graph_t *g, size_t v1, size_t v2, unsigned int value);
 
 
-/// @brief Updates the graph by remove the edge from v1 to v2. If the edge is already removed does nothing.
+/// @brief Updates the graph by removing the edge from v1 to v2. If the edge is already removed does nothing.
 /// @param g The graph to update
 /// @param v1 The starting vertex 
 /// @param v2 The ending vertex
-void remove_edge(struct graph_t *g, unsigned int v1, unsigned int v2);
+void remove_edge(struct graph_t *g, size_t v1, size_t v2);
 
+/// @brief Returns boolean on if an edge between v1 and v2 exists.
+/// @param g The graph to use
+/// @param v1 The starting vertex
+/// @param v2 The ending vertex
+/// @return True if the edge exist, false otherwise 
+bool exist_edge(struct graph_t *g, size_t v1, size_t v2);
 
-/// @brief Frees the graph given
+/// @brief Returns boolean on if an edge between v1 and v2 exists and has 'value' for value.
+/// @param g The graph to use
+/// @param v1 The starting vertex
+/// @param v2 The ending vertex
+/// @param value The value to match
+/// @return True if the edge exist, false otherwise 
+bool exist_edge_value(struct graph_t *g, size_t v1, size_t v2, unsigned int value);
+
+/// @brief Frees the given graph 
 /// @param g The graph to free
 void destroy_graph(struct graph_t *g);
 
