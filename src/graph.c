@@ -1,8 +1,10 @@
 #include "matrix.h"
 #include "dir.h"
+#include "assert.h"
+#include "string.h"
 
 
-unsigned int get_neighbor(unsigned int m, unsigned int idx, enum dir_t d) 
+size_t get_neighbor(unsigned int m, unsigned int idx, enum dir_t d) 
 {
     if ((idx < m) && ((d == DIR_NE) || (d == DIR_NORTH) || (d == DIR_NW)))
         return UINT_MAX;
@@ -65,24 +67,34 @@ enum dir_t get_dir(unsigned int m, unsigned int v1, unsigned int v2)
 
 struct graph_t *create_graph(unsigned int m, enum graph_type shape)
 {
-    struct graph_t *graph = malloc(1 * sizeof(struct graph_t));
-    gsl_spmatrix_uint *mat = gsl_spmatrix_uint_alloc(m, m);
+    struct graph_t *graph = malloc(sizeof(struct graph_t));
+    gsl_spmatrix_uint *mat = gsl_spmatrix_uint_alloc(m*m, m*m);
     
     switch (shape)
     {
     case SQUARE:
         graph->num_vertices=m*m;
 
-        for (size_t vertex=0; vertex<m; vertex++)
-            for (enum dir_t dir=FIRST_DIR; dir<LAST_DIR; dir++)
-                gsl_spmatrix_uint_set(mat, vertex, get_neighbor(m,vertex,dir), dir);
-        
-        graph->t = mat;
+        for (size_t vertex=0; vertex<graph->num_vertices; vertex++){
+            //iteration on all cardinal directions
+            for (enum dir_t dir = FIRST_DIR; dir<LAST_DIR; dir += 2){
+                size_t neighbor = get_neighbor(m, vertex, dir);
+                if (neighbor == UINT_MAX) continue;
+                gsl_spmatrix_uint_set(mat, vertex, neighbor, dir);
+            } 
+        }
         break;
 
     default:
         break;
     }
+
+    //converting the matrix to the CSR format
+    gsl_spmatrix_uint *crs_matrix = gsl_spmatrix_uint_compress(mat, GSL_SPMATRIX_CSR);
+    assert(strcmp(gsl_spmatrix_uint_type(crs_matrix), "CSR") == 0);
+    gsl_spmatrix_uint_free(mat);
+
+    graph->t = crs_matrix;
 
     return graph;
 }
@@ -95,11 +107,18 @@ void destroy_graph(struct graph_t *g)
 
 void print_graph(struct graph_t* g)
 {
-    gsl_spmatrix_uint_fprintf(stdout, g->t, "%u");
     for (size_t i = 0; i < g->t->size2; i++)
     {
         for (size_t j = 0; j < g->t->size1; j++)
             printf("%u ",gsl_spmatrix_uint_get(g->t, i, j));
         printf("\n");
+    }
+}
+
+
+void add_edge(struct graph_t *g, size_t v1, size_t v2, unsigned int value){
+    if (gsl_spmatrix_uint_set(g->t, v1, v2, value) != 0){
+        fprintf(stderr, "Failed to add an edge with value %u from vertex %lu to %lu\n", value, v1, v2);
+        exit(EXIT_FAILURE);
     }
 }
