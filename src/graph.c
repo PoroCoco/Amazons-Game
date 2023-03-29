@@ -105,7 +105,7 @@ void destroy_graph(struct graph_t *g)
     free(g);
 }
 
-void print_graph(struct graph_t* g)
+void print_graph(const struct graph_t* g)
 {
     for (size_t i = 0; i < g->t->size2; i++)
     {
