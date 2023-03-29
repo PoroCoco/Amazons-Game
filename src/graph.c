@@ -1,4 +1,4 @@
-#include "matrix.h"
+#include "graph_ext.h"
 #include "dir.h"
 #include "assert.h"
 #include "string.h"
@@ -90,11 +90,11 @@ struct graph_t *create_graph(unsigned int m, enum graph_type shape)
     }
 
     //converting the matrix to the CSR format
-    gsl_spmatrix_uint *crs_matrix = gsl_spmatrix_uint_compress(mat, GSL_SPMATRIX_CSR);
-    assert(strcmp(gsl_spmatrix_uint_type(crs_matrix), "CSR") == 0);
+    gsl_spmatrix_uint *csr = gsl_spmatrix_uint_compress(mat, GSL_SPMATRIX_CSR);
+    assert(strcmp(gsl_spmatrix_uint_type(csr), "CSR") == 0);
     gsl_spmatrix_uint_free(mat);
 
-    graph->t = crs_matrix;
+    graph->t = csr;
 
     return graph;
 }

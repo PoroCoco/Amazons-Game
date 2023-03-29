@@ -1,5 +1,5 @@
-#ifndef _AMAZON_MATRIX_H
-#define _AMAZON_MATRIX_H
+#ifndef _AMAZON_GRAPH_EXT_H
+#define _AMAZON_GRAPH_EXT_H
 
 #include "graph.h" 
 #include "stdbool.h" 
@@ -35,7 +35,7 @@ void remove_edge(struct graph_t *g, size_t v1, size_t v2);
 /// @param v1 The starting vertex
 /// @param v2 The ending vertex
 /// @return True if the edge exist, false otherwise 
-bool exist_edge(struct graph_t *g, size_t v1, size_t v2);
+bool exist_edge(const struct graph_t *g, size_t v1, size_t v2);
 
 /// @brief Returns boolean on if an edge between v1 and v2 exists and has 'value' for value.
 /// @param g The graph to use
@@ -43,16 +43,23 @@ bool exist_edge(struct graph_t *g, size_t v1, size_t v2);
 /// @param v2 The ending vertex
 /// @param value The value to match
 /// @return True if the edge exist, false otherwise 
-bool exist_edge_value(struct graph_t *g, size_t v1, size_t v2, unsigned int value);
+bool exist_edge_value(const struct graph_t *g, size_t v1, size_t v2, unsigned int value);
 
 /// @brief Frees the given graph 
 /// @param g The graph to free
 void destroy_graph(struct graph_t *g);
 
 /// @brief print the graph given
-/// @param g graph to print
-void print_graph(struct graph_t* g);
+/// @param g The graph to print
+void print_graph(const struct graph_t* g);
+
+/// @brief Makes a heap allocated copy of g
+/// @param g The graph to copy
+struct graph_t* graph_copy(const struct graph_t* g);
+
+/// @brief Converts the given character to the corresponding shape enum. If character doesn't match any, defaults to SQUARE
+/// @param shape The character to convert
+enum graph_type convert_char_to_shape(char shape);
 
 
-
-#endif // _AMAZON_MATRIX_H
+#endif // _AMAZON_GRAPH_EXT_H
