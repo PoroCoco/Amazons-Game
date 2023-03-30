@@ -25,7 +25,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
     unsigned int queen_number = queens_compute_number(board_size);
 
     //creates the NUM_PLAYER queens arrays of sizes "queen_number" with the index of the position of each queen for each player.
-    unsigned int *queens[NUM_PLAYERS] = NULL; 
+    unsigned int *queens[NUM_PLAYERS]; 
     for (size_t i = 0; i < NUM_PLAYERS; i++)
     {
         queens[i] = queens_create_positions(queen_number, i);
@@ -48,7 +48,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
     for (unsigned int i = 0; i < NUM_PLAYERS; i++)
     {
         struct graph_t *graph_cpy = graph_copy(g); //malloc copy
-        unsigned int *queens_cpy[NUM_PLAYERS] = NULL;
+        unsigned int *queens_cpy[NUM_PLAYERS];
         for (unsigned int i = 0; i < NUM_PLAYERS; i++)
         {
             queens_cpy[i] = queens_copy(queens[i], queen_number); //malloc copy
@@ -72,7 +72,10 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
 
 }
 
-
+struct client load_client(unsigned int id, char * library_path){
+    struct client c;
+    return c;
+}
 
 // int main(int argc, char **argv) {
 //     void *handle;

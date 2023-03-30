@@ -122,3 +122,11 @@ void add_edge(struct graph_t *g, size_t v1, size_t v2, unsigned int value){
         exit(EXIT_FAILURE);
     }
 }
+
+enum graph_type convert_char_to_shape(char shape){
+    return 0;
+}
+
+struct graph_t* graph_copy(const struct graph_t* g){
+    return NULL;
+}
