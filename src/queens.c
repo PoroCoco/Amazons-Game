@@ -1,5 +1,7 @@
 #include <stdlib.h>
 
+#include "queens.h"
+
 unsigned int queens_compute_number(unsigned int board_size){
     return 0;
 }
