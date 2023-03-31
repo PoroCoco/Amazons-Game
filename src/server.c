@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
     printf("Path to first client %s, path to second client %s \n",player1_path, player2_path);
     char *libraries_paths[NUM_PLAYERS] = {player1_path, player2_path}; 
 
-    // play_game(libraries_paths, board_size, board_shape);
+    play_game(libraries_paths, board_size, board_shape);
 
     return EXIT_SUCCESS;
 }
