@@ -23,9 +23,9 @@ void queens_free_positions(unsigned int *queens);
 
 /// @brief Creates a copy of the array of queens
 /// @param queens The array to copy
-/// @param queens_number The size of queens
+/// @param queen_count The size of queens
 /// @return A heap allocated array with the same values as queens
-unsigned int* queens_copy(const unsigned int *queens, unsigned int board_size);
+unsigned int* queens_copy(const unsigned int *queens, unsigned int queen_count);
 
 
 void queens_move(unsigned int *queens, unsigned int src, unsigned int dst);
@@ -33,7 +33,7 @@ void queens_move(unsigned int *queens, unsigned int src, unsigned int dst);
 
 
 
-bool queens_occupy(const unsigned int *queens, unsigned int index, unsigned int board_size);
+bool queens_occupy(const unsigned int *queens, unsigned int index, unsigned int board_width);
 
 
 #endif // _AMAZON_QUEENS_H

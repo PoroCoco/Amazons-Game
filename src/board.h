@@ -10,9 +10,17 @@ typedef struct board {
     unsigned int board_width;
     unsigned int board_cells;
     bool *arrows;
+    unsigned int arrows_count;
     unsigned int *queens[NUM_PLAYERS];
     unsigned int queens_count;
 } board_t;
+
+enum cell_state{
+    STATE_AVAILABLE,
+    STATE_QUEEN,
+    STATE_ARROW,
+    STATE_ERROR
+};
 
 /// @brief Allocates on the heap a game board.
 /// @param g The graph given by the server
@@ -31,6 +39,13 @@ void board_add_arrow(board_t *board, unsigned int index);
 /// @param index The position aimed
 /// @return True if the cell is empty, false otherwise  
 bool board_index_is_available(board_t *board, unsigned int index);
+
+/// @brief Gives the state of a board cell at the given index. Returns STATE_ERROR in case of errors (for exemple invalid index)
+/// @param board The game board
+/// @param index The cell index
+/// @return The state of the cell at the given index
+enum cell_state board_get_index_state(board_t *board, unsigned int index);
+
 
 void board_get_directions(void);
 

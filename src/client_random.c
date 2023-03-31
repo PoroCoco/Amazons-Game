@@ -91,6 +91,7 @@ void initialize(unsigned int player_id, struct graph_t *graph,
 
 struct move_t play(struct move_t previous_move)
 {
+    board_print(c->board);
     return previous_move;
 }
 

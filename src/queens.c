@@ -32,14 +32,21 @@ void queens_free_positions(unsigned int *queens){
     free(queens);
 }
 
-unsigned int* queens_copy(const unsigned int *queens, unsigned int board_size){
+unsigned int* queens_copy(const unsigned int *queens, unsigned int queen_count){
+    unsigned int *queens_cpy = malloc(sizeof(*queens_cpy)*queen_count);
+    for (unsigned int i = 0; i < queen_count; i++)
+    {
+        queens_cpy[i] = queens[i];
+    }
     
-    return NULL;
+    return queens_cpy;
 }
 
-bool queens_occupy(const unsigned int *queens, unsigned int index, unsigned int board_size){
-    unsigned int queens_count = queens_compute_number(board_size);
-    for (unsigned int i = 0; i < queens_count; i++)
+bool queens_occupy(const unsigned int *queens, unsigned int index, unsigned int board_width){
+    assert(queens != NULL);
+    unsigned int queens_count = queens_compute_number(board_width);
+    for (unsigned int i = 0; i < queens_count; i++){
         if(queens[i] == index) return true;    
+    }
     return false;
 }
