@@ -18,4 +18,6 @@ struct random_client
 };
 
 
+unsigned int board_width(struct graph_t *graph);
+
 #endif

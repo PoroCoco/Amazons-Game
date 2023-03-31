@@ -31,7 +31,7 @@ build: server client_random.so
 server: server.o graph.o queens.o game.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/server 
 
-client_random.so: client_random.o
+client_random.so: client_random.o graph.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/client_random.so
 
 alltests: $(TESTFILES) $(SOURCEFILES)
