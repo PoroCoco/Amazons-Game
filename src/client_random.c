@@ -97,6 +97,6 @@ struct move_t play(struct move_t previous_move)
 void finalize()
 {
     printf("finalize for me client id %u, my ptr is %p\n", c->id, c);
-    // destroy_graph(c->graph);
-    // free(c);
+    board_free(c->board);
+    free(c);
 }

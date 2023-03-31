@@ -18,7 +18,7 @@ LDFLAGS += -I$(SOURCEDIR)/
 all: build
 
 play : build
-	./install/server ./install/client_random.so ./install/client_random.so
+	./install/server ./install/client_random1.so ./install/client_random2.so
 
 %.o: $(SOURCEDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
@@ -26,13 +26,17 @@ play : build
 %.o: $(TESTDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
-build: server client_random.so
+build: server client_random1.so client_random2.so
 
 server: server.o graph.o queens.o game.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/server 
 
-client_random.so: client_random.o board.o
-	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/client_random.so
+client_random1.so: client_random.o board.o graph.o queens.o
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
+
+client_random2.so: client_random.o board.o graph.o queens.o
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
+
 
 alltests: $(TESTFILES) $(SOURCEFILES)
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/alltests -lgsl

@@ -1,5 +1,6 @@
 #include "board.h"
 #include "queens.h"
+#include "graph_ext.h"
 
 board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], unsigned int queens_count){
     board_t *b = malloc(sizeof(*b));
