@@ -1,7 +1,7 @@
+#include <math.h>
 #include "graph_ext.h"
 #include "dir.h"
 #include "assert.h"
-#include "string.h"
 #include "string.h"
 
 
@@ -103,32 +103,61 @@ struct graph_t *create_graph(unsigned int m, enum graph_type shape)
     return graph;
 }
 
-void destroy_graph(struct graph_t *g)
-{
+void destroy_graph(struct graph_t *g) {
     gsl_spmatrix_uint_free(g->t);
     free(g);
 }
 
-void print_graph(const struct graph_t* g)
-{
+void print_graph(const struct graph_t* g) {
+    printf("num_vertices : %u\n",g->num_vertices);
     gsl_spmatrix_uint_fprintf(stdout,g->t,"%u");
 }
 
-
+/*
 void add_edge(struct graph_t *g, size_t v1, size_t v2, unsigned int value){
-    if (gsl_spmatrix_uint_set(g->t, v1, v2, value) != 0){
+    if (strcmp(gsl_spmatrix_uint_type(g->t), "CSR") == 0)
+    {
+        
+    }   
+    
+    else if (gsl_spmatrix_uint_set(g->t, v1, v2, value) != 0){
         fprintf(stderr, "Failed to add an edge with value %u from vertex %lu to %lu\n", value, v1, v2);
         exit(EXIT_FAILURE);
     }
+}*/
+
+void remove_edge(struct graph_t *g, size_t v1, size_t v2) {
+    unsigned int* ptr =  gsl_spmatrix_uint_ptr(g->t, v1, v2);
+    *ptr = NO_DIR;
+}
+
+bool exist_edge(const struct graph_t *g, size_t v1, size_t v2) {
+    return (gsl_spmatrix_uint_get(g->t, v1, v2) != NO_DIR);
 }
 
 enum graph_type convert_char_to_shape(char shape){   
-    return SQUARE;
+    switch (shape)
+    {
+    case 'S':
+        return SQUARE;
+    case '8':
+        return IN_EIGHT;
+    case 'D':
+        return DONUT;
+    case 'C':
+        return CLOVER;
+    case 'E':
+        return EMPTY;
+    default:
+        break;
+    }
 }
 
 struct graph_t* graph_copy(const struct graph_t* g){
+    
+    unsigned int size = (unsigned int) sqrt(g->num_vertices);
+    struct graph_t* copy_graph = create_graph(size, EMPTY);
 
-    struct graph_t* copy_graph = create_graph(g->num_vertices,EMPTY);
     if (gsl_spmatrix_uint_memcpy(copy_graph->t,g->t) != 0) {
         fprintf(stderr, "Failed to copy matrix");
         exit(EXIT_FAILURE);
