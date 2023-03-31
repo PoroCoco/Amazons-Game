@@ -25,9 +25,11 @@ struct test tests[] = {
     {"square_graph",test_square_graph},
     {"get_move_direction",test_get_move_direction},
     {"is_move_valid", test_is_move_valid},
-    {0,0}
+    {"queens_compute_number",test_queens_compute_number},
+    {"queens_create_positions",test_queens_create_positions},
+    {"queens_copy",test_queens_copy},
+    {NULL,NULL}
 };
-
 
 int main (int argc, char *argv[]){
     if (argc == 1){
