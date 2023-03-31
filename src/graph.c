@@ -110,21 +110,26 @@ void destroy_graph(struct graph_t *g) {
 
 void print_graph(const struct graph_t* g) {
     printf("num_vertices : %u\n",g->num_vertices);
-    gsl_spmatrix_uint_fprintf(stdout,g->t,"%u");
+    gsl_spmatrix_uint *coo = gsl_spmatrix_uint_compress(g->t, GSL_SPMATRIX_COO);
+    gsl_spmatrix_uint_fprintf(stdout,coo,"%u");
+    gsl_spmatrix_uint_free(coo);
+
 }
 
-/*
 void add_edge(struct graph_t *g, size_t v1, size_t v2, unsigned int value){
     if (strcmp(gsl_spmatrix_uint_type(g->t), "CSR") == 0)
     {
+        //unsigned int size = (unsigned int) sqrt(g->num_vertices);
+
+        gsl_spmatrix_uint* uncompress = gsl_spmatrix_uint_compress(g->t,GSL_SPMATRIX_COO);
         
-    }   
-    
-    else if (gsl_spmatrix_uint_set(g->t, v1, v2, value) != 0){
-        fprintf(stderr, "Failed to add an edge with value %u from vertex %lu to %lu\n", value, v1, v2);
-        exit(EXIT_FAILURE);
+        if (gsl_spmatrix_uint_set(uncompress,v1,v2,value)) {
+            fprintf(stderr, "Failed to add an edge with value %u from vertex %lu to %lu\n", value, v1, v2);
+            exit(EXIT_FAILURE);
+        }
+        gsl_spmatrix_uint_csr(g->t, uncompress);
     }
-}*/
+}
 
 void remove_edge(struct graph_t *g, size_t v1, size_t v2) {
     unsigned int* ptr =  gsl_spmatrix_uint_ptr(g->t, v1, v2);
@@ -136,20 +141,19 @@ bool exist_edge(const struct graph_t *g, size_t v1, size_t v2) {
 }
 
 enum graph_type convert_char_to_shape(char shape){   
-    switch (shape)
-    {
-    case 'S':
-        return SQUARE;
-    case '8':
-        return IN_EIGHT;
-    case 'D':
-        return DONUT;
-    case 'C':
-        return CLOVER;
-    case 'E':
-        return EMPTY;
-    default:
-        break;
+    switch (shape) {
+        case 'S':
+            return SQUARE;
+        case '8':
+            return IN_EIGHT;
+        case 'D':
+            return DONUT;
+        case 'C':
+            return CLOVER;
+        case 'E':
+            return EMPTY;
+        default:
+            return SHAPE_ERROR;
     }
 }
 
