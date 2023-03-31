@@ -138,15 +138,15 @@ bool exist_edge(const struct graph_t *g, size_t v1, size_t v2) {
 enum graph_type convert_char_to_shape(char shape){   
     switch (shape)
     {
-    case 'S':
+    case 's':
         return SQUARE;
     case '8':
         return IN_EIGHT;
-    case 'D':
+    case 'd':
         return DONUT;
-    case 'C':
+    case 'c':
         return CLOVER;
-    case 'E':
+    case 'e':
         return EMPTY;
     default:
         break;
