@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <dlfcn.h>
+#include <assert.h>
 
 #include "player.h"
 #include "game.h"
@@ -15,6 +16,7 @@ typedef struct client {
                 unsigned int num_queens, unsigned int* queens[NUM_PLAYERS]);
     struct move_t (*play)(struct move_t previous_move);
     void (*finalize)(void);
+    void * handle;
 } client_t;
 
 
@@ -38,7 +40,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
     {
         clients[i] = load_client(i, libraries_paths[i]);
     }
-    
+
 
     //create game_board
     struct graph_t *g = create_graph(board_size, convert_char_to_shape(board_type));
@@ -65,6 +67,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
     for (unsigned int i = 0; i < NUM_PLAYERS; i++)
     {
         clients[i].finalize();
+        dlclose(clients[i].handle);
     }
     
     //free game_board
@@ -73,27 +76,41 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
 }
 
 struct client load_client(unsigned int id, char * library_path){
+    assert(library_path);
+    
     struct client c;
+    c.id = id;
+
+    char *error;
+    c.handle = dlopen(library_path, RTLD_LAZY);
+    if (!c.handle) {
+        fputs (dlerror(), stderr);
+        exit(EXIT_FAILURE);
+    }
+
+    c.get_player_name = dlsym(c.handle, "get_player_name");
+    if ((error = dlerror()) != NULL)  {
+        fputs(error, stderr);
+        exit(EXIT_FAILURE);
+    }
+
+    c.initialize = dlsym(c.handle, "initialize");
+    if ((error = dlerror()) != NULL)  {
+        fputs(error, stderr);
+        exit(EXIT_FAILURE);
+    }
+
+    c.play = dlsym(c.handle, "play");
+    if ((error = dlerror()) != NULL)  {
+        fputs(error, stderr);
+        exit(EXIT_FAILURE);
+    }
+
+    c.finalize = dlsym(c.handle, "finalize");
+    if ((error = dlerror()) != NULL)  {
+        fputs(error, stderr);
+        exit(EXIT_FAILURE);
+    }
+
     return c;
 }
-
-// int main(int argc, char **argv) {
-//     void *handle;
-//     char const* (*get_name)(void);
-//     char *error;
-
-//     handle = dlopen("libclient.so", RTLD_LAZY);
-//     if (!handle) {
-//         fputs (dlerror(), stderr);
-//         exit(1);
-//     }
-
-//     get_name = dlsym(handle, "get_player_name");
-//     if ((error = dlerror()) != NULL)  {
-//         fputs(error, stderr);
-//         exit(1);
-//     }
-
-//     printf ("%s\n", (*get_name)());
-//     dlclose(handle);
-// }
