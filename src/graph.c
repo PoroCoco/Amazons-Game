@@ -149,7 +149,7 @@ enum graph_type convert_char_to_shape(char shape){
     case 'e':
         return EMPTY;
     default:
-        break;
+        return SQUARE;
     }
 }
 
