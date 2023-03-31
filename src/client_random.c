@@ -30,7 +30,7 @@ enum dir_t get_move_direction(size_t e1, size_t e2, size_t width)
 int is_move_valid(struct random_client *c, struct move_t *move)
 {
 
-    int width = board_width(c->graph);
+    int width = board_width(c->b);
     int direction = get_move_direction(move->queen_src, move->queen_dst, width);
     int current_position = (int)move->queen_src;
     int destination = (int)move->queen_dst;
@@ -120,10 +120,6 @@ int is_move_valid(struct random_client *c, struct move_t *move)
 char const *get_player_name(void)
 {
     return c->name;
-}
-
-unsigned int board_width(struct graph_t *graph){
-    return (unsigned int) sqrt(graph->t->size1);
 }
 
 void initialize(unsigned int player_id, struct graph_t *graph,

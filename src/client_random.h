@@ -6,22 +6,18 @@
 #include "move.h"
 #include "graph_ext.h"
 #include "dir.h"
+#include "board.h"
 
 
 struct random_client
 {
     char *name;
     int id;
-    struct graph_t *graph;
-    unsigned int nums_queens;
-    unsigned int **queens;
-    unsigned int *arrows;
+    board_t *board;
 };
 
 enum dir_t get_move_direction(size_t origin, size_t destination, size_t width);
 
 int is_move_valid(struct random_client *c, struct move_t *move);
-
-unsigned int board_width(struct graph_t *graph);
 
 #endif
