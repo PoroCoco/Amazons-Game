@@ -3,19 +3,39 @@
 
 struct random_client *c = NULL;
 
-enum dir_t get_direction(size_t origin, size_t destination) {
-    
+enum dir_t get_move_direction(size_t origin, size_t destination, size_t width)
+{
+    if (origin == destination || !origin || !destination || !width)
+        return -1;
+
+    if (abs(origin - destination) < width)
+    {
+
+        return (int)origin - (int)destination > 0 ? DIR_EAST : DIR_WEST;
+    }
+    else
+    {
+        if ((destination % width) == (origin % width))
+        {
+            return (int)origin - (int)destination > 0 ? DIR_NORTH : DIR_SOUTH;
+        }
+
+        return -1;
+    }
 }
 
 int is_move_valid(struct random_client *c, struct move_t *move)
 {
+
+    int direction = get_move_direction(move->queen_src, move->queen_dst, board_width(c->graph));
+
     // check if destination edge exist
-    for (unsigned int i = move->queen_src; i < move->queen_dst; i++)
+    for (unsigned int i = move->queen_src; i < move->queen_dst;)
     {
         
     }
 
-    // check is there is a queen on the destination edge 
+    // check is there is a queen on the destination edge
     for (unsigned int i = 0; i < c->nums_queens; i++)
     {
         if (c->queens[(1 - c->id)][i] != move->queen_dst)

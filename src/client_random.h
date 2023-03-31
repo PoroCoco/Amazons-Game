@@ -17,6 +17,9 @@ struct random_client
     unsigned int **queens;
 };
 
+enum dir_t get_move_direction(size_t origin, size_t destination, size_t width);
+
+int is_move_valid(struct random_client *c, struct move_t *move);
 
 unsigned int board_width(struct graph_t *graph);
 
