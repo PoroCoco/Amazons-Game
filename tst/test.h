@@ -15,4 +15,6 @@ int test_square_graph(void);
 
 int test_get_move_direction(void);
 
+int test_is_move_valid(void);
+
 #endif
