@@ -10,7 +10,7 @@
  * RETURNS:
  * - the player name as an [a-zA-Z0-9 -_]* string
  */
-char const* get_player_name();
+char const *get_player_name();
 
 /* Player initialization
  * PARAM:

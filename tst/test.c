@@ -23,6 +23,7 @@ struct test {
 
 struct test tests[] = {
     {"square_graph",test_square_graph},
+    {"get_move_direction",test_get_move_direction},
     {0,0}
 };
 
