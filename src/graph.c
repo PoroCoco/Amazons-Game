@@ -1,7 +1,8 @@
+#include <assert.h>
 #include <math.h>
+
 #include "graph_ext.h"
 #include "dir.h"
-#include "assert.h"
 #include "string.h"
 
 
@@ -66,34 +67,36 @@ enum dir_t get_dir(unsigned int m, unsigned int v1, unsigned int v2)
 
 }
 
-unsigned int get_size(const struct graph_t* g) {
-    return (unsigned int) sqrt(g->num_vertices);
+unsigned int get_width(const struct graph_t* g) {
+    double floating_width = sqrt(g->t->size1);
+    assert((floating_width - floor(floating_width) == 0));
+    return (unsigned int) floating_width;
 }
-
-struct graph_t *create_graph(unsigned int m, enum graph_type shape)
+struct graph_t *create_graph(unsigned int width, enum graph_type shape)
 {
     struct graph_t *graph = malloc(sizeof(struct graph_t));
-    gsl_spmatrix_uint *mat = gsl_spmatrix_uint_alloc(m*m, m*m); 
+    gsl_spmatrix_uint *mat = gsl_spmatrix_uint_alloc(width*width, width*width); 
     
     switch (shape)
     {
         case SQUARE:
-            graph->num_vertices=m*m;
+            graph->num_vertices=width*width;
 
             for (size_t vertex=0; vertex<graph->num_vertices; vertex++){
                 //iteration on all cardinal directions
                 for (enum dir_t dir = FIRST_DIR; dir<LAST_DIR; dir += 2){
-                    size_t neighbor = get_neighbor(m, vertex, dir);
+                    size_t neighbor = get_neighbor(width, vertex, dir);
                     if (neighbor == UINT_MAX) continue;
                     gsl_spmatrix_uint_set(mat, vertex, neighbor, dir);
                 } 
             }
             break;
         case EMPTY:
-            graph->num_vertices=m*m;       
+            graph->num_vertices=width*width;       
             break;
 
         default:
+            fprintf(stderr, "Given graph shape is not handled in creation : \"%c\" \n", shape);
             break;
     }
 
@@ -151,15 +154,15 @@ bool exist_edge(const struct graph_t *g, size_t v1, size_t v2) {
 
 enum graph_type convert_char_to_shape(char shape){   
     switch (shape) {
-        case 'S':
+        case 's':
             return SQUARE;
         case '8':
             return IN_EIGHT;
-        case 'D':
+        case 'd':
             return DONUT;
-        case 'C':
+        case 'c':
             return CLOVER;
-        case 'E':
+        case 'e':
             return EMPTY;
         default:
             return SHAPE_ERROR;
@@ -168,7 +171,7 @@ enum graph_type convert_char_to_shape(char shape){
 
 struct graph_t* graph_copy(const struct graph_t* g){
     
-    struct graph_t* copy_graph = create_graph(get_size(g), EMPTY);
+    struct graph_t* copy_graph = create_graph(get_width(g), EMPTY);
 
     if (gsl_spmatrix_uint_memcpy(copy_graph->t,g->t) != 0) {
         fprintf(stderr, "Failed to copy matrix");

@@ -15,9 +15,9 @@ enum graph_type{
 };
 
 /// @brief Creates a graph of the given shape on the heap and returns a pointer on it. The graph follows the CSR format.
-/// @param size The size of the graph (size*size)
+/// @param width The width of the graph 
 /// @param shape The shape of the graph
-struct graph_t *create_graph(unsigned int size, enum graph_type shape);
+struct graph_t *create_graph(unsigned int width, enum graph_type shape);
 
 /// @brief Updates the graph by adding an edge from v1 to v2. If the edge already exists this does nothing.
 /// @param g The graph to update
