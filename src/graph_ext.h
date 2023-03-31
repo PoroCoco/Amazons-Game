@@ -9,7 +9,8 @@ enum graph_type{
     SQUARE,
     DONUT,
     CLOVER,
-    IN_EIGHT
+    IN_EIGHT,
+    EMPTY,
 };
 
 /// @brief Creates a graph of the given shape on the heap and returns a pointer on it. The graph follows the CSR format.

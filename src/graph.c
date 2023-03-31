@@ -73,21 +73,24 @@ struct graph_t *create_graph(unsigned int m, enum graph_type shape)
     
     switch (shape)
     {
-    case SQUARE:
-        graph->num_vertices=m*m;
+        case SQUARE:
+            graph->num_vertices=m*m;
 
-        for (size_t vertex=0; vertex<graph->num_vertices; vertex++){
-            //iteration on all cardinal directions
-            for (enum dir_t dir = FIRST_DIR; dir<LAST_DIR; dir += 2){
-                size_t neighbor = get_neighbor(m, vertex, dir);
-                if (neighbor == UINT_MAX) continue;
-                gsl_spmatrix_uint_set(mat, vertex, neighbor, dir);
-            } 
-        }
-        break;
+            for (size_t vertex=0; vertex<graph->num_vertices; vertex++){
+                //iteration on all cardinal directions
+                for (enum dir_t dir = FIRST_DIR; dir<LAST_DIR; dir += 2){
+                    size_t neighbor = get_neighbor(m, vertex, dir);
+                    if (neighbor == UINT_MAX) continue;
+                    gsl_spmatrix_uint_set(mat, vertex, neighbor, dir);
+                } 
+            }
+            break;
+        case EMPTY:
+            graph->num_vertices=m*m;       
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     //converting the matrix to the CSR format
@@ -125,11 +128,10 @@ enum graph_type convert_char_to_shape(char shape){
 
 struct graph_t* graph_copy(const struct graph_t* g){
 
-    struct graph_t* copy_graph = malloc(1 * sizeof(struct graph_t));
+    struct graph_t* copy_graph = create_graph(g->num_vertices,EMPTY);
     if (gsl_spmatrix_uint_memcpy(copy_graph->t,g->t) != 0) {
         fprintf(stderr, "Failed to copy matrix");
         exit(EXIT_FAILURE);
     }
-    copy_graph->num_vertices = g->num_vertices;
     return copy_graph;
 }
