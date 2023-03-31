@@ -8,11 +8,23 @@
 #include<string.h>
 
 /* ************************************************************************** */
-/*                                test dummy                                  */
+/*                                test graph                                  */
 /* ************************************************************************** */
 
-int test_square_graph(void);
+int test_create_and_free_square_graph(void);
 
 int test_get_move_direction(void);
+
+int test_is_move_valid(void);
+
+
+/* ************************************************************************** */
+/*                                test queens                                 */
+/* ************************************************************************** */
+int test_queens_compute_number(void);
+
+int test_queens_create_positions(void);
+
+int test_queens_copy(void);
 
 #endif

@@ -11,6 +11,7 @@ enum graph_type{
     CLOVER,
     IN_EIGHT,
     EMPTY,
+    SHAPE_ERROR
 };
 
 /// @brief Creates a graph of the given shape on the heap and returns a pointer on it. The graph follows the CSR format.

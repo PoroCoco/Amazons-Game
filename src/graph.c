@@ -66,6 +66,10 @@ enum dir_t get_dir(unsigned int m, unsigned int v1, unsigned int v2)
 
 }
 
+unsigned int get_size(struct graph_t* g) {
+    unsigned int size = (unsigned int) sqrt(g->num_vertices);
+}
+
 struct graph_t *create_graph(unsigned int m, enum graph_type shape)
 {
     struct graph_t *graph = malloc(sizeof(struct graph_t));
@@ -111,20 +115,30 @@ void destroy_graph(struct graph_t *g) {
 void print_graph(const struct graph_t* g) {
     printf("num_vertices : %u\n",g->num_vertices);
     gsl_spmatrix_uint_fprintf(stdout,g->t,"%u");
+
+    printf("\n");
+    for (size_t i = 0; i < g->num_vertices; i++)
+    {
+        for (size_t j = 0; j < g->num_vertices; j++)
+            printf("%u ", gsl_spmatrix_uint_get(g->t,i,j));
+        printf("\n");
+    }
 }
 
-/*
 void add_edge(struct graph_t *g, size_t v1, size_t v2, unsigned int value){
     if (strcmp(gsl_spmatrix_uint_type(g->t), "CSR") == 0)
     {
+        //unsigned int size = (unsigned int) sqrt(g->num_vertices);
+
+        gsl_spmatrix_uint* uncompress = gsl_spmatrix_uint_compress(g->t,GSL_SPMATRIX_COO);
         
-    }   
-    
-    else if (gsl_spmatrix_uint_set(g->t, v1, v2, value) != 0){
-        fprintf(stderr, "Failed to add an edge with value %u from vertex %lu to %lu\n", value, v1, v2);
-        exit(EXIT_FAILURE);
+        if (gsl_spmatrix_uint_set(uncompress,v1,v2,value)) {
+            fprintf(stderr, "Failed to add an edge with value %u from vertex %lu to %lu\n", value, v1, v2);
+            exit(EXIT_FAILURE);
+        }
+        gsl_spmatrix_uint_csr(g->t, uncompress);
     }
-}*/
+}
 
 void remove_edge(struct graph_t *g, size_t v1, size_t v2) {
     unsigned int* ptr =  gsl_spmatrix_uint_ptr(g->t, v1, v2);
@@ -136,27 +150,25 @@ bool exist_edge(const struct graph_t *g, size_t v1, size_t v2) {
 }
 
 enum graph_type convert_char_to_shape(char shape){   
-    switch (shape)
-    {
-    case 's':
-        return SQUARE;
-    case '8':
-        return IN_EIGHT;
-    case 'd':
-        return DONUT;
-    case 'c':
-        return CLOVER;
-    case 'e':
-        return EMPTY;
-    default:
-        return SQUARE;
+    switch (shape) {
+        case 'S':
+            return SQUARE;
+        case '8':
+            return IN_EIGHT;
+        case 'D':
+            return DONUT;
+        case 'C':
+            return CLOVER;
+        case 'E':
+            return EMPTY;
+        default:
+            return SHAPE_ERROR;
     }
 }
 
 struct graph_t* graph_copy(const struct graph_t* g){
     
-    unsigned int size = (unsigned int) sqrt(g->num_vertices);
-    struct graph_t* copy_graph = create_graph(size, EMPTY);
+    struct graph_t* copy_graph = create_graph(get_size(g), EMPTY);
 
     if (gsl_spmatrix_uint_memcpy(copy_graph->t,g->t) != 0) {
         fprintf(stderr, "Failed to copy matrix");

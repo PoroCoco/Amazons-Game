@@ -15,6 +15,7 @@ struct random_client
     struct graph_t *graph;
     unsigned int nums_queens;
     unsigned int **queens;
+    unsigned int *arrows;
 };
 
 enum dir_t get_move_direction(size_t origin, size_t destination, size_t width);
