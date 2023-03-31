@@ -2,6 +2,7 @@
 #include "dir.h"
 #include "assert.h"
 #include "string.h"
+#include "string.h"
 
 
 size_t get_neighbor(unsigned int m, unsigned int idx, enum dir_t d) 
@@ -68,7 +69,7 @@ enum dir_t get_dir(unsigned int m, unsigned int v1, unsigned int v2)
 struct graph_t *create_graph(unsigned int m, enum graph_type shape)
 {
     struct graph_t *graph = malloc(sizeof(struct graph_t));
-    gsl_spmatrix_uint *mat = gsl_spmatrix_uint_alloc(m*m, m*m);
+    gsl_spmatrix_uint *mat = gsl_spmatrix_uint_alloc(m*m, m*m); 
     
     switch (shape)
     {
@@ -107,12 +108,7 @@ void destroy_graph(struct graph_t *g)
 
 void print_graph(const struct graph_t* g)
 {
-    for (size_t i = 0; i < g->t->size2; i++)
-    {
-        for (size_t j = 0; j < g->t->size1; j++)
-            printf("%u ",gsl_spmatrix_uint_get(g->t, i, j));
-        printf("\n");
-    }
+    gsl_spmatrix_uint_fprintf(stdout,g->t,"%u");
 }
 
 
@@ -123,10 +119,17 @@ void add_edge(struct graph_t *g, size_t v1, size_t v2, unsigned int value){
     }
 }
 
-enum graph_type convert_char_to_shape(char shape){
-    return 0;
+enum graph_type convert_char_to_shape(char shape){   
+    return SQUARE;
 }
 
 struct graph_t* graph_copy(const struct graph_t* g){
-    return NULL;
+
+    struct graph_t* copy_graph = malloc(1 * sizeof(struct graph_t));
+    if (gsl_spmatrix_uint_memcpy(copy_graph->t,g->t) != 0) {
+        fprintf(stderr, "Failed to copy matrix");
+        exit(EXIT_FAILURE);
+    }
+    copy_graph->num_vertices = g->num_vertices;
+    return copy_graph;
 }
