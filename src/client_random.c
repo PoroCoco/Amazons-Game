@@ -9,7 +9,7 @@ enum dir_t get_move_direction(size_t e1, size_t e2, size_t width)
     int origin = (int)e1;
     int destination = (int)e2;
     if (origin == destination || !origin || !destination || !width)
-        return -1;
+        return 9;
 
     if (abs(origin - destination) < width)
     {
