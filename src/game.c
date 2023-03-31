@@ -20,6 +20,13 @@ typedef struct client {
 } client_t;
 
 
+void display_client(client_t *clients){
+    for (size_t i = 0; i < NUM_PLAYERS; i++)
+    {
+        printf("I'm client id %u\n", clients[i].id);
+    }
+}
+
 
 void play_game(char ** libraries_paths, unsigned int board_size, char board_type){
 
@@ -41,6 +48,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
         clients[i] = load_client(i, libraries_paths[i]);
     }
 
+    display_client(clients);
 
     //create game_board
     struct graph_t *g = create_graph(board_size, convert_char_to_shape(board_type));
@@ -59,8 +67,10 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
         clients[i].initialize(clients[i].id, graph_cpy, queen_number, queens_cpy);
     }
 
+
     //game loop
 
+    display_client(clients);
 
 
     //finalize each client
