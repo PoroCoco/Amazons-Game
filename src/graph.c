@@ -66,6 +66,10 @@ enum dir_t get_dir(unsigned int m, unsigned int v1, unsigned int v2)
 
 }
 
+unsigned int get_size(struct graph_t* g) {
+    unsigned int size = (unsigned int) sqrt(g->num_vertices);
+}
+
 struct graph_t *create_graph(unsigned int m, enum graph_type shape)
 {
     struct graph_t *graph = malloc(sizeof(struct graph_t));
@@ -110,10 +114,15 @@ void destroy_graph(struct graph_t *g) {
 
 void print_graph(const struct graph_t* g) {
     printf("num_vertices : %u\n",g->num_vertices);
-    gsl_spmatrix_uint *coo = gsl_spmatrix_uint_compress(g->t, GSL_SPMATRIX_COO);
-    gsl_spmatrix_uint_fprintf(stdout,coo,"%u");
-    gsl_spmatrix_uint_free(coo);
+    gsl_spmatrix_uint_fprintf(stdout,g->t,"%u");
 
+    printf("\n");
+    for (size_t i = 0; i < g->num_vertices; i++)
+    {
+        for (size_t j = 0; j < g->num_vertices; j++)
+            printf("%u ", gsl_spmatrix_uint_get(g->t,i,j));
+        printf("\n");
+    }
 }
 
 void add_edge(struct graph_t *g, size_t v1, size_t v2, unsigned int value){
@@ -159,8 +168,7 @@ enum graph_type convert_char_to_shape(char shape){
 
 struct graph_t* graph_copy(const struct graph_t* g){
     
-    unsigned int size = (unsigned int) sqrt(g->num_vertices);
-    struct graph_t* copy_graph = create_graph(size, EMPTY);
+    struct graph_t* copy_graph = create_graph(get_size(g), EMPTY);
 
     if (gsl_spmatrix_uint_memcpy(copy_graph->t,g->t) != 0) {
         fprintf(stderr, "Failed to copy matrix");
