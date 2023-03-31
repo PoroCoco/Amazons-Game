@@ -1,6 +1,7 @@
 #include "graph_ext.h"
 #include "dir.h"
 #include "test.h"
+
 /*
 enum dir_t {
   NO_DIR=0,
@@ -14,7 +15,7 @@ enum dir_t {
 };
 */
 
-int test_square_graph(void) {
+int test_create_and_free_square_graph(void) {
     struct graph_t* graph = create_graph(2, SQUARE);
 
     enum dir_t expected_dir[4][4] = {{NO_DIR, DIR_EAST, DIR_SOUTH, NO_DIR}, 

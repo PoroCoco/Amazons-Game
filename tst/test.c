@@ -22,7 +22,7 @@ struct test {
 };
 
 struct test tests[] = {
-    {"square_graph",test_square_graph},
+    {"create_and_free_square_graph",test_create_and_free_square_graph},
     {"get_move_direction",test_get_move_direction},
     {"is_move_valid", test_is_move_valid},
     {"queens_compute_number",test_queens_compute_number},
