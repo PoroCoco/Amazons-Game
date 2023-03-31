@@ -75,10 +75,12 @@ void initialize(unsigned int player_id, struct graph_t *graph,
     }
 }
 
-struct move_t play(struct move_t previous_move);
+struct move_t play(struct move_t previous_move){
+    return previous_move;
+}
 
 void finalize()
 {
-    free(c->graph);
+    destroy_graph(c->graph);
     free(c);
 }

@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 {
     int opt;
     int board_size = 8;
-    char board_shape = 'c';
+    char board_shape = 's';
     char *player1_path = NULL;
     char *player2_path = NULL;
     while ((opt = getopt(argc, argv, "t:m:")) != -1)
