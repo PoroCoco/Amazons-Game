@@ -10,7 +10,7 @@ INSTALLDIR = install
 SOURCEDIR = src
 TESTDIR = tst
 TESTFILES = test.o test_graph.o test_client_random.o test_queens.o
-SOURCEFILES = graph.o client_random.o queens.o
+SOURCEFILES = graph.o client_random.o queens.o board.o
 
 LDFLAGS += -I$(SOURCEDIR)/
 
@@ -31,7 +31,7 @@ build: server client_random.so
 server: server.o graph.o queens.o game.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/server 
 
-client_random.so: client_random.o graph.o
+client_random.so: client_random.o board.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/client_random.so
 
 alltests: $(TESTFILES) $(SOURCEFILES)

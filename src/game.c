@@ -81,7 +81,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
     }
     
     //free game_board
-    destroy_graph(g);    
+    destroy_graph(g);
 
 }
 

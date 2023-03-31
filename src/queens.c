@@ -35,3 +35,17 @@ unsigned int* queens_copy(const unsigned int *queens, unsigned int board_size){
     
     return NULL;
 }
+
+bool queens_occupy(const unsigned int *queens, unsigned int index, unsigned int board_size){
+    unsigned int queens_count = queens_compute_number(board_size);
+    for (unsigned int i = 0; i < queens_count; i++)
+        if(queens[i] == index) return true;    
+    return false;
+}
+
+bool queens_occupy(const unsigned int *queens, unsigned int index, unsigned int board_size){
+    unsigned int queens_count = queens_compute_number(board_size);
+    for (unsigned int i = 0; i < queens_count; i++)
+        if(queens[i] == index) return true;    
+    return false;
+}

@@ -1,7 +1,8 @@
+#include <assert.h>
 #include <math.h>
+
 #include "graph_ext.h"
 #include "dir.h"
-#include "assert.h"
 #include "string.h"
 
 
@@ -66,30 +67,36 @@ enum dir_t get_dir(unsigned int m, unsigned int v1, unsigned int v2)
 
 }
 
-struct graph_t *create_graph(unsigned int m, enum graph_type shape)
+unsigned int get_width(const struct graph_t* g) {
+    double floating_width = sqrt(g->t->size1);
+    assert((floating_width - floor(floating_width) == 0));
+    return (unsigned int) floating_width;
+}
+struct graph_t *create_graph(unsigned int width, enum graph_type shape)
 {
     struct graph_t *graph = malloc(sizeof(struct graph_t));
-    gsl_spmatrix_uint *mat = gsl_spmatrix_uint_alloc(m*m, m*m); 
+    gsl_spmatrix_uint *mat = gsl_spmatrix_uint_alloc(width*width, width*width); 
     
     switch (shape)
     {
         case SQUARE:
-            graph->num_vertices=m*m;
+            graph->num_vertices=width*width;
 
             for (size_t vertex=0; vertex<graph->num_vertices; vertex++){
                 //iteration on all cardinal directions
                 for (enum dir_t dir = FIRST_DIR; dir<LAST_DIR; dir += 2){
-                    size_t neighbor = get_neighbor(m, vertex, dir);
+                    size_t neighbor = get_neighbor(width, vertex, dir);
                     if (neighbor == UINT_MAX) continue;
                     gsl_spmatrix_uint_set(mat, vertex, neighbor, dir);
                 } 
             }
             break;
         case EMPTY:
-            graph->num_vertices=m*m;       
+            graph->num_vertices=width*width;       
             break;
 
         default:
+            fprintf(stderr, "Given graph shape is not handled in creation : \"%c\" \n", shape);
             break;
     }
 
@@ -111,20 +118,30 @@ void destroy_graph(struct graph_t *g) {
 void print_graph(const struct graph_t* g) {
     printf("num_vertices : %u\n",g->num_vertices);
     gsl_spmatrix_uint_fprintf(stdout,g->t,"%u");
+
+    printf("\n");
+    for (size_t i = 0; i < g->num_vertices; i++)
+    {
+        for (size_t j = 0; j < g->num_vertices; j++)
+            printf("%u ", gsl_spmatrix_uint_get(g->t,i,j));
+        printf("\n");
+    }
 }
 
-/*
 void add_edge(struct graph_t *g, size_t v1, size_t v2, unsigned int value){
     if (strcmp(gsl_spmatrix_uint_type(g->t), "CSR") == 0)
     {
+        //unsigned int size = (unsigned int) sqrt(g->num_vertices);
+
+        gsl_spmatrix_uint* uncompress = gsl_spmatrix_uint_compress(g->t,GSL_SPMATRIX_COO);
         
-    }   
-    
-    else if (gsl_spmatrix_uint_set(g->t, v1, v2, value) != 0){
-        fprintf(stderr, "Failed to add an edge with value %u from vertex %lu to %lu\n", value, v1, v2);
-        exit(EXIT_FAILURE);
+        if (gsl_spmatrix_uint_set(uncompress,v1,v2,value)) {
+            fprintf(stderr, "Failed to add an edge with value %u from vertex %lu to %lu\n", value, v1, v2);
+            exit(EXIT_FAILURE);
+        }
+        gsl_spmatrix_uint_csr(g->t, uncompress);
     }
-}*/
+}
 
 void remove_edge(struct graph_t *g, size_t v1, size_t v2) {
     unsigned int* ptr =  gsl_spmatrix_uint_ptr(g->t, v1, v2);
@@ -136,27 +153,25 @@ bool exist_edge(const struct graph_t *g, size_t v1, size_t v2) {
 }
 
 enum graph_type convert_char_to_shape(char shape){   
-    switch (shape)
-    {
-    case 's':
-        return SQUARE;
-    case '8':
-        return IN_EIGHT;
-    case 'd':
-        return DONUT;
-    case 'c':
-        return CLOVER;
-    case 'e':
-        return EMPTY;
-    default:
-        return SQUARE;
+    switch (shape) {
+        case 's':
+            return SQUARE;
+        case '8':
+            return IN_EIGHT;
+        case 'd':
+            return DONUT;
+        case 'c':
+            return CLOVER;
+        case 'e':
+            return EMPTY;
+        default:
+            return SHAPE_ERROR;
     }
 }
 
 struct graph_t* graph_copy(const struct graph_t* g){
     
-    unsigned int size = (unsigned int) sqrt(g->num_vertices);
-    struct graph_t* copy_graph = create_graph(size, EMPTY);
+    struct graph_t* copy_graph = create_graph(get_width(g), EMPTY);
 
     if (gsl_spmatrix_uint_memcpy(copy_graph->t,g->t) != 0) {
         fprintf(stderr, "Failed to copy matrix");
