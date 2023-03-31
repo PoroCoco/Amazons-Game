@@ -28,5 +28,7 @@ unsigned int board_width(board_t *b){
 }
 
 bool board_index_is_available(board_t *b, unsigned int index){
-    return (!b->arrows[index]); //TODO:CHECK GRAPH VERTEX!!!
+    //TODO:CHECK GRAPH VERTEX!!!
+    return (index < b->board_cells) && (!b->arrows[index]) 
+    && (queens_occupy(b->queens[0], index) && queens_occupy(b->queens[1], index));
 }
