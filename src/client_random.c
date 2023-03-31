@@ -30,7 +30,7 @@ enum dir_t get_move_direction(size_t e1, size_t e2, size_t width)
 int is_move_valid(struct random_client *c, struct move_t *move)
 {
 
-    int width = board_width(c->b);
+    int width = board_width(c->board);
     int direction = get_move_direction(move->queen_src, move->queen_dst, width);
     int current_position = (int)move->queen_src;
     int destination = (int)move->queen_dst;
