@@ -24,6 +24,7 @@ unsigned int* queens_create_positions(unsigned int board_size, unsigned int play
         queens_positions[index + 1] = queens_positions[index] + board_size - 1 + 10;
     }
 
+    return queens_positions;
 }
 
 void queens_free_positions(unsigned int *queens){

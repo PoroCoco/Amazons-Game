@@ -37,7 +37,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
     unsigned int *queens[NUM_PLAYERS]; 
     for (size_t i = 0; i < NUM_PLAYERS; i++)
     {
-        queens[i] = queens_create_positions(queen_number, i);
+        queens[i] = queens_create_positions(board_size, i);
     }
     
 
@@ -82,6 +82,8 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
     
     //free game_board
     destroy_graph(g);
+    free(queens[0]);
+    free(queens[1]);
 
 }
 
