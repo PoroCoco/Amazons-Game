@@ -17,6 +17,9 @@ LDFLAGS += -I$(SOURCEDIR)/
 
 all: build
 
+play : build
+	./install/server ./install/client_random.so ./install/client_random.so
+
 %.o: $(SOURCEDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
