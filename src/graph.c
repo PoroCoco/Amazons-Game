@@ -66,8 +66,8 @@ enum dir_t get_dir(unsigned int m, unsigned int v1, unsigned int v2)
 
 }
 
-unsigned int get_size(struct graph_t* g) {
-    unsigned int size = (unsigned int) sqrt(g->num_vertices);
+unsigned int get_size(const struct graph_t* g) {
+    return (unsigned int) sqrt(g->num_vertices);
 }
 
 struct graph_t *create_graph(unsigned int m, enum graph_type shape)

@@ -1,5 +1,6 @@
 #include "client_random.h"
 #include "board.h"
+#include "queens.h"
 #include <math.h>
 
 struct random_client *c = NULL;
@@ -9,7 +10,8 @@ enum dir_t get_move_direction(random_client_t *client, unsigned int origin, unsi
     unsigned int width = board_width(client->board);
     if (origin == destination) return DIR_ERROR;
 
-    if (abs(origin - destination) < width){
+    int difference = origin - destination;
+    if (abs(difference) < width){
         return origin - destination > 0 ? DIR_EAST : DIR_WEST;
     }
 
@@ -23,7 +25,7 @@ enum dir_t get_move_direction(random_client_t *client, unsigned int origin, unsi
 bool is_move_valid(struct random_client *c, struct move_t *move)
 {
     int width = board_width(c->board);
-    enum dir_t direction = get_move_direction(move->queen_src, move->queen_dst, width);
+    enum dir_t direction = get_move_direction(c, move->queen_src, move->queen_dst);
     if (direction == DIR_ERROR) return false;
 
     unsigned int current_position = move->queen_src;

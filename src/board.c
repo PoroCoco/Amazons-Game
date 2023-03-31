@@ -1,4 +1,5 @@
 #include "board.h"
+#include "queens.h"
 
 board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], unsigned int queens_count){
     board_t *b = malloc(sizeof(*b));
@@ -30,5 +31,5 @@ unsigned int board_width(board_t *b){
 bool board_index_is_available(board_t *b, unsigned int index){
     //TODO:CHECK GRAPH VERTEX!!!
     return (index < b->board_cells) && (!b->arrows[index]) 
-    && (queens_occupy(b->queens[0], index) && queens_occupy(b->queens[1], index));
+    && (queens_occupy(b->queens[0], index, b->board_width) && queens_occupy(b->queens[1], index, b->board_width));
 }
