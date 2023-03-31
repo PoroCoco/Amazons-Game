@@ -23,7 +23,7 @@ all: build
 %.o: $(TESTDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
-build: server client_1.so  
+build: server client_1.so client_random.so
 
 server: server.o graph.o queens.o game.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/server 

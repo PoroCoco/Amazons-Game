@@ -1,4 +1,4 @@
-#include "random_client.h"
+#include "client_random.h"
 
 struct random_client *c = NULL;
 
