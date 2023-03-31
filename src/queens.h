@@ -1,6 +1,8 @@
 #ifndef _AMAZON_QUEENS_H
 #define _AMAZON_QUEENS_H
 
+#include <stdbool.h>
+
 /// @brief Compute the number of queens for the given board size
 /// @return The number of queens that each player should have
 unsigned int queens_compute_number(unsigned int board_size);
@@ -16,6 +18,10 @@ unsigned int* queens_create_positions(unsigned int queens_number, unsigned int p
 /// @param queens_number The size of queens
 /// @return A heap allocated array with the same values as queens
 unsigned int* queens_copy(const unsigned int *queens, unsigned int queens_number);
+
+
+
+bool queens_occupy(const unsigned int *queens, unsigned int index, unsigned int board_size);
 
 
 #endif // _AMAZON_QUEENS_H
