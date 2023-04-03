@@ -22,12 +22,12 @@ struct test {
 };
 
 struct test tests[] = {
-    {"create_and_free_square_graph",test_create_and_free_square_graph},
-    {"get_move_direction",test_get_move_direction},
-    {"is_move_valid", test_is_move_valid},
-    {"queens_compute_number",test_queens_compute_number},
-    {"queens_create_positions",test_queens_create_positions},
-    {"queens_copy",test_queens_copy},
+    {"create_and_free_square_graph", test_create_and_free_square_graph},
+    {"queens_compute_number", test_queens_compute_number},
+    {"queens_create_positions", test_queens_create_positions},
+    {"queens_copy", test_queens_copy},
+    {"test_board_create", test_board_create},
+    {"test_board_add_arrow", test_board_add_arrow},
     {NULL,NULL}
 };
 

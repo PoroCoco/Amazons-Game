@@ -21,9 +21,11 @@ board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], uns
     return board;
 }
 
-void board_add_arrow(board_t *board, unsigned int index) {
-    assert(index < board->arrows_count);
-    board->arrows[index] = STATE_ARROW;
+bool board_add_arrow(board_t *board, unsigned int index) {
+    if (index > board->arrows_count || board->arrows[index] == true)
+        return false;
+    board->arrows[index] = true;
+    return true;
 }
 
 void board_free(board_t *board){
