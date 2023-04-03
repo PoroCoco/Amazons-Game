@@ -54,7 +54,7 @@ enum cell_state board_get_index_state(board_t *board, unsigned int index){
 void board_print(board_t *board){
     unsigned int width = board->board_width;
 
-    for (unsigned int i = 0; i < width*3; i++)
+    for (unsigned int i = 0; i < width*2+1; i++)
     {
         printf("-");
     }
@@ -65,7 +65,7 @@ void board_print(board_t *board){
         for (unsigned int j = 0; j < width; j++){
             printf("|");
             enum cell_state s = board_get_index_state(board, (i*width) + j);
-            if (s == STATE_AVAILABLE) printf(" ");
+            if (s == STATE_AVAILABLE) printf("_");
             if (s == STATE_ARROW) printf("X");
             if (s == STATE_QUEEN) printf("♕");
             if (s == STATE_ERROR) printf("?");
@@ -73,7 +73,7 @@ void board_print(board_t *board){
         printf("|\n");
     }
     
-    for (unsigned int i = 0; i < width*3; i++)
+    for (unsigned int i = 0; i < width*2+1; i++)
     {
         printf("-");
     }
