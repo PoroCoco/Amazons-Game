@@ -1,6 +1,7 @@
 #include "board.h"
 #include "queens.h"
 #include "graph_ext.h"
+#include <assert.h>
 
 board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], unsigned int queens_count){
     board_t *board = malloc(sizeof(*board));
@@ -20,6 +21,10 @@ board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], uns
     return board;
 }
 
+void board_add_arrow(board_t *board, unsigned int index) {
+    assert(index < board->arrows_count);
+    board->arrows[index] = STATE_ARROW;
+}
 
 void board_free(board_t *board){
     destroy_graph(board->g);
