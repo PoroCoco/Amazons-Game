@@ -2,6 +2,7 @@
 #include "board.h"
 #include "queens.h"
 #include <math.h>
+#include <assert.h>
 
 struct random_client *c = NULL;
 
@@ -98,7 +99,7 @@ bool is_move_valid(struct random_client *c, struct move_t *move)
     int width = board_width(c->board);
     enum dir_t direction = get_move_direction(c, move->queen_src, move->queen_dst);
     if (direction == DIR_ERROR) return false;
-    
+
     int step = compute_step_toward_direction(direction, width);
 
     while(current_position != destination){
