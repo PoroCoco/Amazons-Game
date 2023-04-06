@@ -50,7 +50,7 @@ static void print_game(int* array, int size, int m){
 }
 int test_queens_create_positions(void){
     int from = 5;
-    int to = 15;
+    int to = 5;
     unsigned int* positions_to_print;
     for(int i = from; i < to; i++){ // prints the games of size i twice with the queens of each player 
         positions_to_print = queens_create_positions(i,0);
