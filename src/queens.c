@@ -3,27 +3,37 @@
 #include "queens.h"
 #include <assert.h>
 
-unsigned int queens_compute_number(unsigned int board_size){
-    assert(board_size >= 5);
-    return 4*(board_size/10 + 1);
+unsigned int queens_compute_number(unsigned int board_width){
+    assert(board_width >= 5);
+    return 4*(board_width/10 + 1);
 }
 
-unsigned int* queens_create_positions(unsigned int board_size, unsigned int player_id){
-    unsigned int queens_number = queens_compute_number(board_size);
-    unsigned int* queens_positions = malloc(sizeof(unsigned int) * queens_number);
+unsigned int* queens_create_positions(unsigned int board_width, unsigned int player_id){
+    assert(player_id == 1 || player_id == 0);
 
-    unsigned int separing_gap = ((board_size - 2 * queens_number - 1) / queens_number) + 1; 
+    unsigned int queens_number = queens_compute_number(board_width);
+    unsigned int* queens_positions = malloc(sizeof(unsigned int) * queens_number);
+    
+    unsigned int separing_gap = ((board_width - (queens_number) - 1) / (queens_number/2)) + 1; 
+
+    unsigned int delta_horizontal = board_width * (board_width - 1) * player_id;
 
     for(unsigned int index = 0; index < (queens_number / 4); index++){   
-        queens_positions[index] = separing_gap + index * separing_gap;
-        queens_positions[queens_number / 2 - index - 1] = board_size - 1 - queens_positions[index]; //same for the symetric
+        queens_positions[index] = separing_gap + index * separing_gap + index;
+        queens_positions[queens_number / 2 - index - 1] = board_width - 1 - queens_positions[index]; 
+        queens_positions[index] += delta_horizontal;
+        queens_positions[queens_number / 2 - index - 1] += delta_horizontal; //same for the symetric
     }
 
-    for(unsigned int index = queens_number / 2; index < 3 * (queens_number / 4); index = index + 2){        
-        queens_positions[index] = (separing_gap + index * separing_gap) * board_size ;
-        queens_positions[index + 1] = queens_positions[index] + board_size - 1 + 10;
-    }
+    for(unsigned int index = queens_number / 2, cpt = 0; index < queens_number - 1; index = index + 2, cpt++){        
+        queens_positions[index] = (separing_gap + cpt * separing_gap + cpt ) * board_width;
+        queens_positions[index + 1] = queens_positions[index] + board_width - 1;
+        if(player_id){
+            queens_positions[index] = (board_width * board_width) - queens_positions[index] -1;
+            queens_positions[index + 1] = (board_width * board_width) - queens_positions[index + 1] -1;
+        }
 
+    }
     return queens_positions;
 }
 
@@ -38,7 +48,6 @@ unsigned int* queens_copy(const unsigned int *queens, unsigned int queen_count){
     {
         queens_cpy[i] = queens[i];
     }
-    
     return queens_cpy;
 }
 
