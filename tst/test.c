@@ -26,6 +26,7 @@ struct test tests[] = {
     {"queens_compute_number", test_queens_compute_number},
     {"queens_create_positions", test_queens_create_positions},
     {"queens_copy", test_queens_copy},
+    {"queens_occupy",test_queens_occupy},
     {"test_board_create", test_board_create},
     {"test_board_add_arrow", test_board_add_arrow},
     {NULL,NULL}

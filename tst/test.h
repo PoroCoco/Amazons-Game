@@ -41,4 +41,6 @@ int test_queens_create_positions(void);
 
 int test_queens_copy(void);
 
+int test_queens_occupy(void);
+
 #endif
