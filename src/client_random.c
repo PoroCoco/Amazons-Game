@@ -3,7 +3,7 @@
 #include "queens.h"
 #include <math.h>
 #include <assert.h>
-#include <time.h>
+#include <sys/time.h>
 
 struct random_client *c = NULL;
 
@@ -25,9 +25,19 @@ void initialize(unsigned int player_id, struct graph_t *graph,
     }
 }
 
+long get_current_time_microseconds(void)
+{
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    long time = tv.tv_sec * 1000000 + tv.tv_usec;
+    return time;
+}
+
+
 struct move_t get_random_move()
 {
-    srand(time(NULL));
+
+    srand(get_current_time_microseconds());
     struct move_t next_move;
     unsigned int new_dst = rand() % (c->board->g->num_vertices - 1);
     for (int i = 0; i < c->board->queens_count; i++)
@@ -61,6 +71,7 @@ struct move_t play(struct move_t previous_move)
 
     while (!is_move_valid(c->board, &next_move, c->id))
     {
+        printf("move invalid : %d, %d, %d\n", next_move.queen_src, next_move.queen_dst, next_move.arrow_dst);
         next_move = get_random_move();
     }
 
