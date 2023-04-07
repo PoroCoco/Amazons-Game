@@ -83,8 +83,7 @@ struct graph_t *create_graph(unsigned int width, enum graph_type shape)
             graph->num_vertices=width*width;
 
             for (size_t vertex=0; vertex<graph->num_vertices; vertex++){
-                //iteration on all cardinal directions
-                for (enum dir_t dir = FIRST_DIR; dir<LAST_DIR; dir += 2){
+                for (enum dir_t dir = FIRST_DIR; dir <= LAST_DIR; dir ++){
                     size_t neighbor = get_neighbor(width, vertex, dir);
                     if (neighbor == UINT_MAX) continue;
                     gsl_spmatrix_uint_set(mat, vertex, neighbor, dir);
