@@ -16,5 +16,4 @@ typedef struct random_client{
     board_t *board;
 } random_client_t;
 
-
 #endif
