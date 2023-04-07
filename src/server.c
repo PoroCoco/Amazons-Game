@@ -7,15 +7,23 @@
 #include "game.h"
 #include "player.h"
 
+long get_current_time_microseconds(void)
+{
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    long time = tv.tv_sec * 1000000 + tv.tv_usec;
+    return time;
+}
 
 int main(int argc, char *argv[])
 {
     int opt;
     int board_size = 8;
+    srand(get_current_time_microseconds());
     char board_shape = 's';
     char *player1_path = NULL;
     char *player2_path = NULL;
-    while ((opt = getopt(argc, argv, "t:m:")) != -1)
+    while ((opt = getopt(argc, argv, "t:m:s:")) != -1)
     {
         switch (opt)
         {
@@ -24,6 +32,9 @@ int main(int argc, char *argv[])
             break;
         case 't':
             board_shape = optarg[0];
+            break;
+        case 's':
+            srand(atoi(optarg));
             break;
         }
     }
