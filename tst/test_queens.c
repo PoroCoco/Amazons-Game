@@ -73,12 +73,25 @@ int test_queens_create_positions(void){
     unsigned int* computed_positions_15 = queens_create_positions(15,0);
     int positions_15[8] = {2,5,9,12,30,75,44,89};
     int result_15 = contain_the_same_elements(computed_positions_15,positions_15,8);
+    
+
+
     queens_free_positions(computed_positions_15);
 
     return !(result_12 && result_15 && result_5);
 }
-
 int test_queens_copy(void){
+    unsigned int* computed_positions = queens_create_positions(15,0);
+    unsigned int* copied_positions = queens_copy(computed_positions, 15);
+    int result = contain_the_same_elements(computed_positions, copied_positions, 8);
+    queens_free_positions(computed_positions);
+    queens_free_positions(copied_positions);
+    return !result;
+}
 
-    return 1;
+int test_queens_occupy(void){
+    unsigned int* computed_positions = queens_create_positions(15,0);
+    int result = result && queens_occupy(computed_positions,75,15) && !queens_occupy(computed_positions,20,15);
+    queens_free_positions(computed_positions);
+    return !result;
 }

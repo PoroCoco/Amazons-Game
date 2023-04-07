@@ -21,9 +21,9 @@ void queens_free_positions(unsigned int *queens);
 
 /// @brief Creates a copy of the array of queens
 /// @param queens The array to copy
-/// @param queen_count The size of queens
+/// @param board_width Size of the board the @p queens are placed in
 /// @return A heap allocated array with the same values as queens
-unsigned int* queens_copy(const unsigned int *queens, unsigned int queen_count);
+unsigned int* queens_copy(const unsigned int *queens, unsigned int board_width);
 
 /// @brief Changes the position of a queen
 /// @param queens The array to modify
@@ -34,7 +34,7 @@ void queens_move(unsigned int *queens, unsigned int src, unsigned int dst);
 /// @brief Tests if an position occupied by a queen 
 /// @param queens The checked array
 /// @param index The position to check
-/// @param board_width Size of the boards the @p queens are placed in
+/// @param board_width Size of the board the @p queens are placed in
 /// @return true if queens contains index
 bool queens_occupy(const unsigned int *queens, unsigned int index, unsigned int board_width);
 
