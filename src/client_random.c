@@ -89,10 +89,12 @@ bool is_move_valid(struct random_client *c, struct move_t *move)
     unsigned int destination = move->queen_dst;
 
     //check if there is a queen on the destination or source position
-    for (int i = 0; i < NUM_PLAYERS; i++)
-    {
+    for (int i = 0; i < NUM_PLAYERS; i++){
         if (queens_occupy(c->board->queens[i], destination, c->board->board_width)) return false;
-        if (queens_occupy(c->board->queens[i], current_position, c->board->board_width)) return false;
+
+        if (!queens_occupy(c->board->queens[i], current_position, c->board->board_width) && (i == c->id)) return false;
+
+        if (queens_occupy(c->board->queens[i], current_position, c->board->board_width) && (i != c->id)) return false;
     }
     
 
