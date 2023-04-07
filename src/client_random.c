@@ -25,19 +25,8 @@ void initialize(unsigned int player_id, struct graph_t *graph,
     }
 }
 
-long get_current_time_microseconds(void)
-{
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    long time = tv.tv_sec * 1000000 + tv.tv_usec;
-    return time;
-}
-
-
 struct move_t get_random_move()
 {
-
-    srand(get_current_time_microseconds());
     struct move_t next_move;
     unsigned int new_dst = rand() % (c->board->g->num_vertices - 1);
     for (int i = 0; i < c->board->queens_count; i++)
