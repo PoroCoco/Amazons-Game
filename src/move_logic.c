@@ -3,10 +3,11 @@
 bool queen_can_move(board_t *board, unsigned int queen_board_index){
     for (enum dir_t d = FIRST_DIR; d <= LAST_DIR; d++)
     {
-        int step = 0;
+        int step = compute_step_toward_direction(d, board->board_width);
+        if (board_index_is_available(board, queen_board_index + step)) return true;
     }
 
-    return true;
+    return false;
 }
 
 bool is_game_won(board_t *board){
