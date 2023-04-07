@@ -1,5 +1,8 @@
 #include "move_logic.h"
 
+#include <assert.h>
+#include "queens.h"
+
 bool queen_can_move(board_t *board, unsigned int queen_board_index){
     for (enum dir_t d = FIRST_DIR; d <= LAST_DIR; d++)
     {
@@ -105,7 +108,7 @@ bool is_move_valid(board_t *board, struct move_t *move, unsigned int player_id)
     unsigned int destination = move->queen_dst;
 
     //check if there is a queen on the destination or source position
-    for (int i = 0; i < NUM_PLAYERS; i++)
+    for (unsigned int i = 0; i < NUM_PLAYERS; i++)
     {
         if (queens_occupy(board->queens[i], destination, board->board_width)) return false;
 
@@ -123,7 +126,7 @@ bool is_move_valid(board_t *board, struct move_t *move, unsigned int player_id)
 
     while(current_position != destination){
         current_position += step;
-        if(!board_index_is_available(c->board, current_position)) return false;
+        if(!board_index_is_available(board, current_position)) return false;
     }
 
     return true;
