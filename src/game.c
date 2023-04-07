@@ -9,6 +9,7 @@
 #include "game.h"
 #include "graph_ext.h"
 #include "queens.h"
+#include "move_logic.h"
 
 
 typedef struct client {
@@ -55,7 +56,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
 
     //create game_board
     struct graph_t *g = create_graph(board_size, convert_char_to_shape(board_type));
-
+    board_t *game_board = board_create(g, queens, queen_number);
 
     //init each client
     for (unsigned int i = 0; i < NUM_PLAYERS; i++)
@@ -81,10 +82,16 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
 
         m = clients[i].play(m);
         //check move valid
-        
+        if (!is_move_valid(game_board, &m, i)){
+            printf("Player %lu gave an invalid move!\n", i);
+            break;
+        }
 
         //check if game is won
-
+        if(is_game_won(game_board)){
+            printf("Player %lu move ended the game !\n", i);
+            break;
+        }
 
 
         current_player++;
@@ -102,10 +109,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
     }
     
     //free game_board
-    destroy_graph(g);
-    free(queens[0]);
-    free(queens[1]);
-
+    board_free(game_board);
 }
 
 struct client load_client(unsigned int id, char * library_path){

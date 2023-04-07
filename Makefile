@@ -31,7 +31,7 @@ build: server client_random1.so client_random2.so
 	rm -f build/*.gcda
 	rm -f build/*.gcno
 
-server: server.o graph.o queens.o game.o
+server: server.o graph.o queens.o game.o board.o move_logic.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/server 
 
 client_random1.so: client_random.o board.o graph.o queens.o move_logic.o
