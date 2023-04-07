@@ -72,27 +72,27 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
         clients[i].initialize(clients[i].id, graph_cpy, queen_number, queens_cpy);
     }
 
-
     //game loop
     struct move_t m = {-1, -1, -1};
     size_t max_turns = 100;
     unsigned int current_player = 0;
     for (size_t i = 0; i < max_turns; i++)
     {
-
-        m = clients[i].play(m);
+        printf("Playing turn number %zu :\n", i);
+        m = clients[current_player].play(m);
+        
         //check move valid
-        if (!is_move_valid(game_board, &m, i)){
-            printf("Player %lu gave an invalid move!\n", i);
+        if (!is_move_valid(game_board, &m, current_player)){
+            printf("Player %uu gave an invalid move!\n", current_player);
             break;
         }
 
         board_add_arrow(game_board, m.arrow_dst);
-        queens_move(game_board->queens[i], game_board->board_width, m.queen_src, m.queen_dst);
+        queens_move(game_board->queens[current_player], game_board->board_width, m.queen_src, m.queen_dst);
 
         //check if game is won
         if(is_game_won(game_board)){
-            printf("Player %lu move ended the game !\n", i);
+            printf("Player %u move ended the game !\n", current_player);
             break;
         }
 
