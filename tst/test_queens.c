@@ -91,7 +91,15 @@ int test_queens_copy(void){
 
 int test_queens_occupy(void){
     unsigned int* computed_positions = queens_create_positions(15,0);
-    int result = result && queens_occupy(computed_positions,75,15) && !queens_occupy(computed_positions,20,15);
+    int result = queens_occupy(computed_positions,75,15) && !queens_occupy(computed_positions,20,15);
+    queens_free_positions(computed_positions);
+    return !result;
+}
+
+int test_queens_move(void){
+    unsigned int* computed_positions = queens_create_positions(15,0);
+    queens_move(computed_positions,15,75,20);
+    int result = !queens_occupy(computed_positions,75,15) && queens_occupy(computed_positions,20,15);
     queens_free_positions(computed_positions);
     return !result;
 }

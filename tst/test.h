@@ -43,4 +43,6 @@ int test_queens_copy(void);
 
 int test_queens_occupy(void);
 
+int test_queens_move(void);
+
 #endif
