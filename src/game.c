@@ -87,6 +87,9 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
             break;
         }
 
+        board_add_arrow(game_board, m.arrow_dst);
+        queens_move(game_board->queens[i], game_board->board_width, m.queen_src, m.queen_dst);
+
         //check if game is won
         if(is_game_won(game_board)){
             printf("Player %lu move ended the game !\n", i);
