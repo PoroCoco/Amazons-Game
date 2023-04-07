@@ -9,8 +9,8 @@ int test_is_move_valid(void){
     queens[0] = queens_create_positions(board_width, 0);
     queens[1] = queens_create_positions(board_width, 1);
     board_t *b = board_create(create_graph(board_width, SQUARE), queens, queens_compute_number(board_width));
-    board_print(b);
-    struct move_t m = {.queen_src = 2, .queen_dst = 10, .arrow_dst = 18};
+    
+    struct move_t m = {.queen_src = 2, .queen_dst = 20, .arrow_dst = 18};
     int result = is_move_valid(b, &m, 0);
 
     board_free(b);

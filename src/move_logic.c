@@ -107,7 +107,7 @@ bool is_move_valid(board_t *board, struct move_t *move, unsigned int player_id)
     unsigned int current_position = move->queen_src;
     unsigned int destination = move->queen_dst;
 
-    //check if there is a queen on the destination or source position
+    // check if there is a queen on the destination or source position
     for (unsigned int i = 0; i < NUM_PLAYERS; i++)
     {
         if (queens_occupy(board->queens[i], destination, board->board_width)) return false;
@@ -124,10 +124,25 @@ bool is_move_valid(board_t *board, struct move_t *move, unsigned int player_id)
 
     int step = compute_step_toward_direction(direction, width);
 
+
     while(current_position != destination){
         current_position += step;
         if(!board_index_is_available(board, current_position)) return false;
     }
+
+    direction = get_move_direction(board, move->queen_dst, move->arrow_dst);
+    if (direction == DIR_ERROR) return false;
+
+    step = compute_step_toward_direction(direction, width);
+
+    current_position = move->queen_dst;
+    destination = move->arrow_dst;
+    while(current_position != destination){
+        current_position += step;
+        if(!board_index_is_available(board, current_position)) return false;
+    }
+
+
 
     return true;
 }

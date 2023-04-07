@@ -45,7 +45,7 @@ unsigned int board_width(board_t *board){
 bool board_index_is_available(board_t *board, unsigned int index){
     //TODO:CHECK GRAPH VERTEX!!!
     return (index < board->board_cells) && (!board->arrows[index]) 
-    && (queens_occupy(board->queens[0], index, board->board_width) && queens_occupy(board->queens[1], index, board->board_width));
+    && (!queens_occupy(board->queens[0], index, board->board_width) && (!queens_occupy(board->queens[1], index, board->board_width)));
 }
 
 enum cell_state board_get_index_state(board_t *board, unsigned int index){
