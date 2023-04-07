@@ -25,7 +25,6 @@ bool board_add_arrow(board_t *board, unsigned int index) {
     if (index > board->arrows_count || board->arrows[index] == true)
         return false;
     board->arrows[index] = true;
-    board->arrows_count ++;
     return true;
 }
 

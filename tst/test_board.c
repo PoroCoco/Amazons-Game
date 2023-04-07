@@ -44,9 +44,7 @@ int test_board_add_arrow(void) {
     unsigned int queens_number = queens_compute_number(board_size);
 
     struct board* board = board_create(graph, queens, queens_number);
-
     assert(board_add_arrow(board, 0) == true);
-    assert(board->arrows[0] == true);
     assert(board->arrows[0] == true);
     for (unsigned int i = 1; i < board->arrows_count; i++) {
         assert(board->arrows[i] == false);
