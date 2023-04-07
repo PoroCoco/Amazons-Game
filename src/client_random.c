@@ -3,7 +3,6 @@
 #include "queens.h"
 #include <math.h>
 #include <assert.h>
-#include <sys/time.h>
 
 struct random_client *c = NULL;
 

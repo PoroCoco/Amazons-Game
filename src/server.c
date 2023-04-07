@@ -3,6 +3,7 @@
 #include <string.h>
 #include <getopt.h>
 #include <dlfcn.h>
+#include <sys/time.h>
 
 #include "game.h"
 #include "player.h"
