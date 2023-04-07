@@ -1,7 +1,7 @@
 GSL_PATH ?= /net/ens/renault/save/gsl-2.6/install
 CFLAGS = -std=c99 -Wall -Wextra -Wstrict-prototypes -fPIC -g3 -I$(GSL_PATH)/include
 LDFLAGS = -lm -L$(GSL_PATH)/lib -L$(GSL_PATH)/lib64 \
-	-Wl,--rpath=${GSL_PATH}/lib,--no-as-needed -ldl -lgsl -lgslcblas -lm
+	-Wl,--rpath=${GSL_PATH}/lib,--no-as-needed -ldl -lgsl -lgslcblas -lm --coverage
 
 
 COMPILER = gcc
@@ -27,6 +27,8 @@ play : build
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
 build: server client_random1.so client_random2.so
+	rm -f build/*.gcda
+	rm -f build/*.gcno
 
 server: server.o graph.o queens.o game.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/server 
