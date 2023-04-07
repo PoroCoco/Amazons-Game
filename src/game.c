@@ -41,14 +41,6 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
         assert(queens[i] != NULL);
     }
 
-    printf("player 0 queen positions : \n");
-    for (unsigned int i = 0; i < queen_number; i++)
-    {
-        printf("%u ", queens[0][i]);
-    }
-    printf("\n");
-    
-    
 
     //creates each client struc (open, load funcs)
     client_t clients[NUM_PLAYERS];
@@ -70,7 +62,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
         unsigned int *queens_cpy[NUM_PLAYERS];
         for (unsigned int i = 0; i < NUM_PLAYERS; i++)
         {
-            queens_cpy[i] = queens_copy(queens[i], queen_number); //malloc copy
+            queens_cpy[i] = queens_copy(queens[i], board_size); //malloc copy
             assert(queens_cpy[i] != NULL);
         }
         
