@@ -16,6 +16,4 @@ typedef struct random_client{
     board_t *board;
 } random_client_t;
 
-enum dir_t get_move_direction(random_client_t *client, unsigned int origin, unsigned int destination);
-
 #endif
