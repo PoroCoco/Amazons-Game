@@ -3,6 +3,7 @@
 #include "queens.h"
 #include <math.h>
 #include <assert.h>
+#include <time.h>
 
 struct random_client *c = NULL;
 
@@ -26,6 +27,7 @@ void initialize(unsigned int player_id, struct graph_t *graph,
 
 struct move_t get_random_move()
 {
+    srand(time(NULL));
     struct move_t next_move;
     unsigned int new_dst = rand() % (c->board->g->num_vertices - 1);
     for (int i = 0; i < c->board->queens_count; i++)
@@ -33,16 +35,12 @@ struct move_t get_random_move()
         if (c->board->queens[c->id][i] == new_dst || c->board->queens[1 - c->id][i] == new_dst)
         {
             i = 0;
-            new_dst = rand() % (c->board->g->num_vertices - 1);
+            new_dst = rand() % (c->board->board_cells - 1);
         }
     }
-    next_move.arrow_dst = rand() % (c->board->g->num_vertices - 1);
+    next_move.arrow_dst = rand() % (c->board->board_cells - 1);
     next_move.queen_src = c->board->queens[c->id][rand() % (c->board->queens_count)];
     next_move.queen_dst = new_dst;
-    printf("src : %d\n", next_move.queen_src);
-    printf("dst : %d\n", next_move.queen_dst);
-    printf("arrow : %d\n", next_move.arrow_dst);
-
     return next_move;
 }
 
@@ -61,13 +59,17 @@ struct move_t play(struct move_t previous_move)
 
     struct move_t next_move = get_random_move();
 
-    // while (!is_move_valid(c->board, &next_move, c->id))
-    // {
-    //     next_move = get_random_move();
-    // }
+    while (!is_move_valid(c->board, &next_move, c->id))
+    {
+        next_move = get_random_move();
+    }
+
+    printf("src : %d\n", next_move.queen_src);
+    printf("dst : %d\n", next_move.queen_dst);
+    printf("arrow : %d\n", next_move.arrow_dst);
 
     unsigned int index = 0;
-    while (index < c->board->queens_count - 1 && c->board->queens[1 - c->id][index] != next_move.queen_src)
+    while (index < c->board->queens_count - 1 && c->board->queens[c->id][index] != next_move.queen_src)
         index++;
 
     c->board->queens[c->id][index] = next_move.queen_dst;
