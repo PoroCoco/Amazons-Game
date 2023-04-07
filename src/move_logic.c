@@ -107,7 +107,10 @@ bool is_move_valid(board_t *board, struct move_t *move, unsigned int player_id)
     for (int i = 0; i < NUM_PLAYERS; i++)
     {
         if (queens_occupy(board->queens[i], destination, board->board_width)) return false;
-        if (queens_occupy(board->queens[i], current_position, board->board_width)) return false;
+
+        if (!queens_occupy(board->queens[i], current_position, board->board_width) && (i == player_id)) return false;
+
+        if (queens_occupy(board->queens[i], current_position, board->board_width) && (i != player_id)) return false;
     }
     
 
