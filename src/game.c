@@ -4,6 +4,8 @@
 #include <assert.h>
 
 #include "player.h"
+#include "board.h"
+#include "dir.h"
 #include "game.h"
 #include "graph_ext.h"
 #include "queens.h"
@@ -71,11 +73,26 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
 
 
     //game loop
-    for (unsigned int i = 0; i < NUM_PLAYERS; i++)
+    struct move_t m = {-1, -1, -1};
+    size_t max_turns = 2;
+    unsigned int current_player = 0;
+    for (size_t i = 0; i < max_turns; i++)
     {
-        struct move_t m;
-        clients[i].play(m);
+
+        m = clients[i].play(m);
+        //check move valid
+        
+
+        //check if game is won
+
+
+
+        current_player++;
+        if (current_player >= NUM_PLAYERS){
+            current_player = 0;
+        }
     }
+    
 
     //finalize each client
     for (unsigned int i = 0; i < NUM_PLAYERS; i++)
