@@ -65,7 +65,7 @@ bool queens_occupy(const unsigned int *queens, unsigned int index, unsigned int 
 void queens_move(unsigned int *queens, unsigned int board_width, unsigned int src, unsigned int dst){
     assert(queens);
     unsigned int queens_count = queens_compute_number(board_width);
-    assert(dst < (queens_count * queens_count));
+    assert(dst < (board_width * board_width));
     for (unsigned int i = 0; i < queens_count; i++){
         if(queens[i] == src){
             queens[i] = dst;

@@ -75,7 +75,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
 
     //game loop
     struct move_t m = {-1, -1, -1};
-    size_t max_turns = 2;
+    size_t max_turns = 100;
     unsigned int current_player = 0;
     for (size_t i = 0; i < max_turns; i++)
     {

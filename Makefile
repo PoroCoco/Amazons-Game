@@ -27,7 +27,7 @@ play : build
 %.o: $(TESTDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
-build: server client_random1.so client_random2.so
+build: server client_random1.so
 	rm -f build/*.gcda
 	rm -f build/*.gcno
 
@@ -36,9 +36,7 @@ server: server.o graph.o queens.o game.o board.o move_logic.o
 
 client_random1.so: client_random.o board.o graph.o queens.o move_logic.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
-
-client_random2.so: client_random.o board.o graph.o queens.o move_logic.o
-	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
+	cp install/client_random1.so install/client_random2.so 
 
 
 alltests: $(TESTFILES) $(SOURCEFILES)
