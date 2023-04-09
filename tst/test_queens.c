@@ -9,7 +9,7 @@ int test_queens_compute_number(void){
       queens_compute_number(50) == 24);
 }
 
-static int contain_the_same_elements(int * array1, int * array2, int size){
+static int contain_the_same_elements(unsigned int * array1, unsigned int * array2, int size){
     int is_in_table = 1;
     for(int i = 0; i < size; i++){
         is_in_table = 0;
@@ -27,8 +27,8 @@ static int contain_the_same_elements(int * array1, int * array2, int size){
     }
     return 1;
 }
-static void print_queen(int* array, int size, int k){
-    for(int i = 0; i < size; i++){
+static void print_queen(unsigned int* array, unsigned int size, unsigned int k){
+    for(unsigned int i = 0; i < size; i++){
         if(array[i] == k){
             printf(" 8 ");
             return;
@@ -36,11 +36,11 @@ static void print_queen(int* array, int size, int k){
     }
     printf(" | ");
 }
-static void print_game(int* array, int size, int m){
+static void print_game(unsigned int* array, unsigned int size, unsigned int m){
     printf("\n ");
     printf("\n ");
-    for(int i = 0; i < m; i++){
-        for(int j = 0; j < m; j++){
+    for(unsigned int i = 0; i < m; i++){
+        for(unsigned int j = 0; j < m; j++){
             print_queen(array, size, i*m+j);
         }
         printf("\n ");
@@ -49,10 +49,10 @@ static void print_game(int* array, int size, int m){
     printf("\n ");    
 }
 int test_queens_create_positions(void){
-    int from = 5;
-    int to = 5;
+    unsigned int from = 5;
+    unsigned int to = 5;
     unsigned int* positions_to_print;
-    for(int i = from; i < to; i++){ // prints the games of size i twice with the queens of each player 
+    for(unsigned int i = from; i < to; i++){ // prints the games of size i twice with the queens of each player 
         positions_to_print = queens_create_positions(i,0);
         print_game(positions_to_print,queens_compute_number(i),i);
         queens_free_positions(positions_to_print);
@@ -61,17 +61,17 @@ int test_queens_create_positions(void){
         queens_free_positions(positions_to_print);
     }
     unsigned int* computed_positions_5 = queens_create_positions(5,0);
-    int positions_5[4] = {1,3,5,9};
+    unsigned int positions_5[4] = {1,3,5,9};
     int result_5 = contain_the_same_elements(computed_positions_5,positions_5,4);
     queens_free_positions(computed_positions_5);
 
     unsigned int* computed_positions_12 = queens_create_positions(12,1);
-    int positions_12[8] = {142,140,133,135,131,120,96,107};
+    unsigned int positions_12[8] = {142,140,133,135,131,120,96,107};
     int result_12 = contain_the_same_elements(computed_positions_12,positions_12,8);
     queens_free_positions(computed_positions_12);
 
     unsigned int* computed_positions_15 = queens_create_positions(15,0);
-    int positions_15[8] = {2,5,9,12,30,75,44,89};
+    unsigned int positions_15[8] = {2,5,9,12,30,75,44,89};
     int result_15 = contain_the_same_elements(computed_positions_15,positions_15,8);
     
 
