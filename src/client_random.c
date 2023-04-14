@@ -95,7 +95,7 @@ struct move_t play(struct move_t previous_move)
 
     c->board->queens[c->id][index] = next_move.queen_dst;
     board_add_arrow(c->board, next_move.arrow_dst);
-    board_print(c->board);
+    // board_print(c->board);
     return next_move;
 }
 

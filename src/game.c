@@ -78,6 +78,13 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
     unsigned int current_player = 0;
     for (size_t i = 0; i < max_turns; i++)
     {
+        board_print(game_board);
+
+        //checks if the current player can move
+        if(is_game_over_for_player(game_board, current_player)){
+            printf("Player %u cannot move. Game is won by player %u!\n", current_player, 1 - current_player);
+            break;
+        }
         printf("Playing turn number %zu :\n", i);
         m = clients[current_player].play(m);
         
@@ -89,13 +96,6 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
 
         board_add_arrow(game_board, m.arrow_dst);
         queens_move(game_board->queens[current_player], game_board->board_width, m.queen_src, m.queen_dst);
-
-        //check if game is won
-        if(is_game_won(game_board)){
-            printf("Player %u move ended the game !\n", current_player);
-            break;
-        }
-
 
         current_player++;
         if (current_player >= NUM_PLAYERS){
