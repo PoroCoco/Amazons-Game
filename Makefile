@@ -11,7 +11,7 @@ INSTALLDIR = install
 SOURCEDIR = src
 TESTDIR = tst
 TESTFILES = test.o test_graph.o test_client_random.o test_queens.o test_board.o test_move_logic.o
-SOURCEFILES = graph.o client_random.o queens.o board.o move_logic.o
+SOURCEFILES = graph.o client_random.o queens.o board.o move_logic.o heuristic.o
 
 LDFLAGS += -I$(SOURCEDIR)/
 
