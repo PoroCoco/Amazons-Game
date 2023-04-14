@@ -24,6 +24,8 @@ int test_get_move_direction(void);
 
 int test_is_move_valid(void);
 
+int test_get_queen_liberty(void);
+
 /* ************************************************************************** */
 /*                                test board                                 */
 /* ************************************************************************** */
