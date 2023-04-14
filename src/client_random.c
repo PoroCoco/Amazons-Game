@@ -58,7 +58,7 @@ struct move_t get_random_move()
 struct move_t play(struct move_t previous_move)
 {
     // board_print(c->board);
-    if (previous_move.arrow_dst != -1 && previous_move.queen_src != -1 && previous_move.queen_dst != -1)
+    if (previous_move.arrow_dst != UINT_MAX && previous_move.queen_src != UINT_MAX && previous_move.queen_dst != UINT_MAX)
     {
         unsigned int index = 0;
         while (index < c->board->queens_count - 1 && c->board->queens[1 - c->id][index] != previous_move.queen_src)
