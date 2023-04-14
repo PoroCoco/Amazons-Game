@@ -11,7 +11,7 @@ board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], uns
     board->queens[1] = queens[1];
     board->queens_count = queens_count;
     board->board_width = (unsigned int) sqrt(g->t->size1);
-    board->board_cells = g->num_vertices;
+    board->board_cells = board->board_width*board->board_width;
     board->arrows_count = board->board_width*board->board_width;
     board->arrows = malloc(sizeof(bool)*board->arrows_count);
     for (unsigned int i = 0; i < board->arrows_count; i++)
