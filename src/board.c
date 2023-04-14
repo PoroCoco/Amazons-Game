@@ -58,8 +58,8 @@ enum cell_state board_get_index_state(board_t *board, unsigned int index){
     //If the index is greater than the grid max 
     if (index >= board->board_cells) return STATE_ERROR;
     if(board->arrows[index]) return STATE_ARROW;
-    if(queens_occupy(board->queens[0], index, board->board_width)) return STATE_QUEEN;
-    if(queens_occupy(board->queens[1], index, board->board_width)) return STATE_QUEEN;
+    if(queens_occupy(board->queens[0], index, board->board_width)) return STATE_QUEEN_WHITE;
+    if(queens_occupy(board->queens[1], index, board->board_width)) return STATE_QUEEN_BLACK;
     return STATE_AVAILABLE;
 }
 
@@ -81,7 +81,8 @@ void board_print(board_t *board){
             enum cell_state s = board_get_index_state(board, (i*width) + j);
             if (s == STATE_AVAILABLE) printf("_");
             if (s == STATE_ARROW) printf("X");
-            if (s == STATE_QUEEN) printf("♕");
+            if (s == STATE_QUEEN_WHITE) printf("♕");
+            if (s == STATE_QUEEN_BLACK) printf("♛");
             if (s == STATE_ERROR) printf("?");
         }
         printf("|\n");

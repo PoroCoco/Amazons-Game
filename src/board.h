@@ -17,7 +17,8 @@ typedef struct board {
 
 enum cell_state{
     STATE_AVAILABLE,
-    STATE_QUEEN,
+    STATE_QUEEN_WHITE,
+    STATE_QUEEN_BLACK,
     STATE_ARROW,
     STATE_ERROR
 };
