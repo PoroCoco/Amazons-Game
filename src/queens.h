@@ -18,7 +18,6 @@ unsigned int* queens_create_positions(unsigned int board_width, unsigned int pla
 /// @param queens The array to free
 void queens_free_positions(unsigned int *queens);
 
-
 /// @brief Creates a copy of the array of queens
 /// @param queens The array to copy
 /// @param board_width Size of the board the @p queens are placed in
@@ -29,7 +28,8 @@ unsigned int* queens_copy(const unsigned int *queens, unsigned int board_width);
 /// @param queens The array to modify
 /// @param src The queen to move
 /// @param dst The destination
-void queens_move(unsigned int *queens, unsigned int src, unsigned int dst);
+/// @param board_width Size of the board the @p queens are placed in
+void queens_move(unsigned int *queens, unsigned int board_width, unsigned int src, unsigned int dst);
 
 /// @brief Tests if an position occupied by a queen 
 /// @param queens The checked array

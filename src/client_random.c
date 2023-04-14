@@ -6,111 +6,6 @@
 
 struct random_client *c = NULL;
 
-enum dir_t get_move_direction(random_client_t *client, unsigned int origin, unsigned int destination)
-{
-    if (origin == destination) return DIR_ERROR;
-    unsigned int width = board_width(client->board);
-    unsigned int origin_x = origin % width;
-    unsigned int origin_y = origin / width;
-
-    unsigned int destination_x = destination % width;
-    unsigned int destination_y = destination / width;
-
-    //origin and destination on the same column
-    if (origin_x == destination_x){
-        return origin_y > destination_y ? DIR_NORTH : DIR_SOUTH;
-    }
-
-    //origin and destination on the same line
-    if (origin_y == destination_y){
-        return origin_x > destination_x ? DIR_WEST : DIR_EAST;
-    }
-
-    if(destination_x > origin_x){
-        return destination_y > origin_y ? DIR_SE : DIR_NE;
-    }
-
-    if(destination_x < origin_x){
-        return destination_y > origin_y ? DIR_SW : DIR_NW;
-    }
-
-    return DIR_ERROR;
-}
-
-int compute_step_toward_direction(enum dir_t direction, unsigned int board_width){
-    int step = 0;
-
-    switch (direction)
-    {
-    case DIR_NORTH:
-        step = -board_width;
-        break;
-    
-    case DIR_SOUTH:
-        step = board_width;
-        break;
-
-    case DIR_EAST:
-        step = 1;
-        break;
-
-    case DIR_WEST:
-        step = -1;
-        break;
-
-    case DIR_NW:
-        step = -1 - board_width;
-        break;
-
-    case DIR_NE:
-        step = 1 - board_width;
-        break;
-
-    case DIR_SW:
-        step = -1 + board_width;
-        break;
-
-    case DIR_SE:
-        step = 1 + board_width;
-        break;
-
-    default:
-        fprintf(stderr, "Impossible direction given to go from move source to move destination\n");
-        exit(EXIT_FAILURE);
-    }
-    
-    assert(step != 0);
-    return step;
-}
-
-bool is_move_valid(struct random_client *c, struct move_t *move)
-{
-    unsigned int current_position = move->queen_src;
-    unsigned int destination = move->queen_dst;
-
-    //check if there is a queen on the destination or source position
-    for (int i = 0; i < NUM_PLAYERS; i++){
-        if (queens_occupy(c->board->queens[i], destination, c->board->board_width)) return false;
-
-        if (!queens_occupy(c->board->queens[i], current_position, c->board->board_width) && (i == c->id)) return false;
-
-        if (queens_occupy(c->board->queens[i], current_position, c->board->board_width) && (i != c->id)) return false;
-    }
-    
-
-    int width = board_width(c->board);
-    enum dir_t direction = get_move_direction(c, move->queen_src, move->queen_dst);
-    if (direction == DIR_ERROR) return false;
-
-    int step = compute_step_toward_direction(direction, width);
-
-    while(current_position != destination){
-        current_position += step;
-        if(!board_index_is_available(c->board, current_position)) return false;
-    }
-
-    return true;
-}
 
 char const *get_player_name(void)
 {
@@ -129,10 +24,58 @@ void initialize(unsigned int player_id, struct graph_t *graph,
     }
 }
 
+struct move_t get_random_move()
+{
+    struct move_t next_move;
+    unsigned int new_dst = rand() % (c->board->g->num_vertices - 1);
+    for (int i = 0; i < c->board->queens_count; i++)
+    {
+        if (c->board->queens[c->id][i] == new_dst || c->board->queens[1 - c->id][i] == new_dst)
+        {
+            i = 0;
+            new_dst = rand() % (c->board->board_cells - 1);
+        }
+    }
+    next_move.arrow_dst = rand() % (c->board->board_cells - 1);
+    next_move.queen_src = c->board->queens[c->id][rand() % (c->board->queens_count)];
+    next_move.queen_dst = new_dst;
+    return next_move;
+}
+
 struct move_t play(struct move_t previous_move)
 {
     board_print(c->board);
-    return previous_move;
+    if (previous_move.arrow_dst != -1 && previous_move.queen_src != -1 && previous_move.queen_dst != -1)
+    {
+        unsigned int index = 0;
+        while (index < c->board->queens_count - 1 && c->board->queens[1 - c->id][index] != previous_move.queen_src)
+            index++;
+
+        c->board->queens[1 - c->id][index] = previous_move.queen_dst;
+        board_add_arrow(c->board, previous_move.arrow_dst);
+    }
+
+    struct move_t next_move = get_random_move();
+
+    while (!is_move_valid(c->board, &next_move, c->id))
+    {
+        printf("move invalid : %d, %d, %d\n", next_move.queen_src, next_move.queen_dst, next_move.arrow_dst);
+        next_move = get_random_move();
+    }
+
+    printf("src : %d\n", next_move.queen_src);
+    printf("dst : %d\n", next_move.queen_dst);
+    printf("arrow : %d\n", next_move.arrow_dst);
+
+    unsigned int index = 0;
+    while (index < c->board->queens_count - 1 && c->board->queens[c->id][index] != next_move.queen_src)
+        index++;
+
+    c->board->queens[c->id][index] = next_move.queen_dst;
+    board_add_arrow(c->board, next_move.arrow_dst);
+
+    board_print(c->board);
+    return next_move;
 }
 
 void finalize(void)

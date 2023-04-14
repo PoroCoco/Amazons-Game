@@ -4,9 +4,12 @@
 #include <assert.h>
 
 #include "player.h"
+#include "board.h"
+#include "dir.h"
 #include "game.h"
 #include "graph_ext.h"
 #include "queens.h"
+#include "move_logic.h"
 
 
 typedef struct client {
@@ -53,7 +56,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
 
     //create game_board
     struct graph_t *g = create_graph(board_size, convert_char_to_shape(board_type));
-
+    board_t *game_board = board_create(g, queens, queen_number);
 
     //init each client
     for (unsigned int i = 0; i < NUM_PLAYERS; i++)
@@ -69,13 +72,37 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
         clients[i].initialize(clients[i].id, graph_cpy, queen_number, queens_cpy);
     }
 
-
     //game loop
-    for (unsigned int i = 0; i < NUM_PLAYERS; i++)
+    struct move_t m = {-1, -1, -1};
+    size_t max_turns = 100;
+    unsigned int current_player = 0;
+    for (size_t i = 0; i < max_turns; i++)
     {
-        struct move_t m;
-        clients[i].play(m);
+        printf("Playing turn number %zu :\n", i);
+        m = clients[current_player].play(m);
+        
+        //check move valid
+        if (!is_move_valid(game_board, &m, current_player)){
+            printf("Player %uu gave an invalid move!\n", current_player);
+            break;
+        }
+
+        board_add_arrow(game_board, m.arrow_dst);
+        queens_move(game_board->queens[current_player], game_board->board_width, m.queen_src, m.queen_dst);
+
+        //check if game is won
+        if(is_game_won(game_board)){
+            printf("Player %u move ended the game !\n", current_player);
+            break;
+        }
+
+
+        current_player++;
+        if (current_player >= NUM_PLAYERS){
+            current_player = 0;
+        }
     }
+    
 
     //finalize each client
     for (unsigned int i = 0; i < NUM_PLAYERS; i++)
@@ -85,10 +112,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
     }
     
     //free game_board
-    destroy_graph(g);
-    free(queens[0]);
-    free(queens[1]);
-
+    board_free(game_board);
 }
 
 struct client load_client(unsigned int id, char * library_path){

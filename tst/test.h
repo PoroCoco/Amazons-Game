@@ -45,4 +45,14 @@ int test_queens_copy(void);
 
 int test_queens_occupy(void);
 
+int test_queens_move(void);
+
+
+/* ************************************************************************** */
+/*                                test move logic                             */
+/* ************************************************************************** */
+
+
+int test_is_move_valid(void);
+
 #endif
