@@ -17,7 +17,8 @@ typedef struct board {
 
 enum cell_state{
     STATE_AVAILABLE,
-    STATE_QUEEN,
+    STATE_QUEEN_WHITE,
+    STATE_QUEEN_BLACK,
     STATE_ARROW,
     STATE_ERROR
 };
@@ -39,6 +40,9 @@ bool board_add_arrow(board_t *board, unsigned int index);
 /// @param index The position aimed
 /// @return True if the cell is empty, false otherwise  
 bool board_index_is_available(board_t *board, unsigned int index);
+
+
+bool board_index_is_available_from(board_t *board, unsigned int source, unsigned int dest);
 
 /// @brief Gives the state of a board cell at the given index. Returns STATE_ERROR in case of errors (for exemple invalid index)
 /// @param board The game board

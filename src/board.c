@@ -1,6 +1,7 @@
 #include "board.h"
 #include "queens.h"
 #include "graph_ext.h"
+#include "move_logic.h"
 #include <assert.h>
 
 board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], unsigned int queens_count){
@@ -41,8 +42,14 @@ unsigned int board_width(board_t *board){
     return board->board_width;
 }
 
+bool board_index_is_available_from(board_t *board, unsigned int source, unsigned int dest){
+    enum dir_t d = get_move_direction(board, source, dest);
+    return board_index_is_available(board, dest) && exist_edge_value(board->g, source, dest, d);
+}
+
+
+
 bool board_index_is_available(board_t *board, unsigned int index){
-    //TODO:CHECK GRAPH VERTEX!!!
     return (index < board->board_cells) && (!board->arrows[index]) 
     && (!queens_occupy(board->queens[0], index, board->board_width) && (!queens_occupy(board->queens[1], index, board->board_width)));
 }
@@ -51,8 +58,8 @@ enum cell_state board_get_index_state(board_t *board, unsigned int index){
     //If the index is greater than the grid max 
     if (index >= board->board_cells) return STATE_ERROR;
     if(board->arrows[index]) return STATE_ARROW;
-    if(queens_occupy(board->queens[0], index, board->board_width)) return STATE_QUEEN;
-    if(queens_occupy(board->queens[1], index, board->board_width)) return STATE_QUEEN;
+    if(queens_occupy(board->queens[0], index, board->board_width)) return STATE_QUEEN_WHITE;
+    if(queens_occupy(board->queens[1], index, board->board_width)) return STATE_QUEEN_BLACK;
     return STATE_AVAILABLE;
 }
 
@@ -74,7 +81,8 @@ void board_print(board_t *board){
             enum cell_state s = board_get_index_state(board, (i*width) + j);
             if (s == STATE_AVAILABLE) printf("_");
             if (s == STATE_ARROW) printf("X");
-            if (s == STATE_QUEEN) printf("♕");
+            if (s == STATE_QUEEN_WHITE) printf("♕");
+            if (s == STATE_QUEEN_BLACK) printf("♛");
             if (s == STATE_ERROR) printf("?");
         }
         printf("|\n");

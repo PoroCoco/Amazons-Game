@@ -1,6 +1,7 @@
 #include "client_random.h"
 #include "board.h"
 #include "queens.h"
+#include "move_logic.h"
 #include <math.h>
 #include <assert.h>
 
@@ -28,7 +29,7 @@ struct move_t get_random_move()
 {
     struct move_t next_move;
     unsigned int new_dst = rand() % (c->board->g->num_vertices - 1);
-    for (int i = 0; i < c->board->queens_count; i++)
+    for (unsigned int i = 0; i < c->board->queens_count; i++)
     {
         if (c->board->queens[c->id][i] == new_dst || c->board->queens[1 - c->id][i] == new_dst)
         {
@@ -57,7 +58,21 @@ struct move_t play(struct move_t previous_move)
 
     struct move_t next_move = get_random_move();
 
-    printf("my queen move are : \n");
+    printf("my queen at %d move are : \n", c->board->queens[c->id][0]);
+    queen_moves_t queen_moves;
+    queen_moves.indexes = malloc(sizeof(unsigned int)*c->board->board_cells);
+    assert(queen_moves.indexes != NULL);
+
+
+    queen_available_moves(c->board, &queen_moves, c->board->queens[c->id][0]);
+    for (unsigned int i = 0; i < queen_moves.move_count; i++)
+    {
+        printf("%d ", queen_moves.indexes[i]);
+    }
+    printf("\n");
+    
+
+
 
     while (!is_move_valid(c->board, &next_move, c->id))
     {
@@ -72,9 +87,9 @@ struct move_t play(struct move_t previous_move)
         next_move = get_random_move();
     }
 
-    printf("src : %d\n", next_move.queen_src);
-    printf("dst : %d\n", next_move.queen_dst);
-    printf("arrow : %d\n", next_move.arrow_dst);
+    // printf("src : %d\n", next_move.queen_src);
+    // printf("dst : %d\n", next_move.queen_dst);
+    // printf("arrow : %d\n", next_move.arrow_dst);
 
     unsigned int index = 0;
     while (index < c->board->queens_count - 1 && c->board->queens[c->id][index] != next_move.queen_src)
@@ -83,7 +98,8 @@ struct move_t play(struct move_t previous_move)
     c->board->queens[c->id][index] = next_move.queen_dst;
     board_add_arrow(c->board, next_move.arrow_dst);
 
-    board_print(c->board);
+    free(queen_moves.indexes);
+    // board_print(c->board);
     return next_move;
 }
 

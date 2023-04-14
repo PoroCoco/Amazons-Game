@@ -32,6 +32,7 @@ struct test tests[] = {
     {"test_board_create", test_board_create},
     {"test_board_add_arrow", test_board_add_arrow},
     {"test_move_is_valid", test_is_move_valid},
+    {"test_get_queen_liberty", test_get_queen_liberty},
     {NULL,NULL}
 };
 
