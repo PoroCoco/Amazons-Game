@@ -80,19 +80,24 @@ int is_vertex_in_shape(unsigned int width, enum graph_type shape, unsigned int v
     switch (shape)
     {
         case DONUT:
-            if ((width / 3 < j) && (j <= 2 * width / 3))
-                if ((width / 3 < i) && (i <= 2 * width / 3))
-                    return 0;
-            break;
-        case IN_EIGHT:
-            if (((width / 5 < j) && (j <= 2 * width / 5)) || (((width/5 < j) && (j < 4*width/5))))
-                if (((width / 5 < i) && (i < 2 * width / 5)) || (((width / 5 < i) && (j < 4*width/5))))
+            int aThird = width / 3;
+            if ((aThird <= j) && (j < 2 * aThird))
+                if ((aThird <= i) && (i < 2 * aThird))
                     return 0;
             break;
         case CLOVER:
-            if (((2*width / 4 < j) && (j < 3 * width / 4)) || (((width/4 < i) && (i < 2*width/4))))
-                if (((width / 4 < j) && (j < 2 * width / 4)) || (((2*width / 4 < i) && (j < 3*width/4))))
-                    return 0;
+            int aFifth = width / 5;
+            if (((aFifth <= j) && (j < 2 * aFifth)) && ( ((1*aFifth <= i) && (i < 2*aFifth)) || ((3*aFifth <= i) && (i < 4*aFifth))))
+                return 0;
+            if (((3*aFifth <= j) && (j < 4 * aFifth)) && ( ((1*aFifth <= i) && (i < 2*aFifth)) || ((3*aFifth <= i) && (i < 4*aFifth))))
+                return 0;
+            break;
+        case IN_EIGHT:
+            int aQuater = width / 4;
+            if (((2*aQuater <= i) && (i < 3 * aQuater)) && (((aQuater <= j) && (j < 2*aQuater))))
+                return 0;
+            if (((aQuater <= i) && (i < 2 * aQuater)) && (((2*aQuater <= j) && (j < 3*aQuater))))
+                return 0;
             break;
         default:
             return (vertex < width*width);
@@ -122,13 +127,13 @@ struct graph_t *create_graph(unsigned int width, enum graph_type shape)
         graph->num_vertices = width * width * 8 / 9;
         break;
 
-    case IN_EIGHT:
+    case CLOVER:
         if (width % 5 != 0)
             width -= width % 5;
         graph->num_vertices = width * width * 21 / 25;
         break;
 
-    case CLOVER:
+    case IN_EIGHT:
         if (width % 4 != 0)
             width -= width % 4;
         graph->num_vertices = width * width * 7 / 8;
@@ -185,6 +190,22 @@ void print_graph(const struct graph_t *g)
             printf("%u ", gsl_spmatrix_uint_get(g->t, i, j));
         printf("\n");
     }
+}
+
+void print_vertex(unsigned int width, enum graph_type shape) {
+    for (size_t vertex = 0; vertex < width*width; vertex++)
+    {
+        if (vertex%width == 0)
+            printf("\n");
+        
+
+        if (is_vertex_in_shape(width,shape,vertex)) 
+            printf("X ");
+        else 
+            printf("  ");
+    }
+    printf("\n");
+    
 }
 
 void add_edge(struct graph_t *g, size_t v1, size_t v2, unsigned int value)
