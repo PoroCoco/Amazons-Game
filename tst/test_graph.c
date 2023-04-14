@@ -31,13 +31,36 @@ int test_create_and_free_square_graph(void) {
 }
 
 int test_different_graph_shapes(void) {
-    struct graph_t* graph = create_graph(3, DONUT);
+    struct graph_t* donut = create_graph(3, DONUT);
+    struct graph_t* clover = create_graph(5,CLOVER);
+    struct graph_t* in8 = create_graph(4,IN_EIGHT);
 
-    for (size_t i = 3; i < 6 ; i++)
-        for (size_t j = 3; j < 6; j++)
-          //printf("%u\n",gsl_spmatrix_uint_get(graph->t,i,j));
-          //assert(NO_DIR == gsl_spmatrix_uint_get(graph->t,i,j));    
-    // print_graph(graph);
-    destroy_graph(graph);
+    //donut
+    for (size_t i = 0; i < 9 ; i++) {
+        assert(NO_DIR == gsl_spmatrix_uint_get(donut->t,i,4));
+    }
+
+    // clover
+    for (size_t i = 0; i < 25 ; i++) {
+        assert(NO_DIR == gsl_spmatrix_uint_get(clover->t,i,6));
+        assert(NO_DIR == gsl_spmatrix_uint_get(clover->t,i,8));
+        assert(NO_DIR == gsl_spmatrix_uint_get(clover->t,i,16));
+        assert(NO_DIR == gsl_spmatrix_uint_get(clover->t,i,18));
+    }
+
+    //in eight
+    for (size_t i = 0; i < 16 ; i++) {
+        assert(NO_DIR == gsl_spmatrix_uint_get(in8->t,i,6));
+        assert(NO_DIR == gsl_spmatrix_uint_get(in8->t,i,9));
+    }
+
+
+    
+
+    //print_graph(donut);
+
+    destroy_graph(in8);
+    destroy_graph(clover);
+    destroy_graph(donut);
     return 0;
 }

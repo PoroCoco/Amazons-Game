@@ -11,7 +11,10 @@ enum graph_type{
     CLOVER,
     IN_EIGHT,
     EMPTY,
-    SHAPE_ERROR
+    SHAPE_ERROR,
+    FIRST_SHAPE = SQUARE,
+    LAST_SHAPE = EMPTY,
+    NB_SHAPE = 5
 };
 
 /// @brief Creates a graph of the given shape on the heap and returns a pointer on it. The graph follows the CSR format.
@@ -54,6 +57,9 @@ void destroy_graph(struct graph_t *g);
 /// @brief print the graph given
 /// @param g The graph to print
 void print_graph(const struct graph_t* g);
+
+/// @brief print the vertex
+void print_vertex(unsigned int width, enum graph_type shape);
 
 /// @brief Makes a heap allocated copy of g
 /// @param g The graph to copy

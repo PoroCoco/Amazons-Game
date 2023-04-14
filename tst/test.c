@@ -23,7 +23,7 @@ struct test {
 
 struct test tests[] = {
     {"create_and_free_square_graph", test_create_and_free_square_graph},
-    {"donut_graph_shape", test_different_graph_shapes},
+    {"different_graph_shape", test_different_graph_shapes},
     {"queens_compute_number", test_queens_compute_number},
     {"queens_create_positions", test_queens_create_positions},
     {"queens_copy", test_queens_copy},
