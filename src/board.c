@@ -29,6 +29,12 @@ bool board_add_arrow(board_t *board, unsigned int index) {
     return true;
 }
 
+void board_remove_arrow(board_t *board, unsigned int index){
+    assert(board_get_index_state(board, index) == STATE_ARROW);
+    board->arrows[index] = false;
+}
+
+
 void board_free(board_t *board){
     destroy_graph(board->g);
     free(board->queens[0]);

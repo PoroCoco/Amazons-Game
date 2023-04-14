@@ -35,6 +35,11 @@ board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], uns
 /// @param index The position to block
 bool board_add_arrow(board_t *board, unsigned int index);
 
+/// @brief Removes an arrow on the board at the position index. There must be an arrow to remove at the given index.
+/// @param b The board
+/// @param index The position to unblock
+void board_remove_arrow(board_t *board, unsigned int index);
+
 /// @brief Returns the availability state of an index. False if outside of grid or blocked by arrow or blocked by a queen.
 /// @param board The game board
 /// @param index The position aimed
