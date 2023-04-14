@@ -31,5 +31,6 @@ int test_get_queen_liberty(void) {
         assert(get_queen_liberty(b, queens_positions[i]) == 4);
     }
 
+    board_free(b);
     return 0;
 }
