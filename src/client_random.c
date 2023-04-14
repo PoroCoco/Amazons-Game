@@ -57,9 +57,18 @@ struct move_t play(struct move_t previous_move)
 
     struct move_t next_move = get_random_move();
 
+    printf("my queen move are : \n");
+
     while (!is_move_valid(c->board, &next_move, c->id))
     {
-        printf("move invalid : %d, %d, %d\n", next_move.queen_src, next_move.queen_dst, next_move.arrow_dst);
+        // printf("my queens are : ");
+        // for (size_t i = 0; i < c->board->queens_count; i++)
+        // {
+            // printf("%d ", c->board->queens[c->id][i]);
+        // }
+        // printf("\n");
+        // printf("move invalid : %d, %d, %d\n", next_move.queen_src, next_move.queen_dst, next_move.arrow_dst);
+  
         next_move = get_random_move();
     }
 
