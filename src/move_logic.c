@@ -146,3 +146,26 @@ bool is_move_valid(board_t *board, struct move_t *move, unsigned int player_id)
 
     return true;
 }
+
+
+void queen_available_moves(board_t *board, queen_moves_t *moves, unsigned int queen_index){
+    assert(moves->indexes);
+    assert(board_get_index_state(board, queen_index) == STATE_QUEEN);
+
+    unsigned int move_count = 0;
+    for (enum dir_t d = FIRST_DIR; d <= LAST_DIR; d++){
+        unsigned int current_index = queen_index;
+        int step = compute_step_toward_direction(d, board->board_width);
+        current_index += step;
+        while(current_index < board->board_cells){
+            if (!board_index_is_available(board, current_index)) break;
+            moves->indexes[move_count] = current_index;
+            move_count++;
+            current_index += step;
+        }
+    }
+    
+    moves->move_count = move_count;
+}
+
+
