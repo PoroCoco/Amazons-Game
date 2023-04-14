@@ -150,7 +150,7 @@ bool is_move_valid(board_t *board, struct move_t *move, unsigned int player_id)
 
 void queen_available_moves(board_t *board, queen_moves_t *moves, unsigned int queen_index){
     assert(moves->indexes);
-    assert(board_get_index_state(board, queen_index) == STATE_QUEEN);
+    assert(board_get_index_state(board, queen_index) == STATE_QUEEN_WHITE || board_get_index_state(board, queen_index) == STATE_QUEEN_BLACK );
 
     unsigned int move_count = 0;
     for (enum dir_t d = FIRST_DIR; d <= LAST_DIR; d++){
