@@ -43,10 +43,10 @@ double power_heuristic(board_t *board, unsigned int player_id){
     for (size_t i = 0; i < board->board_cells; i++)
     {
         current_heuristic += board_powers[i];
-        if(i%board->board_width == 0) printf("\n");
-        printf("%u ", board_powers[i]);
+        // if(i%board->board_width == 0) printf("\n");
+        // printf("%u ", board_powers[i]);
     }
-    printf("\n");
+    // printf("\n");
 
 
     free(stack);

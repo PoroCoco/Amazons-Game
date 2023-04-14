@@ -82,10 +82,10 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
 
         //checks if the current player can move
         if(is_game_over_for_player(game_board, current_player)){
-            printf("Player %u cannot move. Game is won by player %u!\n", current_player, 1 - current_player);
+            printf("Player %u %s cannot move. Game is won by player %u %s!\n", current_player, clients[current_player].get_player_name(),  1 - current_player, clients[1 - current_player].get_player_name());
             break;
         }
-        printf("Playing turn number %zu :\n", i);
+        printf("Playing turn number %zu with player named %s id %u:\n", i, clients[current_player].get_player_name(), current_player);
         m = clients[current_player].play(m);
         
         //check move valid
