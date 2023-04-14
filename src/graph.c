@@ -74,21 +74,24 @@ unsigned int get_width(const struct graph_t *g)
 
 
 int is_vertex_in_shape(unsigned int width, enum graph_type shape, unsigned int vertex) {
+    int i = vertex / width;
+    int j = vertex % width;
+
     switch (shape)
     {
         case DONUT:
-            if ((width / 3 < vertex % width) && (vertex % width < 2 * width / 3))
-                if ((width / 3 < vertex / width) && (vertex / width <= 2 * width / 3))
+            if ((width / 3 < j) && (j <= 2 * width / 3))
+                if ((width / 3 < i) && (i <= 2 * width / 3))
                     return 0;
             break;
         case IN_EIGHT:
-            if (((width / 5 < vertex % width) && (vertex % width < 2 * width / 5)) || (((width/5 < vertex%width) && (vertex%width < 4*width/5))))
-                if (((width / 5 < vertex / width) && (vertex / width < 2 * width / 5)) || (((width / 5 < vertex / width) && (vertex%width < 4*width/5))))
+            if (((width / 5 < j) && (j <= 2 * width / 5)) || (((width/5 < j) && (j < 4*width/5))))
+                if (((width / 5 < i) && (i < 2 * width / 5)) || (((width / 5 < i) && (j < 4*width/5))))
                     return 0;
             break;
         case CLOVER:
-            if (((2*width / 4 < vertex % width) && (vertex % width < 3 * width / 4)) || (((width/4 < vertex/width) && (vertex/width < 2*width/4))))
-                if (((width / 4 < vertex % width) && (vertex % width < 2 * width / 4)) || (((2*width / 4 < vertex / width) && (vertex%width < 3*width/4))))
+            if (((2*width / 4 < j) && (j < 3 * width / 4)) || (((width/4 < i) && (i < 2*width/4))))
+                if (((width / 4 < j) && (j < 2 * width / 4)) || (((2*width / 4 < i) && (j < 3*width/4))))
                     return 0;
             break;
         default:
@@ -205,6 +208,11 @@ void remove_edge(struct graph_t *g, size_t v1, size_t v2)
 {
     unsigned int *ptr = gsl_spmatrix_uint_ptr(g->t, v1, v2);
     *ptr = NO_DIR;
+}
+
+bool exist_edge_value(const struct graph_t *g, size_t v1, size_t v2, unsigned int value)
+{
+    return (gsl_spmatrix_uint_get(g->t, v1, v2) == value);
 }
 
 bool exist_edge(const struct graph_t *g, size_t v1, size_t v2)
