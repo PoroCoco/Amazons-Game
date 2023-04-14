@@ -28,5 +28,16 @@ int test_create_and_free_square_graph(void) {
     // print_graph(graph);
     destroy_graph(graph);
     return 0;
+}
 
+int test_different_graph_shapes(void) {
+    struct graph_t* graph = create_graph(3, DONUT);
+
+    for (size_t i = 3; i < 6 ; i++)
+        for (size_t j = 3; j < 6; j++)
+          //printf("%u\n",gsl_spmatrix_uint_get(graph->t,i,j));
+          //assert(NO_DIR == gsl_spmatrix_uint_get(graph->t,i,j));    
+    // print_graph(graph);
+    destroy_graph(graph);
+    return 0;
 }

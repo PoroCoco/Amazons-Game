@@ -13,6 +13,8 @@
 
 int test_create_and_free_square_graph(void);
 
+int test_different_graph_shapes(void);
+
 
 /* ************************************************************************** */
 /*                                test client                                 */
