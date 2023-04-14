@@ -7,7 +7,7 @@ bool queen_can_move(board_t *board, unsigned int queen_board_index){
     for (enum dir_t d = FIRST_DIR; d <= LAST_DIR; d++)
     {
         int step = compute_step_toward_direction(d, board->board_width);
-        if (board_index_is_available(board, queen_board_index + step)) return true;
+        if (board_index_is_available_from(board, queen_board_index, queen_board_index + step)) return true;
     }
 
     return false;
@@ -123,11 +123,12 @@ bool is_move_valid(board_t *board, struct move_t *move, unsigned int player_id)
     if (direction == DIR_ERROR) return false;
 
     int step = compute_step_toward_direction(direction, width);
-
+    unsigned int previous_position = current_position;
 
     while(current_position != destination){
         current_position += step;
-        if(!board_index_is_available(board, current_position)) return false;
+        if(!board_index_is_available_from(board, previous_position, current_position)) return false;
+        previous_position = current_position;
     }
 
     direction = get_move_direction(board, move->queen_dst, move->arrow_dst);
@@ -139,7 +140,8 @@ bool is_move_valid(board_t *board, struct move_t *move, unsigned int player_id)
     destination = move->arrow_dst;
     while(current_position != destination){
         current_position += step;
-        if(!board_index_is_available(board, current_position)) return false;
+        if(!board_index_is_available_from(board, previous_position, current_position)) return false;
+        previous_position = current_position;
     }
 
 
@@ -155,16 +157,18 @@ void queen_available_moves(board_t *board, queen_moves_t *moves, unsigned int qu
     unsigned int move_count = 0;
     for (enum dir_t d = FIRST_DIR; d <= LAST_DIR; d++){
         unsigned int current_index = queen_index;
+        unsigned int previous_index = queen_index;
         int step = compute_step_toward_direction(d, board->board_width);
         current_index += step;
         while(current_index < board->board_cells){
-            if (!board_index_is_available(board, current_index)) break;
+            if (!board_index_is_available_from(board, previous_index, current_index)) break;
             moves->indexes[move_count] = current_index;
             move_count++;
+            previous_index = current_index;
             current_index += step;
         }
     }
-    
+
     moves->move_count = move_count;
 }
 
