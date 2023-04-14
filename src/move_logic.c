@@ -14,15 +14,21 @@ bool queen_can_move(board_t *board, unsigned int queen_board_index){
 }
 
 bool is_game_won(board_t *board){
-    for (size_t p = 0; p < NUM_PLAYERS; p++)
+    size_t i = 0;
+    for (; i < board->queens_count; i++)
     {
-        for (size_t i = 0; i < board->queens_count; i++)
-        {
-            if (queen_can_move(board, board->queens[p][i])) return false;
-        }
+        if (queen_can_move(board, board->queens[0][i])) break;
     }
+    if (i == board->queens_count) return true;
     
-    return true;
+    i = 0;
+    for (; i < board->queens_count; i++)
+    {
+        if (queen_can_move(board, board->queens[1][i])) break;
+    }
+    if (i == board->queens_count) return true;
+    
+    return false;
 }
 
 enum dir_t get_move_direction(board_t *board, unsigned int origin, unsigned int destination)
