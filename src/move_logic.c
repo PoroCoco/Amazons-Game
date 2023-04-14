@@ -173,12 +173,11 @@ void queen_available_moves(board_t *board, queen_moves_t *moves, unsigned int qu
 }
 
 int get_queen_liberty(board_t *board, unsigned int queen_board_index){
-    board_print(board);
     int degree = 0;
     for (enum dir_t d = FIRST_DIR; d <= LAST_DIR; d++)
     {
         int step = compute_step_toward_direction(d, board->board_width);
-        if (board_index_is_available(board, queen_board_index + step))
+        if (board_index_is_available_from(board, queen_board_index, queen_board_index + step))
             degree++;
     }
 
