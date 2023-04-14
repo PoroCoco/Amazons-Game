@@ -19,7 +19,11 @@ LDFLAGS += -I$(SOURCEDIR)/
 all: build
 
 play : build
-	./install/server ./install/client_random1.so ./install/client_random2.so
+	./install/server -m 5 ./install/client_random1.so ./install/client_random2.so
+
+valgrind: build
+	valgrind ./install/server -m 5 ./install/client_random1.so ./install/client_random2.so
+
 
 %.o: $(SOURCEDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<

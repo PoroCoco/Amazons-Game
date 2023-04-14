@@ -140,7 +140,7 @@ bool is_move_valid(board_t *board, struct move_t *move, unsigned int player_id)
     destination = move->arrow_dst;
     while(current_position != destination){
         current_position += step;
-        if(!board_index_is_available_from(board, previous_position, current_position)) return false;
+        if(!board_index_is_available_from(board, previous_position, current_position) && current_position != move->queen_src) return false;
         previous_position = current_position;
     }
 
