@@ -11,7 +11,7 @@ INSTALLDIR = install
 SOURCEDIR = src
 TESTDIR = tst
 TESTFILES = test.o test_graph.o test_client_random.o test_queens.o test_board.o test_move_logic.o
-SOURCEFILES = graph.o client_random.o queens.o board.o move_logic.o heuristic.o
+SOURCEFILES = graph.o client_random.o queens.o board.o move_logic.o heuristic.o arena.o
 
 LDFLAGS += -I$(SOURCEDIR)/
 
@@ -40,6 +40,9 @@ build: server client_random1.so client_power_heuristic.so
 
 server: server.o graph.o queens.o game.o board.o move_logic.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/server 
+
+arena: arena.o graph.o queens.o game.o board.o move_logic.o
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/arena
 
 client_random1.so: client_random.o board.o graph.o queens.o move_logic.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
