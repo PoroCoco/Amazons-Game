@@ -83,6 +83,10 @@ void board_print(board_t *board){
     for (unsigned int i = 0; i < width; i++)
     {
         for (unsigned int j = 0; j < width; j++){
+            if (!cell_has_direct_neighbor(board, (i*width) + j)){
+                printf("  ");
+                continue;
+            }
             printf("|");
             enum cell_state s = board_get_index_state(board, (i*width) + j);
             if (s == STATE_AVAILABLE) printf("_");
@@ -100,4 +104,17 @@ void board_print(board_t *board){
     }
     printf("\n");
     
+}
+
+bool cell_has_direct_neighbor(board_t *board, unsigned int index){
+    for (enum dir_t d = FIRST_DIR; d <= LAST_DIR; d++)
+    {
+        unsigned int dest = index + compute_step_toward_direction(d, board->board_width);
+        if (dest > board->board_cells) continue;
+        if (exist_edge(board->g, index, dest)){
+            return true;
+        }
+    }
+    
+    return false;
 }

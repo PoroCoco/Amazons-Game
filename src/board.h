@@ -72,6 +72,11 @@ void board_free(board_t *board);
 /// @param board The game board
 void board_print(board_t *board);
 
+/// @brief Tests if the given cell has any edge that allow to move from it to one of it neighbors. 
+/// @param board The game board
+/// @param index The cell index
+/// @return true if it has a direct neighbor, false otherwise 
+bool cell_has_direct_neighbor(board_t *board, unsigned int index);
 
 #endif // _AMAZON_BOARD_H
 
