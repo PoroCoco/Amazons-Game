@@ -31,7 +31,7 @@ void display_client(client_t *clients){
 }
 
 
-int play_game(char ** libraries_paths, unsigned int board_size, char board_type){
+int play_game(char ** libraries_paths, unsigned int board_size, char board_type, int verbose){
 
     //determines the nb of queens 
     unsigned int queen_number = queens_compute_number(board_size);
@@ -52,7 +52,7 @@ int play_game(char ** libraries_paths, unsigned int board_size, char board_type)
         clients[i] = load_client(i, libraries_paths[i]);
     }
 
-    display_client(clients);
+    // display_client(clients);
 
     //create game_board
     struct graph_t *g = create_graph(board_size, convert_char_to_shape(board_type));
@@ -78,19 +78,19 @@ int play_game(char ** libraries_paths, unsigned int board_size, char board_type)
     unsigned int current_player = 0;
     for (size_t i = 0; i < max_turns; i++)
     {
-        board_print(game_board);
+        if (verbose > 1) board_print(game_board);
 
         //checks if the current player can move
         if(is_game_over_for_player(game_board, current_player)){
-            printf("Player %u %s cannot move. Game is won by player %u %s!\n", current_player, clients[current_player].get_player_name(),  1 - current_player, clients[1 - current_player].get_player_name());
+            if (verbose > 0) printf("Player %u %s cannot move. Game is won by player %u %s!\n", current_player, clients[current_player].get_player_name(),  1 - current_player, clients[1 - current_player].get_player_name());
             break;
         }
-        printf("Playing turn number %zu with player named %s id %u:\n", i, clients[current_player].get_player_name(), current_player);
+        if (verbose > 1) printf("Playing turn number %zu with player named %s id %u:\n", i, clients[current_player].get_player_name(), current_player);
         m = clients[current_player].play(m);
         
         //check move valid
         if (!is_move_valid(game_board, &m, current_player)){
-            printf("Player %uu gave an invalid move!\n", current_player);
+            if (verbose > 0) printf("Player %uu gave an invalid move!\n", current_player);
             break;
         }
 
