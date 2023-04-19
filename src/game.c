@@ -31,7 +31,7 @@ void display_client(client_t *clients){
 }
 
 
-void play_game(char ** libraries_paths, unsigned int board_size, char board_type){
+int play_game(char ** libraries_paths, unsigned int board_size, char board_type){
 
     //determines the nb of queens 
     unsigned int queen_number = queens_compute_number(board_size);
@@ -74,7 +74,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
 
     //game loop
     struct move_t m = {-1, -1, -1};
-    size_t max_turns = 100;
+    size_t max_turns = game_board->board_cells;
     unsigned int current_player = 0;
     for (size_t i = 0; i < max_turns; i++)
     {
@@ -113,6 +113,8 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
     
     //free game_board
     board_free(game_board);
+
+    return 1 - current_player;
 }
 
 struct client load_client(unsigned int id, char * library_path){
