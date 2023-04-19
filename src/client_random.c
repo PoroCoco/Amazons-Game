@@ -31,7 +31,6 @@ struct move_t get_random_move()
     queen_moves_t queen_moves;
     queen_moves.indexes = malloc(sizeof(unsigned int)*c->board->board_cells*c->board->board_cells );
     
-    next_move.arrow_dst = rand() % (c->board->board_cells - 1);
     next_move.queen_src = c->board->queens[c->id][rand() % (c->board->queens_count)];
     queen_available_moves(c->board, &queen_moves, next_move.queen_src);
 
@@ -51,6 +50,12 @@ struct move_t get_random_move()
         }
     }
     next_move.queen_dst = new_dst;
+    queens_move(c->board->queens[c->id], c->board->board_width, next_move.queen_src, next_move.queen_dst);
+    queen_available_moves(c->board, &queen_moves, next_move.queen_dst);
+    next_move.arrow_dst = queen_moves.indexes[rand() % (queen_moves.move_count)];
+    queens_move(c->board->queens[c->id], c->board->board_width, next_move.queen_dst, next_move.queen_src);
+
+
     free(queen_moves.indexes);
     return next_move;
 }
