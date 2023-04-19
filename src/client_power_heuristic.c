@@ -114,7 +114,7 @@ struct move_t play(struct move_t previous_move)
 
 void finalize(void)
 {
-    printf("finalize for me client id %u, my ptr is %p\n", c->id, c);
+    // printf("finalize for me client id %u, my ptr is %p\n", c->id, c);
     board_free(c->board);
     free(c);
 }
