@@ -21,6 +21,7 @@ int test_queue(void){
             return 1;
         }
     }
+    queue_free(queue);
     return 0;
 }
 
@@ -74,5 +75,10 @@ int test_territory_array(void){
             return !0;
         }
     }
+    free(computed_array_p0);
+    free(computed_array_p1);    
+    destroy_graph(game_board->g);
+    free(game_board->arrows);
+    free(game_board);
     return 0;
 }
