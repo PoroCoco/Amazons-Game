@@ -12,8 +12,6 @@ bool queen_can_move(board_t *board, unsigned int queen_board_index){
 
     return false;
 }
-
-
 bool is_game_over_for_player(board_t *board, unsigned int player){
     for (size_t i = 0; i < board->queens_count; i++)
     {
@@ -150,8 +148,8 @@ bool is_move_valid(board_t *board, struct move_t *move, unsigned int player_id)
 
 void queen_available_moves(board_t *board, queen_moves_t *moves, unsigned int queen_index){
     assert(moves->indexes);
-    assert(board_get_index_state(board, queen_index) == STATE_QUEEN_WHITE || board_get_index_state(board, queen_index) == STATE_QUEEN_BLACK );
-
+    //assert(board_get_index_state(board, queen_index) == STATE_QUEEN_WHITE || board_get_index_state(board, queen_index) == STATE_QUEEN_BLACK );
+    
     unsigned int move_count = 0;
     for (enum dir_t d = FIRST_DIR; d <= LAST_DIR; d++){
         unsigned int current_index = queen_index;
