@@ -57,4 +57,13 @@ int test_queens_move(void);
 
 int test_is_move_valid(void);
 
+
+/* ************************************************************************** */
+/*                                test territory                              */
+/* ************************************************************************** */
+
+
+int test_queue(void);
+
+int test_territory_array(void);
 #endif
