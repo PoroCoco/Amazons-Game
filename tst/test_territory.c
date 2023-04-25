@@ -102,16 +102,12 @@ int test_territory_array(void){
 
 
     for(int i = 0; i < 100; i++){
-        if(expected_array_queens_p1[i] != computed_array_queens_p1[i] || expected_array_queens_p0[i] != computed_array_queens_p0[i]){
+        if(expected_array_queens_p1[i] != computed_array_queens_p1[i] || expected_array_queens_p0[i] != computed_array_queens_p0[i] || 
+        expected_array_king_p1[i] != computed_array_king_p1[i] || expected_array_king_p0[i] != computed_array_king_p0[i]){
             return !0;
         }
     }
 
-    for(int i = 0; i < 100; i++){
-        if(expected_array_king_p1[i] != computed_array_king_p1[i] || expected_array_king_p0[i] != computed_array_king_p0[i]){
-            return !0;
-        }
-    }
     /*
     for(unsigned int i = 0; i < 100; i++){
         if(computed_array_queens_p0[i] > 100){
@@ -126,6 +122,8 @@ int test_territory_array(void){
     }*/
     free(computed_array_queens_p0);
     free(computed_array_queens_p1);
+    free(computed_array_king_p0);
+    free(computed_array_king_p1);
     destroy_graph(game_board->g);
     free(game_board->arrows);
     free(game_board);
