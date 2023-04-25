@@ -76,24 +76,25 @@ unsigned int get_width(const struct graph_t *g)
 int is_vertex_in_shape(unsigned int width, enum graph_type shape, unsigned int vertex) {
     int i = vertex / width;
     int j = vertex % width;
+    int aThird = width / 3;
+    int aFifth = width / 5;
+    int aQuater = width / 4;
+
 
     switch (shape)
     {
         case DONUT:
-            int aThird = width / 3;
             if ((aThird <= j) && (j < 2 * aThird))
                 if ((aThird <= i) && (i < 2 * aThird))
                     return 0;
             break;
         case CLOVER:
-            int aFifth = width / 5;
             if (((aFifth <= j) && (j < 2 * aFifth)) && ( ((1*aFifth <= i) && (i < 2*aFifth)) || ((3*aFifth <= i) && (i < 4*aFifth))))
                 return 0;
             if (((3*aFifth <= j) && (j < 4 * aFifth)) && ( ((1*aFifth <= i) && (i < 2*aFifth)) || ((3*aFifth <= i) && (i < 4*aFifth))))
                 return 0;
             break;
         case IN_EIGHT:
-            int aQuater = width / 4;
             if (((2*aQuater <= i) && (i < 3 * aQuater)) && (((aQuater <= j) && (j < 2*aQuater))))
                 return 0;
             if (((aQuater <= i) && (i < 2 * aQuater)) && (((2*aQuater <= j) && (j < 3*aQuater))))

@@ -35,6 +35,11 @@ board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], uns
 /// @param index The position to block
 bool board_add_arrow(board_t *board, unsigned int index);
 
+/// @brief Removes an arrow on the board at the position index. There must be an arrow to remove at the given index.
+/// @param b The board
+/// @param index The position to unblock
+void board_remove_arrow(board_t *board, unsigned int index);
+
 /// @brief Returns the availability state of an index. False if outside of grid or blocked by arrow or blocked by a queen.
 /// @param board The game board
 /// @param index The position aimed
@@ -67,6 +72,11 @@ void board_free(board_t *board);
 /// @param board The game board
 void board_print(board_t *board);
 
+/// @brief Tests if the given cell has any edge that allow to move from it to one of it neighbors. 
+/// @param board The game board
+/// @param index The cell index
+/// @return true if it has a direct neighbor, false otherwise 
+bool cell_has_direct_neighbor(board_t *board, unsigned int index);
 
 #endif // _AMAZON_BOARD_H
 

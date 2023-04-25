@@ -21,7 +21,7 @@ void queen_available_moves(board_t *board, queen_moves_t *moves, unsigned int qu
 
 
 bool queen_can_move(board_t *board, unsigned int queen_board_index);
-bool is_game_won(board_t *board);
+bool is_game_over_for_player(board_t *board, unsigned int player);
 
 enum dir_t get_move_direction(board_t *client, unsigned int origin, unsigned int destination);
 int compute_step_toward_direction(enum dir_t direction, unsigned int board_width);

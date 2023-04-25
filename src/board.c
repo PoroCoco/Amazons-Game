@@ -11,7 +11,7 @@ board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], uns
     board->queens[1] = queens[1];
     board->queens_count = queens_count;
     board->board_width = (unsigned int) sqrt(g->t->size1);
-    board->board_cells = g->num_vertices;
+    board->board_cells = board->board_width*board->board_width;
     board->arrows_count = board->board_width*board->board_width;
     board->arrows = malloc(sizeof(bool)*board->arrows_count);
     for (unsigned int i = 0; i < board->arrows_count; i++)
@@ -28,6 +28,12 @@ bool board_add_arrow(board_t *board, unsigned int index) {
     board->arrows[index] = true;
     return true;
 }
+
+void board_remove_arrow(board_t *board, unsigned int index){
+    assert(board_get_index_state(board, index) == STATE_ARROW);
+    board->arrows[index] = false;
+}
+
 
 void board_free(board_t *board){
     destroy_graph(board->g);
@@ -77,6 +83,10 @@ void board_print(board_t *board){
     for (unsigned int i = 0; i < width; i++)
     {
         for (unsigned int j = 0; j < width; j++){
+            if (!cell_has_direct_neighbor(board, (i*width) + j)){
+                printf("  ");
+                continue;
+            }
             printf("|");
             enum cell_state s = board_get_index_state(board, (i*width) + j);
             if (s == STATE_AVAILABLE) printf("_");
@@ -94,4 +104,17 @@ void board_print(board_t *board){
     }
     printf("\n");
     
+}
+
+bool cell_has_direct_neighbor(board_t *board, unsigned int index){
+    for (enum dir_t d = FIRST_DIR; d <= LAST_DIR; d++)
+    {
+        unsigned int dest = index + compute_step_toward_direction(d, board->board_width);
+        if (dest > board->board_cells) continue;
+        if (exist_edge(board->g, index, dest)){
+            return true;
+        }
+    }
+    
+    return false;
 }

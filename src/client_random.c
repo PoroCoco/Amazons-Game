@@ -28,25 +28,42 @@ void initialize(unsigned int player_id, struct graph_t *graph,
 struct move_t get_random_move()
 {
     struct move_t next_move;
-    unsigned int new_dst = rand() % (c->board->g->num_vertices - 1);
+    queen_moves_t queen_moves;
+    queen_moves.indexes = malloc(sizeof(unsigned int)*c->board->board_cells*c->board->board_cells );
+    
+    next_move.queen_src = c->board->queens[c->id][rand() % (c->board->queens_count)];
+    queen_available_moves(c->board, &queen_moves, next_move.queen_src);
+
+    while (queen_moves.move_count == 0) {
+        next_move.queen_src = c->board->queens[c->id][rand() % (c->board->queens_count)];
+        queen_available_moves(c->board, &queen_moves, next_move.queen_src);
+    }
+
+    unsigned int new_dst = queen_moves.indexes[rand() % (queen_moves.move_count)];
+
     for (unsigned int i = 0; i < c->board->queens_count; i++)
     {
-        if (c->board->queens[c->id][i] == new_dst || c->board->queens[1 - c->id][i] == new_dst)
+        if (c->board->queens[c->id][i] == new_dst || c->board->queens[1 - c->id][i] == new_dst )
         {
             i = 0;
-            new_dst = rand() % (c->board->board_cells - 1);
+            new_dst = queen_moves.indexes[rand() % (queen_moves.move_count)];
         }
     }
-    next_move.arrow_dst = rand() % (c->board->board_cells - 1);
-    next_move.queen_src = c->board->queens[c->id][rand() % (c->board->queens_count)];
     next_move.queen_dst = new_dst;
+    queens_move(c->board->queens[c->id], c->board->board_width, next_move.queen_src, next_move.queen_dst);
+    queen_available_moves(c->board, &queen_moves, next_move.queen_dst);
+    next_move.arrow_dst = queen_moves.indexes[rand() % (queen_moves.move_count)];
+    queens_move(c->board->queens[c->id], c->board->board_width, next_move.queen_dst, next_move.queen_src);
+
+
+    free(queen_moves.indexes);
     return next_move;
 }
 
 struct move_t play(struct move_t previous_move)
 {
-    board_print(c->board);
-    if (previous_move.arrow_dst != -1 && previous_move.queen_src != -1 && previous_move.queen_dst != -1)
+    // board_print(c->board);
+    if (previous_move.arrow_dst != UINT_MAX && previous_move.queen_src != UINT_MAX && previous_move.queen_dst != UINT_MAX)
     {
         unsigned int index = 0;
         while (index < c->board->queens_count - 1 && c->board->queens[1 - c->id][index] != previous_move.queen_src)
@@ -58,21 +75,7 @@ struct move_t play(struct move_t previous_move)
 
     struct move_t next_move = get_random_move();
 
-    printf("my queen at %d move are : \n", c->board->queens[c->id][0]);
-    queen_moves_t queen_moves;
-    queen_moves.indexes = malloc(sizeof(unsigned int)*c->board->board_cells);
-    assert(queen_moves.indexes != NULL);
-
-
-    queen_available_moves(c->board, &queen_moves, c->board->queens[c->id][0]);
-    for (unsigned int i = 0; i < queen_moves.move_count; i++)
-    {
-        printf("%d ", queen_moves.indexes[i]);
-    }
-    printf("\n");
-    
-
-
+    // printf("my queen at %d move are : \n", c->board->queens[c->id][0]);
 
     while (!is_move_valid(c->board, &next_move, c->id))
     {
@@ -97,15 +100,13 @@ struct move_t play(struct move_t previous_move)
 
     c->board->queens[c->id][index] = next_move.queen_dst;
     board_add_arrow(c->board, next_move.arrow_dst);
-
-    free(queen_moves.indexes);
     // board_print(c->board);
     return next_move;
 }
 
 void finalize(void)
 {
-    printf("finalize for me client id %u, my ptr is %p\n", c->id, c);
+    // printf("finalize for me client id %u, my ptr is %p\n", c->id, c);
     board_free(c->board);
     free(c);
 }

@@ -20,11 +20,12 @@ int main(int argc, char *argv[])
 {
     int opt;
     int board_size = 8;
-    srand(get_current_time_microseconds());
+    long seed = get_current_time_microseconds();
     char board_shape = 's';
     char *player1_path = NULL;
     char *player2_path = NULL;
-    while ((opt = getopt(argc, argv, "t:m:s:")) != -1)
+    int verbose = 2;
+    while ((opt = getopt(argc, argv, "t:m:s:v:")) != -1)
     {
         switch (opt)
         {
@@ -35,7 +36,10 @@ int main(int argc, char *argv[])
             board_shape = optarg[0];
             break;
         case 's':
-            srand(atoi(optarg));
+            seed = atoi(optarg);
+            break;
+        case 'v':
+            verbose = atoi(optarg);
             break;
         }
     }
@@ -52,12 +56,12 @@ int main(int argc, char *argv[])
         fprintf(stderr, "Usage: %s -m [M] -t [T] player1_path player2_path\n", argv[0]);
         exit(EXIT_FAILURE);
     }
-    
-    printf("Board shape : %c and size : %d \n", board_shape, board_size);
+    srand(seed);
+    printf("Board shape : %c and size : %d. Seed : %ld\n", board_shape, board_size, seed);
     printf("Path to first client %s, path to second client %s \n",player1_path, player2_path);
     char *libraries_paths[NUM_PLAYERS] = {player1_path, player2_path}; 
 
-    play_game(libraries_paths, board_size, board_shape);
+    play_game(libraries_paths, board_size, board_shape, verbose);
 
     return EXIT_SUCCESS;
 }

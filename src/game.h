@@ -4,7 +4,8 @@
 struct client;
 
 
-void play_game(char ** libraries_paths, unsigned int board_size, char board_type);
+/// @return The client id that won the game
+int play_game(char ** libraries_paths, unsigned int board_size, char board_type, int verbose);
 
 /// @brief Creates the client struct and loads the functions for the given client library. The client struct should NOT be malloc'ed. Exit with error if the library path cannot be loaded.
 /// @param id The id of the client

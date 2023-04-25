@@ -31,7 +31,7 @@ void display_client(client_t *clients){
 }
 
 
-void play_game(char ** libraries_paths, unsigned int board_size, char board_type){
+int play_game(char ** libraries_paths, unsigned int board_size, char board_type, int verbose){
 
     //determines the nb of queens 
     unsigned int queen_number = queens_compute_number(board_size);
@@ -52,7 +52,7 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
         clients[i] = load_client(i, libraries_paths[i]);
     }
 
-    display_client(clients);
+    // display_client(clients);
 
     //create game_board
     struct graph_t *g = create_graph(board_size, convert_char_to_shape(board_type));
@@ -74,28 +74,28 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
 
     //game loop
     struct move_t m = {-1, -1, -1};
-    size_t max_turns = 100;
+    size_t max_turns = game_board->board_cells;
     unsigned int current_player = 0;
     for (size_t i = 0; i < max_turns; i++)
     {
-        printf("Playing turn number %zu :\n", i);
+        if (verbose > 1) board_print(game_board);
+
+        //checks if the current player can move
+        if(is_game_over_for_player(game_board, current_player)){
+            if (verbose > 0) printf("Player %u %s cannot move. Game is won by player %u %s!\n", current_player, clients[current_player].get_player_name(),  1 - current_player, clients[1 - current_player].get_player_name());
+            break;
+        }
+        if (verbose > 1) printf("Playing turn number %zu with player named %s id %u:\n", i, clients[current_player].get_player_name(), current_player);
         m = clients[current_player].play(m);
         
         //check move valid
         if (!is_move_valid(game_board, &m, current_player)){
-            printf("Player %uu gave an invalid move!\n", current_player);
+            if (verbose > 0) printf("Player %uu gave an invalid move!\n", current_player);
             break;
         }
 
         board_add_arrow(game_board, m.arrow_dst);
         queens_move(game_board->queens[current_player], game_board->board_width, m.queen_src, m.queen_dst);
-
-        //check if game is won
-        if(is_game_won(game_board)){
-            printf("Player %u move ended the game !\n", current_player);
-            break;
-        }
-
 
         current_player++;
         if (current_player >= NUM_PLAYERS){
@@ -113,6 +113,8 @@ void play_game(char ** libraries_paths, unsigned int board_size, char board_type
     
     //free game_board
     board_free(game_board);
+
+    return 1 - current_player;
 }
 
 struct client load_client(unsigned int id, char * library_path){
