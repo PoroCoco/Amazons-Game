@@ -42,10 +42,10 @@ int test_territory_array(void){
     for(int i = 0; i < 26; i++){
         board_add_arrow(game_board,shooted_arrows[i]);
     }
-    unsigned int* computed_array_p0 = get_territory_array(game_board, 0);
-    unsigned int* computed_array_p1 = get_territory_array(game_board, 1);
+    unsigned int* computed_array_queens_p0 = get_territory_queen_move(game_board, 0);
+    unsigned int* computed_array_queens_p1 = get_territory_queen_move(game_board, 1);
 
-    unsigned int expected_array_p0[100] = {
+    unsigned int expected_array_queens_p0[100] = {
         4,5,UINT_MAX,0,UINT_MAX,2,1,2,2,2,
         4,5,UINT_MAX,UINT_MAX,UINT_MAX,1,2,2,2,2,
         4,4,UINT_MAX,UINT_MAX,0,UINT_MAX,UINT_MAX,UINT_MAX,UINT_MAX,3,
@@ -57,7 +57,7 @@ int test_territory_array(void){
         1,1,1,0,1,1,0,1,1,1,
         UINT_MAX,2,1,1,1,1,1,UINT_MAX,2,2,
     };
-    unsigned int expected_array_p1[100] = {
+    unsigned int expected_array_queens_p1[100] = {
         2,1,UINT_MAX,UINT_MAX,UINT_MAX,3,3,3,3,2,
         1,1,0,UINT_MAX,UINT_MAX,3,3,3,3,2,
         2,1,UINT_MAX,UINT_MAX,UINT_MAX,UINT_MAX,UINT_MAX,UINT_MAX,UINT_MAX,2,
@@ -70,13 +70,62 @@ int test_territory_array(void){
         UINT_MAX,2,2,2,2,2,1,UINT_MAX,2,1,
     };
 
+
+
+
+    unsigned int* computed_array_king_p0 = get_territory_king_move(game_board, 0);
+    unsigned int* computed_array_king_p1 = get_territory_king_move(game_board, 1);
+    unsigned int expected_array_king_p0[100] = {
+        7,7,UINT_MAX,0,UINT_MAX,2,2,3,4,5,
+        6,6,UINT_MAX,UINT_MAX,UINT_MAX,1,2,3,4,5,
+        5,5,UINT_MAX,UINT_MAX,0,UINT_MAX,UINT_MAX,UINT_MAX,UINT_MAX,5,
+        4,UINT_MAX,UINT_MAX,1,UINT_MAX,1,UINT_MAX,3,UINT_MAX,5,
+        UINT_MAX,3,2,2,2,UINT_MAX,2,3,4,5,
+        3,UINT_MAX,UINT_MAX,3,3,UINT_MAX,UINT_MAX,UINT_MAX,4,4,
+        3,2,2,UINT_MAX,2,2,2,UINT_MAX,3,3,
+        3,UINT_MAX,1,1,1,1,1,UINT_MAX,2,UINT_MAX,
+        3,2,1,0,1,1,0,1,2,3,
+        UINT_MAX,2,1,1,1,1,1,UINT_MAX,2,3,
+    };
+    unsigned int expected_array_king_p1[100] = {
+        2,1,UINT_MAX,UINT_MAX,UINT_MAX,8,7,6,6,6,
+        2,1,0,UINT_MAX,UINT_MAX,8,7,6,5,5,
+        2,1,UINT_MAX,UINT_MAX,UINT_MAX,UINT_MAX,UINT_MAX,UINT_MAX,UINT_MAX,4,
+        2,UINT_MAX,UINT_MAX,3,UINT_MAX,1,0,1,UINT_MAX,3,
+        UINT_MAX,3,2,2,2,UINT_MAX,1,1,2,3,
+        3,UINT_MAX,UINT_MAX,1,1,UINT_MAX,UINT_MAX,UINT_MAX,2,2,
+        3,2,1,0,1,2,1,UINT_MAX,1,2,
+        3,UINT_MAX,1,1,1,2,1,0,1,UINT_MAX,
+        3,2,2,UINT_MAX,2,2,UINT_MAX,1,1,2,
+        UINT_MAX,3,3,3,3,3,2,UINT_MAX,2,2,
+    };
+
+
     for(int i = 0; i < 100; i++){
-        if(expected_array_p1[i] != computed_array_p1[i] || expected_array_p0[i] != computed_array_p0[i]){
+        if(expected_array_queens_p1[i] != computed_array_queens_p1[i] || expected_array_queens_p0[i] != computed_array_queens_p0[i]){
             return !0;
         }
     }
-    free(computed_array_p0);
-    free(computed_array_p1);    
+
+    for(int i = 0; i < 100; i++){
+        if(expected_array_king_p1[i] != computed_array_king_p1[i] || expected_array_king_p0[i] != computed_array_king_p0[i]){
+            return !0;
+        }
+    }
+    /*
+    for(unsigned int i = 0; i < 100; i++){
+        if(computed_array_queens_p0[i] > 100){
+            printf(" |");
+        }
+        else{
+            printf("%d ",computed_array_queens_p0[i]);
+        }
+        if(i%10 == 9){
+            printf("\n");
+        }
+    }*/
+    free(computed_array_queens_p0);
+    free(computed_array_queens_p1);
     destroy_graph(game_board->g);
     free(game_board->arrows);
     free(game_board);
