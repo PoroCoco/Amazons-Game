@@ -100,7 +100,9 @@ int main(int argc, char *argv[])
         {
             printf("\t\tPlayer %zu \t: wins: %u\t avg game time: %lf\n", j, wins[j], times[j]/rounds);
         }
+        free(wins);
     }
+
 
     return EXIT_SUCCESS;
 }
