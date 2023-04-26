@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <dlfcn.h>
 #include <assert.h>
+#include <time.h>
 
 #include "player.h"
 #include "board.h"
@@ -31,7 +32,7 @@ void display_client(client_t *clients){
 }
 
 
-int play_game(char ** libraries_paths, unsigned int board_size, char board_type, int verbose){
+int play_game(char ** libraries_paths, unsigned int board_size, char board_type, int verbose, double *times){
 
     //determines the nb of queens 
     unsigned int queen_number = queens_compute_number(board_size);
@@ -73,6 +74,7 @@ int play_game(char ** libraries_paths, unsigned int board_size, char board_type,
     }
 
     //game loop
+    clock_t start_time, end_time;
     struct move_t m = {-1, -1, -1};
     size_t max_turns = game_board->board_cells;
     unsigned int current_player = 0;
@@ -86,8 +88,14 @@ int play_game(char ** libraries_paths, unsigned int board_size, char board_type,
             break;
         }
         if (verbose > 1) printf("Playing turn number %zu with player named %s id %u:\n", i, clients[current_player].get_player_name(), current_player);
+
+        start_time = clock();
         m = clients[current_player].play(m);
+        end_time = clock();
         
+        // printf("Playing turn took %lf for player named %s id %u:\n", (double)(end_time - start_time) / CLOCKS_PER_SEC, clients[current_player].get_player_name(), current_player);
+        times[current_player] += (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
         //check move valid
         if (!is_move_valid(game_board, &m, current_player)){
             if (verbose > 0) printf("Player %uu gave an invalid move!\n", current_player);

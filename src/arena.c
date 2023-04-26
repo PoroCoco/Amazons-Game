@@ -84,10 +84,11 @@ int main(int argc, char *argv[])
         unsigned int *wins = calloc(clients_count, sizeof(*wins));
 
         printf("On board %s size %d,%d :\n", shape_string(board_shape), board_size, board_size);
+        double times[NUM_PLAYERS] = {0.0, 0.0};
 
         for (size_t j = 0; j < rounds; j++)
         {
-            int winner = play_game(libraries_paths, board_size, board_shape, 0);
+            int winner = play_game(libraries_paths, board_size, board_shape, 0, times);
             wins[winner] += 1;
         }
 
@@ -97,7 +98,7 @@ int main(int argc, char *argv[])
         printf("\tDetails :\n");
         for (size_t j = 0; j < clients_count; j++)
         {
-            printf("\t\tPlayer %zu \t: wins: %u\n", j, wins[j]);
+            printf("\t\tPlayer %zu \t: wins: %u\t avg game time: %lf\n", j, wins[j], times[j]/rounds);
         }
     }
 
