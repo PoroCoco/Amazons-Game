@@ -190,3 +190,7 @@ int get_queen_liberty(board_t *board, unsigned int queen_board_index){
 
     return degree;
 }
+
+void display_move(struct move_t m){
+    printf("{arrow = %u, queen_src = %u, queen_dst = %u}", m.arrow_dst, m.queen_src, m.queen_dst);
+}
