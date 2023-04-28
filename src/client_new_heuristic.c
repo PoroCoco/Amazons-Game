@@ -6,6 +6,8 @@
 #include <math.h>
 #include <assert.h>
 
+#define THREHOLD_ENDGAME 20
+
 struct client *c = NULL;
 
 
@@ -100,7 +102,15 @@ struct move_t play(struct move_t previous_move)
         board_add_arrow(c->board, previous_move.arrow_dst);
     }
 
-    struct move_t next_move = get_best_heuristic_move(c->board, c->id);
+    struct move_t next_move = {-1, -1, -1};
+
+    if (c->board->board_cells - c->board->arrows_count - 2*c->board->queens_count < THREHOLD_ENDGAME){
+        //EndGame behaviour : minmax
+        // printf("Endgame : \n");
+    }else{
+        //Standard behaviour
+        next_move = get_best_heuristic_move(c->board, c->id);
+    }
 
     unsigned int index = 0;
     while (index < c->board->queens_count - 1 && c->board->queens[c->id][index] != next_move.queen_src)
