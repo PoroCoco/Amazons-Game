@@ -118,3 +118,13 @@ bool cell_has_direct_neighbor(board_t *board, unsigned int index){
     
     return false;
 }
+
+void apply_move(board_t *board, struct move_t *move, unsigned int current_player){
+    board_add_arrow(board, move->arrow_dst);
+    queens_move(board->queens[current_player], board->board_width, move->queen_src, move->queen_dst);
+}
+
+void undo_move(board_t *board, struct move_t *move, unsigned int current_player){
+    board_remove_arrow(board, move->arrow_dst);
+    queens_move(board->queens[current_player], board->board_width, move->queen_dst, move->queen_src);
+}

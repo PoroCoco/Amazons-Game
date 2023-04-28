@@ -78,6 +78,11 @@ void board_print(board_t *board);
 /// @return true if it has a direct neighbor, false otherwise 
 bool cell_has_direct_neighbor(board_t *board, unsigned int index);
 
+void apply_move(board_t *board, struct move_t *move, unsigned int current_player);
+void undo_move(board_t *board, struct move_t *move, unsigned int current_player);
+
+
+
 #endif // _AMAZON_BOARD_H
 
 
