@@ -1,5 +1,6 @@
 #include "heuristic.h"
 
+#define COEFF_SAFE 0.1
 
 double power_heuristic_safe(board_t *board, unsigned int player_id){
     
@@ -77,7 +78,7 @@ double power_heuristic_safe(board_t *board, unsigned int player_id){
     
     for (size_t i = 0; i < board->board_cells; i++)
     {
-        current_heuristic += board_powers[i] - (0.1*board_powers_player[i]);
+        current_heuristic += board_powers[i] - (COEFF_SAFE*board_powers_player[i]);
         // if(i%board->board_width == 0) printf("\n");
         // printf("%u ", board_powers[i]);
     }
