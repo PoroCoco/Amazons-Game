@@ -28,8 +28,8 @@ void initialize(unsigned int player_id, struct graph_t *graph,
 
 struct move_t get_best_heuristic_move(board_t *board, unsigned int current_player){
     struct move_t best_move = {-1, -1, -1};
-    double board_heuristic = -9000.0;
-    double best_move_heuristic = -9000.0;
+    double board_heuristic = -INFINITY;
+    double best_move_heuristic = -INFINITY;
 
     queen_moves_t queen_moves;
     queen_moves.indexes = malloc(sizeof(unsigned int)*c->board->board_cells*c->board->board_cells);
@@ -63,7 +63,7 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
                 board_heuristic = power_heuristic(board, current_player);
 
                 //determines if the new one is better than the best 
-                if (board_heuristic > best_move_heuristic){
+                if (board_heuristic > best_move_heuristic || (board_heuristic == best_move_heuristic && rand()%3 == 0)){
                     // printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic, board_heuristic);
                     //switch if necessary
                     best_move_heuristic = board_heuristic;
