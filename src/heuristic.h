@@ -7,6 +7,7 @@
 
 
 double power_heuristic(board_t *board, unsigned int player_id);
+double power_heuristic_safe(board_t *board, unsigned int player_id);
 
 
 
