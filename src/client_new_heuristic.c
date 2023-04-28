@@ -20,7 +20,7 @@ void initialize(unsigned int player_id, struct graph_t *graph,
     if (c == NULL)
     {
         c = malloc(sizeof(struct client));
-        c->name = "Power Heuristic";
+        c->name = "New Heuristic";
         c->id = player_id;
         c->board = board_create(graph, queens, num_queens);
     }
