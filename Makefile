@@ -46,7 +46,6 @@ arena: arena.o graph.o queens.o game.o board.o move_logic.o
 
 client_random1.so: client_random.o board.o graph.o queens.o move_logic.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
-	cp install/client_random1.so install/client_random2.so 
 
 client_power_heuristic.so: client_power_heuristic.o board.o graph.o queens.o move_logic.o heuristic.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
