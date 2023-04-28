@@ -28,8 +28,8 @@ void initialize(unsigned int player_id, struct graph_t *graph,
 
 struct move_t get_best_heuristic_move(board_t *board, unsigned int current_player){
     struct move_t best_move = {-1, -1, -1};
-    double board_heuristic = -9000.0;
-    double best_move_heuristic = -9000.0;
+    double board_heuristic = -INFINITY;
+    double best_move_heuristic = -INFINITY;
 
     queen_moves_t queen_moves;
     queen_moves.indexes = malloc(sizeof(unsigned int)*c->board->board_cells*c->board->board_cells);

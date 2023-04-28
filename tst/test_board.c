@@ -18,8 +18,8 @@ int test_board_create(void) {
 
     assert(board->board_width == 5);
     assert(board->board_cells == 25);
-    assert(board->arrows_count == 25);
-    for (unsigned int i = 0; i < board->arrows_count; i++)
+    assert(board->arrows_count == 0);
+    for (unsigned int i = 0; i < board->board_cells; i++)
     {
         assert(board->arrows[i] == false);
     }
@@ -46,19 +46,19 @@ int test_board_add_arrow(void) {
     struct board* board = board_create(graph, queens, queens_number);
     assert(board_add_arrow(board, 0) == true);
     assert(board->arrows[0] == true);
-    for (unsigned int i = 1; i < board->arrows_count; i++) {
+    for (unsigned int i = 1; i < board->board_cells; i++) {
         assert(board->arrows[i] == false);
     }
 
     assert(board_add_arrow(board, 0) == false);
     assert(board->arrows[0] == true);
-    for (unsigned int i = 1; i < board->arrows_count; i++) {
+    for (unsigned int i = 1; i < board->board_cells; i++) {
         assert(board->arrows[i] == false);
     }
 
-    assert(board_add_arrow(board, board->arrows_count+1) == false);
+    assert(board_add_arrow(board, board->board_cells+1) == false);
     assert(board->arrows[0] == true);
-    for (unsigned int i = 1; i < board->arrows_count; i++) {
+    for (unsigned int i = 1; i < board->board_cells; i++) {
         assert(board->arrows[i] == false);
     }
 
