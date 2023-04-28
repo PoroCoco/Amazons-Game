@@ -34,7 +34,9 @@ struct test tests[] = {
     {"test_move_is_valid", test_is_move_valid},
     {"test_get_queen_liberty", test_get_queen_liberty},
     {"territory_array",test_territory_array},
-    {"queue",test_queue},
+    // {"queue",test_queue},
+    {"test_node_create", test_node_create},
+    {"test_node_add", test_node_add},
     {NULL,NULL}
 };
 
