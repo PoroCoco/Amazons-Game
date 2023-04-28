@@ -10,8 +10,8 @@ BUILDDIR = build
 INSTALLDIR = install
 SOURCEDIR = src
 TESTDIR = tst
-TESTFILES = test.o test_graph.o test_client_random.o test_queens.o test_board.o test_move_logic.o test_territory.o
-SOURCEFILES = graph.o client_random.o queens.o board.o move_logic.o heuristic.o queue.o territories.o
+TESTFILES = test.o test_graph.o test_client_random.o test_queens.o test_board.o test_move_logic.o test_territory.o test_tree.o
+SOURCEFILES = graph.o client_random.o queens.o board.o move_logic.o heuristic.o queue.o territories.o tree.o
 
 LDFLAGS += -I$(SOURCEDIR)/
 

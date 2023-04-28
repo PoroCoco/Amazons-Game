@@ -66,4 +66,13 @@ int test_is_move_valid(void);
 int test_queue(void);
 
 int test_territory_array(void);
+
+/* ************************************************************************** */
+/*                                test tree                              */
+/* ************************************************************************** */
+
+int test_node_create(void);
+
+int test_node_add(void);
+
 #endif
