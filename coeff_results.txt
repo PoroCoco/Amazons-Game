@@ -1,0 +1,704 @@
+########################################
+COEFF = 0,0
+Seed : 1682695805729284
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 25	 avg game time: 0.001363
+		Player 1 	: wins: 5	 avg game time: 0.001235
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 20	 avg game time: 0.013679
+		Player 1 	: wins: 10	 avg game time: 0.016886
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 20	 avg game time: 0.122826
+		Player 1 	: wins: 10	 avg game time: 0.169947
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 6	 avg game time: 0.006170
+		Player 1 	: wins: 24	 avg game time: 0.010543
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 17	 avg game time: 0.137438
+		Player 1 	: wins: 13	 avg game time: 0.199169
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 18	 avg game time: 0.003522
+		Player 1 	: wins: 12	 avg game time: 0.005155
+Seed : 1682695826433792
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 26	 avg game time: 0.002001
+		Player 1 	: wins: 4	 avg game time: 0.000518
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 20	 avg game time: 0.015996
+		Player 1 	: wins: 10	 avg game time: 0.005610
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 19	 avg game time: 0.150828
+		Player 1 	: wins: 11	 avg game time: 0.057524
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 8	 avg game time: 0.012123
+		Player 1 	: wins: 22	 avg game time: 0.005608
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 19	 avg game time: 0.288074
+		Player 1 	: wins: 11	 avg game time: 0.108295
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 16	 avg game time: 0.006915
+		Player 1 	: wins: 14	 avg game time: 0.002900
+########################################
+COEFF = 0,1
+Seed : 1682695846827537
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 25	 avg game time: 0.001156
+		Player 1 	: wins: 5	 avg game time: 0.001050
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 16	 avg game time: 0.008120
+		Player 1 	: wins: 14	 avg game time: 0.010082
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 20	 avg game time: 0.074611
+		Player 1 	: wins: 10	 avg game time: 0.104919
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 8	 avg game time: 0.006231
+		Player 1 	: wins: 22	 avg game time: 0.010457
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 18	 avg game time: 0.136680
+		Player 1 	: wins: 12	 avg game time: 0.195457
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 16	 avg game time: 0.003508
+		Player 1 	: wins: 14	 avg game time: 0.005389
+Seed : 1682695863671149
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 27	 avg game time: 0.002016
+		Player 1 	: wins: 3	 avg game time: 0.000524
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 19	 avg game time: 0.016196
+		Player 1 	: wins: 11	 avg game time: 0.005603
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 20	 avg game time: 0.150654
+		Player 1 	: wins: 10	 avg game time: 0.056920
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 8	 avg game time: 0.012224
+		Player 1 	: wins: 22	 avg game time: 0.005574
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 23	 avg game time: 0.279440
+		Player 1 	: wins: 7	 avg game time: 0.109395
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 17	 avg game time: 0.006964
+		Player 1 	: wins: 13	 avg game time: 0.002810
+########################################
+COEFF = 0,2
+Seed : 1682695883866784
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 25	 avg game time: 0.000636
+		Player 1 	: wins: 5	 avg game time: 0.000599
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 17	 avg game time: 0.008269
+		Player 1 	: wins: 13	 avg game time: 0.010531
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 18	 avg game time: 0.074475
+		Player 1 	: wins: 12	 avg game time: 0.105424
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 10	 avg game time: 0.006327
+		Player 1 	: wins: 20	 avg game time: 0.010651
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 25	 avg game time: 0.141485
+		Player 1 	: wins: 5	 avg game time: 0.198672
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 18	 avg game time: 0.003582
+		Player 1 	: wins: 12	 avg game time: 0.005424
+Seed : 1682695900932195
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 26	 avg game time: 0.001265
+		Player 1 	: wins: 4	 avg game time: 0.000335
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 19	 avg game time: 0.016350
+		Player 1 	: wins: 11	 avg game time: 0.005531
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 22	 avg game time: 0.152582
+		Player 1 	: wins: 8	 avg game time: 0.056793
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 7	 avg game time: 0.012157
+		Player 1 	: wins: 23	 avg game time: 0.005682
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 21	 avg game time: 0.283614
+		Player 1 	: wins: 9	 avg game time: 0.105223
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 21	 avg game time: 0.006819
+		Player 1 	: wins: 9	 avg game time: 0.002772
+########################################
+COEFF = 0,3
+Seed : 1682695921079019
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 26	 avg game time: 0.001161
+		Player 1 	: wins: 4	 avg game time: 0.001041
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 18	 avg game time: 0.008349
+		Player 1 	: wins: 12	 avg game time: 0.010276
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 16	 avg game time: 0.074016
+		Player 1 	: wins: 14	 avg game time: 0.105542
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 6	 avg game time: 0.006309
+		Player 1 	: wins: 24	 avg game time: 0.010524
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 24	 avg game time: 0.138810
+		Player 1 	: wins: 6	 avg game time: 0.192782
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 16	 avg game time: 0.003589
+		Player 1 	: wins: 14	 avg game time: 0.005271
+Seed : 1682695937945602
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 24	 avg game time: 0.002061
+		Player 1 	: wins: 6	 avg game time: 0.000535
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 16	 avg game time: 0.016102
+		Player 1 	: wins: 14	 avg game time: 0.005742
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 23	 avg game time: 0.151672
+		Player 1 	: wins: 7	 avg game time: 0.057670
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 12	 avg game time: 0.012311
+		Player 1 	: wins: 18	 avg game time: 0.005717
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 22	 avg game time: 0.287075
+		Player 1 	: wins: 8	 avg game time: 0.108290
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 15	 avg game time: 0.007012
+		Player 1 	: wins: 15	 avg game time: 0.002939
+########################################
+COEFF = 0,4
+Seed : 1682695958279517
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 25	 avg game time: 0.001113
+		Player 1 	: wins: 5	 avg game time: 0.000996
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 17	 avg game time: 0.008312
+		Player 1 	: wins: 13	 avg game time: 0.010232
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 18	 avg game time: 0.076152
+		Player 1 	: wins: 12	 avg game time: 0.106788
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 9	 avg game time: 0.006282
+		Player 1 	: wins: 21	 avg game time: 0.010266
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 20	 avg game time: 0.143148
+		Player 1 	: wins: 10	 avg game time: 0.200855
+On board In-eight size 8,8 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 13	 avg game time: 0.003519
+		Player 1 	: wins: 17	 avg game time: 0.005526
+Seed : 1682695975530897
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 27	 avg game time: 0.001273
+		Player 1 	: wins: 3	 avg game time: 0.000333
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 21	 avg game time: 0.016207
+		Player 1 	: wins: 9	 avg game time: 0.005621
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 20	 avg game time: 0.151476
+		Player 1 	: wins: 10	 avg game time: 0.056765
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 7	 avg game time: 0.012057
+		Player 1 	: wins: 23	 avg game time: 0.005599
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 25	 avg game time: 0.271726
+		Player 1 	: wins: 5	 avg game time: 0.103350
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 20	 avg game time: 0.007054
+		Player 1 	: wins: 10	 avg game time: 0.002728
+########################################
+COEFF = 0,5
+Seed : 1682695995238377
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 23	 avg game time: 0.000663
+		Player 1 	: wins: 7	 avg game time: 0.000608
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 22	 avg game time: 0.008619
+		Player 1 	: wins: 8	 avg game time: 0.010523
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 15	 avg game time: 0.077452
+		Player 1 	: wins: 15	 avg game time: 0.108569
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 11	 avg game time: 0.006369
+		Player 1 	: wins: 19	 avg game time: 0.010495
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 19	 avg game time: 0.138913
+		Player 1 	: wins: 11	 avg game time: 0.193731
+On board In-eight size 8,8 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 12	 avg game time: 0.003598
+		Player 1 	: wins: 18	 avg game time: 0.005604
+Seed : 1682696012326642
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 28	 avg game time: 0.001254
+		Player 1 	: wins: 2	 avg game time: 0.000337
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 17	 avg game time: 0.016080
+		Player 1 	: wins: 13	 avg game time: 0.005617
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 16	 avg game time: 0.152320
+		Player 1 	: wins: 14	 avg game time: 0.056780
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 10	 avg game time: 0.012332
+		Player 1 	: wins: 20	 avg game time: 0.005645
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 21	 avg game time: 0.288862
+		Player 1 	: wins: 9	 avg game time: 0.107288
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 21	 avg game time: 0.007000
+		Player 1 	: wins: 9	 avg game time: 0.002854
+########################################
+COEFF = 0,6
+Seed : 1682696032811384
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 23	 avg game time: 0.000637
+		Player 1 	: wins: 7	 avg game time: 0.000593
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 19	 avg game time: 0.008366
+		Player 1 	: wins: 11	 avg game time: 0.010200
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 18	 avg game time: 0.075608
+		Player 1 	: wins: 12	 avg game time: 0.106395
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 9	 avg game time: 0.006377
+		Player 1 	: wins: 21	 avg game time: 0.010357
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 22	 avg game time: 0.136722
+		Player 1 	: wins: 8	 avg game time: 0.196420
+On board In-eight size 8,8 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 13	 avg game time: 0.003507
+		Player 1 	: wins: 17	 avg game time: 0.005572
+Seed : 1682696049755572
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 24	 avg game time: 0.001253
+		Player 1 	: wins: 6	 avg game time: 0.000329
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 18	 avg game time: 0.016337
+		Player 1 	: wins: 12	 avg game time: 0.005540
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 20	 avg game time: 0.149673
+		Player 1 	: wins: 10	 avg game time: 0.056657
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 5	 avg game time: 0.012325
+		Player 1 	: wins: 25	 avg game time: 0.005670
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 24	 avg game time: 0.288408
+		Player 1 	: wins: 6	 avg game time: 0.107002
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 19	 avg game time: 0.007189
+		Player 1 	: wins: 11	 avg game time: 0.002726
+########################################
+COEFF = 0,7
+Seed : 1682696070125288
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 22	 avg game time: 0.001080
+		Player 1 	: wins: 8	 avg game time: 0.001017
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 17	 avg game time: 0.008302
+		Player 1 	: wins: 13	 avg game time: 0.010353
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 17	 avg game time: 0.074985
+		Player 1 	: wins: 13	 avg game time: 0.107005
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 8	 avg game time: 0.006356
+		Player 1 	: wins: 22	 avg game time: 0.010443
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 24	 avg game time: 0.140466
+		Player 1 	: wins: 6	 avg game time: 0.197024
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 19	 avg game time: 0.003650
+		Player 1 	: wins: 11	 avg game time: 0.005500
+Seed : 1682696087203973
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 24	 avg game time: 0.002026
+		Player 1 	: wins: 6	 avg game time: 0.000503
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 17	 avg game time: 0.016105
+		Player 1 	: wins: 13	 avg game time: 0.005630
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 22	 avg game time: 0.154106
+		Player 1 	: wins: 8	 avg game time: 0.057186
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 10	 avg game time: 0.012259
+		Player 1 	: wins: 20	 avg game time: 0.005589
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 22	 avg game time: 0.278001
+		Player 1 	: wins: 8	 avg game time: 0.106660
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 17	 avg game time: 0.007073
+		Player 1 	: wins: 13	 avg game time: 0.002826
+########################################
+COEFF = 0,8
+Seed : 1682696107333827
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 21	 avg game time: 0.000645
+		Player 1 	: wins: 9	 avg game time: 0.000599
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 18	 avg game time: 0.008419
+		Player 1 	: wins: 12	 avg game time: 0.010407
+On board Square size 10,10 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 14	 avg game time: 0.074202
+		Player 1 	: wins: 16	 avg game time: 0.105427
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 10	 avg game time: 0.006426
+		Player 1 	: wins: 20	 avg game time: 0.010441
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 25	 avg game time: 0.143430
+		Player 1 	: wins: 5	 avg game time: 0.201717
+On board In-eight size 8,8 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 14	 avg game time: 0.003687
+		Player 1 	: wins: 16	 avg game time: 0.005564
+Seed : 1682696124518963
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 25	 avg game time: 0.001428
+		Player 1 	: wins: 5	 avg game time: 0.000384
+On board Square size 8,8 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 14	 avg game time: 0.015852
+		Player 1 	: wins: 16	 avg game time: 0.005680
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 21	 avg game time: 0.150972
+		Player 1 	: wins: 9	 avg game time: 0.056994
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 9	 avg game time: 0.012131
+		Player 1 	: wins: 21	 avg game time: 0.005655
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 22	 avg game time: 0.286019
+		Player 1 	: wins: 8	 avg game time: 0.109221
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 15	 avg game time: 0.006813
+		Player 1 	: wins: 15	 avg game time: 0.002912
+########################################
+COEFF = 0,9
+Seed : 1682696144777207
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 25	 avg game time: 0.000652
+		Player 1 	: wins: 5	 avg game time: 0.000591
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 15	 avg game time: 0.008309
+		Player 1 	: wins: 15	 avg game time: 0.010242
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 16	 avg game time: 0.075324
+		Player 1 	: wins: 14	 avg game time: 0.105736
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 11	 avg game time: 0.006396
+		Player 1 	: wins: 19	 avg game time: 0.010278
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 21	 avg game time: 0.145056
+		Player 1 	: wins: 9	 avg game time: 0.210199
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 20	 avg game time: 0.003721
+		Player 1 	: wins: 10	 avg game time: 0.005452
+Seed : 1682696162292563
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 27	 avg game time: 0.001417
+		Player 1 	: wins: 3	 avg game time: 0.000373
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 24	 avg game time: 0.016153
+		Player 1 	: wins: 6	 avg game time: 0.005495
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 23	 avg game time: 0.149772
+		Player 1 	: wins: 7	 avg game time: 0.057070
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 8	 avg game time: 0.012125
+		Player 1 	: wins: 22	 avg game time: 0.005654
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 19	 avg game time: 0.285636
+		Player 1 	: wins: 11	 avg game time: 0.109309
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 20	 avg game time: 0.007000
+		Player 1 	: wins: 10	 avg game time: 0.002780
+########################################
+COEFF = 1,0
+Seed : 1682696182555632
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 27	 avg game time: 0.001059
+		Player 1 	: wins: 3	 avg game time: 0.000966
+On board Square size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 17	 avg game time: 0.008264
+		Player 1 	: wins: 13	 avg game time: 0.010069
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 18	 avg game time: 0.075203
+		Player 1 	: wins: 12	 avg game time: 0.104633
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 12	 avg game time: 0.006432
+		Player 1 	: wins: 18	 avg game time: 0.010248
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 22	 avg game time: 0.142698
+		Player 1 	: wins: 8	 avg game time: 0.202906
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 21	 avg game time: 0.003596
+		Player 1 	: wins: 9	 avg game time: 0.005220
+Seed : 1682696199754411
+On board Square size 5,5 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 20	 avg game time: 0.001275
+		Player 1 	: wins: 10	 avg game time: 0.000339
+On board Square size 8,8 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 12	 avg game time: 0.015909
+		Player 1 	: wins: 18	 avg game time: 0.005645
+On board Square size 10,10 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 19	 avg game time: 0.152000
+		Player 1 	: wins: 11	 avg game time: 0.056817
+On board Donut size 9,9 :
+	Winner is Player 1
+	Details :
+		Player 0 	: wins: 8	 avg game time: 0.012229
+		Player 1 	: wins: 22	 avg game time: 0.005526
+On board Clover size 15,15 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 24	 avg game time: 0.283856
+		Player 1 	: wins: 6	 avg game time: 0.102711
+On board In-eight size 8,8 :
+	Winner is Player 0
+	Details :
+		Player 0 	: wins: 15	 avg game time: 0.006888
+		Player 1 	: wins: 15	 avg game time: 0.002806
