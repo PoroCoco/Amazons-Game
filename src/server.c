@@ -60,8 +60,8 @@ int main(int argc, char *argv[])
     printf("Board shape : %c and size : %d. Seed : %ld\n", board_shape, board_size, seed);
     printf("Path to first client %s, path to second client %s \n",player1_path, player2_path);
     char *libraries_paths[NUM_PLAYERS] = {player1_path, player2_path}; 
-
-    play_game(libraries_paths, board_size, board_shape, verbose);
+    double times[NUM_PLAYERS] = {0.0, 0.0}; 
+    play_game(libraries_paths, board_size, board_shape, verbose, times);
 
     return EXIT_SUCCESS;
 }

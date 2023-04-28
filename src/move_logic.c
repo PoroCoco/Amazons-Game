@@ -184,8 +184,18 @@ void queen_available_moves(board_t *board, queen_moves_t *moves, unsigned int qu
     moves->move_count = move_count;
 }
 
-int get_queen_liberty(board_t *board, unsigned int queen_board_index)
-{
+
+void king_available_moves(board_t *board, queen_moves_t *moves, unsigned int queen_index){
+    moves->move_count = 0;
+    for(enum dir_t direction = FIRST_DIR; direction <= LAST_DIR; direction++){
+        int step = compute_step_toward_direction(direction, board->board_width);
+        if(board_index_is_available_from(board, queen_index, queen_index + step)){
+            moves->indexes[moves->move_count++] = queen_index + step;
+        }
+    }
+}
+
+int get_queen_liberty(board_t *board, unsigned int queen_board_index){
     int degree = 0;
     for (enum dir_t d = FIRST_DIR; d <= LAST_DIR; d++)
     {
