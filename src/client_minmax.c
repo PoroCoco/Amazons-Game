@@ -9,7 +9,6 @@
 #include <assert.h>
 
 
-
 struct client *c = NULL;
 
 
@@ -76,39 +75,126 @@ node_t *create_moves_tree(board_t *board, unsigned int current_player){
 }
 
 
-typedef struct searchInfo {
-    double value;
-    size_t index;
-} searchInfo_t;
 
-searchInfo_t minmax(node_t *node, unsigned int depth, board_t *board, unsigned int current_player){
+double minmax(node_t *node, unsigned int depth, bool maxiPlayer, board_t *board, unsigned int current_player){
     // printf("minmax depth = %u\n", depth);
     if (node->move.arrow_dst != -1) {
         // display_move(node->move);
-        // printf(" by minmax\n");s
+        // printf(" by minmax\n");
         apply_move(board, &(node->move), current_player);
     }
     if (depth == 0 || isLeaf(node)){
-        searchInfo_t child_info = {.value = power_heuristic(board, current_player), .index = 0};
+        double value = power_heuristic(board, current_player);
+        // board_print(board);
+        // printf("heuristic is %lf for p%u\n", value.value, current_player);
         undo_move(board, &(node->move), current_player);
-        return child_info;
-    } 
+        return value;
+    }   
+    if(maxiPlayer){
     // board_print(board);
-        searchInfo_t child_info = {.value = INFINITY, .index = -1};
+        double child_value = -INFINITY;
         for (size_t i = 0; i < node->child_count; i++)
         {
-            searchInfo_t new_child_info = minmax(node->childs[i], depth - 1, board, 1 - current_player);
-            if (new_child_info.value < child_info.value){
-                child_info = new_child_info;
-                child_info.index = i;
-            } 
+            double new_child_value = minmax(node->childs[i], depth - 1, false, board, 1 - current_player);
+            if (new_child_value > child_value) child_value = new_child_value;
         }
         // board_print(board);
+        // printf("depth %u, maxi = %d\n\t", depth, maxiPlayer);
         // display_node(node);
 
         if(node->move.arrow_dst != -1) undo_move(board, &(node->move), current_player);
-        return child_info;
+        return child_value;
+    }else{
+        double child_value = INFINITY;
+        for (size_t i = 0; i < node->child_count; i++)
+        {
+            double new_child_value = minmax(node->childs[i], depth - 1, true, board, 1 - current_player);
+            if (new_child_value < child_value) child_value = new_child_value;
+        }
+        // board_print(board);
+        // printf("depth %u, maxi = %d\n\t", depth, maxiPlayer);
+        // display_node(node);
 
+        if(node->move.arrow_dst != -1) undo_move(board, &(node->move), current_player);
+        return child_value;
+    }
+}
+
+struct move_t get_best_heuristic_move(board_t *board, unsigned int current_player){
+    struct move_t best_move = {-1, -1, -1};
+    double board_heuristic = -INFINITY;
+    double best_move_heuristic = -INFINITY;
+
+    queen_moves_t queen_moves;
+    queen_moves.indexes = malloc(sizeof(unsigned int)*c->board->board_cells*c->board->board_cells);
+    assert(queen_moves.indexes);
+
+    queen_moves_t arrow_moves;
+    arrow_moves.indexes = malloc(sizeof(unsigned int)*c->board->board_cells*c->board->board_cells);
+    assert(arrow_moves.indexes);
+
+    unsigned int total_possible_state_count = 0;
+    //for every queen of the player
+    for (unsigned int i = 0; i < board->queens_count; i++)
+    {
+        unsigned int queen_source = board->queens[current_player][i];
+        queen_available_moves(c->board, &queen_moves, queen_source);
+
+        //for every position that a queen can move to
+        for (unsigned int j = 0; j < queen_moves.move_count; j++)
+        {
+            unsigned int queen_destination = queen_moves.indexes[j];
+            queens_move(board->queens[current_player], board->board_width, queen_source, queen_destination);
+            queen_available_moves(c->board, &arrow_moves, queen_destination);
+
+            //for every position that a moved queen can fire an arrow to
+            for (unsigned int k = 0; k < arrow_moves.move_count; k++)
+            {
+                total_possible_state_count++;
+                board_add_arrow(board, arrow_moves.indexes[k]);
+                
+                //get new heuristic
+                node_t *game_tree = create_moves_tree(board, current_player);
+                for (size_t i = 0; i < game_tree->child_count; i++)
+                // {
+                //     // display_node(game_tree->childs[i]);
+                //     struct move_t previous = game_tree->childs[i]->move; 
+                //     apply_move(c->board, &(game_tree->childs[i]->move),  c->id);
+                //     // printf("creating sub tree\n");
+                //     game_tree->childs[i] = create_moves_tree(c->board, 1 - c->id);
+                //     game_tree->childs[i]->move = previous;     
+                //     // printf("created sub tree\n");
+                //     undo_move(c->board, &(game_tree->childs[i]->move),  c->id);
+                //     game_tree->childs[i]->parent = game_tree;
+                // }
+                // printf("computing %u\n", total_possible_state_count);
+                board_heuristic = minmax(game_tree, 1, true, board, 1 - current_player);
+                destroy_tree(game_tree);
+
+                //determines if the new one is better than the best 
+                if (board_heuristic > best_move_heuristic || (board_heuristic == best_move_heuristic && rand()%3==0)){
+                    // printf("Found better heuristic : from %lf to %lf\n", best_move_heuristic, board_heuristic);
+                    //switch if necessary
+                    best_move_heuristic = board_heuristic;
+                    best_move.queen_src = queen_source;
+                    best_move.queen_dst = queen_destination;
+                    best_move.arrow_dst = arrow_moves.indexes[k];
+                }
+
+                //reset board by removing arrow
+                board_remove_arrow(board, arrow_moves.indexes[k]);
+            }
+
+            //resets board by moving queen back to its old position
+            queens_move(board->queens[current_player], board->board_width, queen_destination, queen_source);
+        }
+    }
+    free(queen_moves.indexes);
+    free(arrow_moves.indexes);
+
+    // printf("Computed %u possibles states\n", total_possible_state_count);
+
+    return best_move;
 }
 
 struct move_t play(struct move_t previous_move)
@@ -123,26 +209,35 @@ struct move_t play(struct move_t previous_move)
         board_add_arrow(c->board, previous_move.arrow_dst);
     }
 
-    node_t *game_tree = create_moves_tree(c->board, c->id); 
-    // printf("created main tree\n");
 
-    for (size_t i = 0; i < game_tree->child_count; i++)
-    {
-        // display_node(game_tree->childs[i]);
-        struct move_t previous = game_tree->childs[i]->move; 
-        apply_move(c->board, &(game_tree->childs[i]->move),  c->id);
-        // printf("creating sub tree\n");
-        game_tree->childs[i] = create_moves_tree(c->board, 1 - c->id);
-        game_tree->childs[i]->move = previous;
-        // printf("created sub tree\n");
-        undo_move(c->board, &(game_tree->childs[i]->move),  c->id);
-        game_tree->childs[i]->parent = game_tree;
-    }
+    // for (size_t i = 0; i < game_tree->child_count; i++)
+    // {
+    //     // display_node(game_tree->childs[i]);
+    //     struct move_t previous = game_tree->childs[i]->move; 
+    //     apply_move(c->board, &(game_tree->childs[i]->move),  c->id);
+    //     // printf("creating sub tree\n");
+    //     game_tree->childs[i] = create_moves_tree(c->board, 1 - c->id);
+    //     game_tree->childs[i]->move = previous;
+    //     for (size_t j = 0; j < game_tree->childs[i]->child_count; j++)
+    //     {
+    //         struct move_t previous2 = game_tree->childs[i]->childs[j]->move; 
+    //         apply_move(c->board, &(game_tree->childs[i]->childs[j]->move), 1-c->id);
+    //         // printf("creating sub tree\n");
+    //         game_tree->childs[i]->childs[j] = create_moves_tree(c->board, c->id);
+    //         game_tree->childs[i]->childs[j]->move = previous2;
+    //         undo_move(c->board, &(game_tree->childs[i]->childs[j]->move), 1 - c->id);
+    //         game_tree->childs[i]->childs[j]->parent = game_tree->childs[i];
+    //     }
+
+    //     // printf("created sub tree\n");
+    //     undo_move(c->board, &(game_tree->childs[i]->move),  c->id);
+    //     game_tree->childs[i]->parent = game_tree;
+    // }
     
     // printf("now minmaxing\n");
     
-    struct move_t next_move = game_tree->childs[minmax(game_tree, 2, c->board, 1 - c->id).index]->move;
-    destroy_tree(game_tree);
+    struct move_t next_move = get_best_heuristic_move(c->board, c->id);
+    //  minmax(game_tree, 3, true, c->board, 1 - c->id).index]->move;
 
     display_move(next_move);
     printf(" computed by minmax client\n");
