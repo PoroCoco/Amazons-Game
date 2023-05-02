@@ -88,7 +88,7 @@ int play_game(char ** libraries_paths, unsigned int board_size, char board_type,
             break;
         }
         if (verbose > 1) printf("Playing turn number %zu with player named %s id %u:\n", i, clients[current_player].get_player_name(), current_player);
-
+  
         start_time = clock();
         m = clients[current_player].play(m);
         end_time = clock();
@@ -99,7 +99,7 @@ int play_game(char ** libraries_paths, unsigned int board_size, char board_type,
         //check move valid
         if (!is_move_valid(game_board, &m, current_player)){
             if (verbose > 0) printf("Player %u %s gave an invalid move!\n", current_player, clients[current_player].get_player_name());
-            if (verbose > 0) printf("{arrow_dst : %u, queen_src : %u, queen_dst : %u}\n", m.arrow_dst,m.queen_src, m.queen_src);
+            if (verbose > 0) printf("{arrow_dst : %u, queen_src : %u, queen_dst : %u}\n", m.arrow_dst,m.queen_src, m.queen_dst);
             break;
         }
 
