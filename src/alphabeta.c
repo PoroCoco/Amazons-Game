@@ -1,8 +1,18 @@
 #include <assert.h>
-#include "minmax.h"
+#include "alphabeta.h"
 #include "heuristic.h"
 #include "queens.h"
 #include "territories.h"
+
+
+
+typedef struct node{
+    struct node **childs;
+    struct node *parent;
+    size_t child_count;
+    size_t allocated;
+    struct move_t move;
+} node_t;
 
 bool isLeaf(node_t *node){
     return node->child_count == 0;
@@ -49,6 +59,9 @@ void destroy_tree(node_t *root){
     free(root);
 }
 
+void _display_move(struct move_t m){
+    printf("{arrow = %u, queen_src = %u, queen_dst = %u}", m.arrow_dst, m.queen_src, m.queen_dst);
+}
 void display_node(node_t *node){
     printf("node : child_count = %zu, allocated_child = %zu, move =", node->child_count, node->allocated);
     _display_move(node->move);
