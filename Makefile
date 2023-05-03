@@ -34,7 +34,7 @@ valgrind: build
 %.o: $(TESTDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
-build: server client_random1.so client_power_heuristic.so client_new_heuristic.so
+build: server client_random1.so client_power_heuristic.so client_fat.so
 	rm -f build/*.gcda
 	rm -f build/*.gcno
 
@@ -51,7 +51,7 @@ client_power_heuristic.so: client_power_heuristic.o board.o graph.o queens.o mov
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
 
 
-client_new_heuristic.so: client_new_heuristic.o board.o graph.o queens.o move_logic.o heuristic.o
+client_fat.so: fat_client.o board.o graph.o queens.o move_logic.o heuristic.o territories.o queue.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
 
 
