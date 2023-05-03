@@ -23,6 +23,7 @@ node_t *create_empty_node(node_t *parent){
 }
 
 void add_child(node_t *node, node_t *child){
+    if(child == NULL || node == child) return;
     if (node->child_count == node->allocated){
         node->allocated *= 2;
         node->childs = realloc(node->childs, sizeof(*node->childs) * node->allocated);
