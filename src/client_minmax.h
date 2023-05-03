@@ -1,5 +1,5 @@
-#ifndef _AMAZON_CLIENT_NEW_HEURISTIC_H_
-#define _AMAZON_CLIENT_NEW_HEURISTIC_H_
+#ifndef _AMAZON_CLIENT_MINMAX_H_
+#define _AMAZON_CLIENT_MINMAX_H_
 
 
 #define NUM_PLAYERS 2
@@ -17,4 +17,4 @@ typedef struct client{
     board_t *board;
 } client_t;
 
-#endif // _AMAZON_CLIENT_NEW_HEURISTIC_H_
+#endif // _AMAZON_CLIENT_MINMAX_H_

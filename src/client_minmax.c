@@ -1,8 +1,9 @@
-#include "client_power_heuristic.h"
+#include "client_minmax.h"
 #include "board.h"
 #include "queens.h"
 #include "move_logic.h"
 #include "heuristic.h"
+#include "minmax.h"
 #include <math.h>
 #include <assert.h>
 
@@ -22,7 +23,7 @@ void initialize(unsigned int player_id, struct graph_t *graph,
     if (c == NULL)
     {
         c = malloc(sizeof(struct client));
-        c->name = "New Heuristic";
+        c->name = "minmax";
         c->id = player_id;
         c->board = board_create(graph, queens, num_queens);
     }
@@ -62,7 +63,7 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
                 board_add_arrow(board, arrow_moves.indexes[k]);
                 
                 //get new heuristic
-                board_heuristic = power_heuristic_safe(board, current_player);
+                board_heuristic = power_heuristic(board, current_player);
 
                 //determines if the new one is better than the best 
                 if (board_heuristic > best_move_heuristic || (board_heuristic == best_move_heuristic && rand()%3==0)){
@@ -106,7 +107,12 @@ struct move_t play(struct move_t previous_move)
 
     if (c->board->board_cells - c->board->arrows_count - 2*c->board->queens_count < THREHOLD_ENDGAME){
         //EndGame behaviour : minmax
-        // printf("Endgame : \n");
+        printf("Endgame : \n");
+        node_t *game_tree = create_moves_tree(c->board, c->id, 4, NULL);
+        printf("tree created: %zu\n",game_tree->child_count);
+        next_move = get_move_minmax(game_tree, c->board, c->id);  
+        destroy_tree(game_tree);
+         
     }else{
         //Standard behaviour
         next_move = get_best_heuristic_move(c->board, c->id);

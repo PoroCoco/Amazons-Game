@@ -1,28 +1,6 @@
 #include <assert.h>
-
-//node header
-
-#include "board.h"
-#include "move_logic.h"
-#include "move.h"
-
-typedef struct node{
-    struct node **childs;
-    struct node *parent;
-    size_t child_count;
-    size_t allocated;
-    struct move_t move;
-} node_t;
-
-
-bool isLeaf(node_t *node);
-void add_child(node_t *node, node_t *child);
-void remove_child(node_t *node, node_t child);
-node_t *create_empty_node(node_t *parent);
-void destroy_tree(node_t *root);
-void display_node(node_t *node);
-
-//header
+#include "minmax.h"
+#include "heuristic.h"
 
 bool isLeaf(node_t *node){
     return node->child_count == 0;
@@ -81,6 +59,7 @@ void display_node(node_t *node){
 
 node_t *create_moves_tree(board_t *board, unsigned int current_player, unsigned int depth, node_t *root){
     if (depth == 0){
+        if (root != NULL) destroy_tree(root);
         return NULL;
     }
     if (root == NULL){
@@ -116,9 +95,9 @@ node_t *create_moves_tree(board_t *board, unsigned int current_player, unsigned 
                                             .queen_src = queen_source,
                                             .queen_dst = queen_destination};
                 new_move_node->move = new_move;
-                apply_move(board, &new_move, current_player);
+                board_add_arrow(board, new_move.arrow_dst);
                 add_child(root, create_moves_tree(board, 1 - current_player, depth - 1, new_move_node));
-                undo_move(board, &new_move, current_player);
+                board_remove_arrow(board, new_move.arrow_dst);
             }
 
             //resets board by moving queen back to its old position
@@ -129,4 +108,63 @@ node_t *create_moves_tree(board_t *board, unsigned int current_player, unsigned 
     free(queen_moves.indexes);
     free(arrow_moves.indexes);
     return root;
+}
+
+double minmax(node_t *node, unsigned int depth, bool maxiPlayer, board_t *board, unsigned int current_player, unsigned int original_player){
+    apply_move(board, &(node->move), current_player);
+    if (depth == 0 || isLeaf(node)){
+        double value = power_heuristic(board, original_player);
+        // board_print(board);
+        // printf("heuristic is %lf for p%u\n", value, current_player);
+        undo_move(board, &(node->move), current_player);
+        return value;
+    }   
+    if(maxiPlayer){
+    // board_print(board);
+        double child_value = -INFINITY;
+        for (size_t i = 0; i < node->child_count; i++)
+        {
+            double new_child_value = minmax(node->childs[i], depth - 1, false, board, 1 - current_player, original_player);
+            if (new_child_value > child_value) child_value = new_child_value;
+        }
+        // board_print(board);
+        // printf("depth %u, maxi = %d\n\t", depth, maxiPlayer);
+        // display_node(node);
+
+        if(node->move.arrow_dst != -1) undo_move(board, &(node->move), current_player);
+        return child_value;
+    }else{
+        double child_value = INFINITY;
+        for (size_t i = 0; i < node->child_count; i++)
+        {
+            double new_child_value = minmax(node->childs[i], depth - 1, true, board, 1 - current_player, original_player);
+            if (new_child_value < child_value) child_value = new_child_value;
+        }
+        // board_print(board);
+        // printf("depth %u, maxi = %d\n\t", depth, maxiPlayer);
+        // display_node(node);
+
+        if(node->move.arrow_dst != -1) undo_move(board, &(node->move), current_player);
+        return child_value;
+    }
+}
+
+struct move_t get_move_minmax(node_t *game_tree, board_t *board, unsigned int current_player){
+    double board_heuristic = -INFINITY;
+    double best_move_heuristic = -INFINITY;
+    struct move_t best_move = {-1, -1, -1};
+
+    for (size_t i = 0; i < game_tree->child_count; i++)
+    {
+        board_heuristic = minmax(game_tree->childs[i], 10, true, board, current_player, current_player);
+
+        //determines if the new one is better than the best 
+        if (board_heuristic > best_move_heuristic || (board_heuristic == best_move_heuristic && rand()%3==0)){
+            printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic, board_heuristic);
+            //switch if necessary
+            best_move_heuristic = board_heuristic;
+            best_move = game_tree->childs[i]->move;
+        }
+    }
+    return best_move;
 }
