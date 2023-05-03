@@ -107,11 +107,11 @@ struct move_t play(struct move_t previous_move)
 
     if (c->board->board_cells - c->board->arrows_count - 2*c->board->queens_count < THREHOLD_ENDGAME){
         //EndGame behaviour : minmax
-        printf("Endgame : \n");
-        node_t *game_tree = create_moves_tree(c->board, c->id, 4, NULL);
-        printf("tree created: %zu\n",game_tree->child_count);
-        next_move = get_move_minmax(game_tree, c->board, c->id);  
-        destroy_tree(game_tree);
+        // printf("Endgame : \n");
+        // node_t *game_tree = create_moves_tree(c->board, c->id, 3, NULL);
+        // printf("tree created: %zu\n",game_tree->child_count);
+        next_move = get_move_alphabeta(c->board, c->id);  
+        // destroy_tree(game_tree);
          
     }else{
         //Standard behaviour

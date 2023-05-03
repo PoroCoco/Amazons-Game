@@ -50,7 +50,7 @@ client_random1.so: client_random.o board.o graph.o queens.o move_logic.o
 client_power_heuristic.so: client_power_heuristic.o board.o graph.o queens.o move_logic.o heuristic.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
 
-client_minmax.so: client_minmax.o board.o graph.o queens.o move_logic.o heuristic.o minmax.o
+client_minmax.so: client_minmax.o board.o graph.o queens.o move_logic.o heuristic.o minmax.o territories.o queue.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
 
 
