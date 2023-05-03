@@ -191,8 +191,8 @@ double territory_heuristic_average(board_t *board, unsigned int player_id,  unsi
     unsigned int ennemy_id = get_ennemy_id(player_id);
     unsigned int* territory_ennemy = get_array(board,ennemy_id);
     unsigned int* territory_player =  get_array(board, player_id);
-    double sum_player = 0, sum_ennemy = 0;
-    unsigned int tile_count_player = 0, tile_count_ennemy = 0;
+    double sum_player = 0;//, sum_ennemy = 0;
+    unsigned int tile_count_player = 0;//, tile_count_ennemy = 0;
     for(unsigned int i = 0; i < board->board_cells; i++){
         //if(territory_player[i] && territory_player[i] != UINT_MAX){
             tile_count_player++;
@@ -239,7 +239,8 @@ double territory_heuristic_average(board_t *board, unsigned int player_id,  unsi
     printf("\n");
     printf("%f\n",sum_player);
 */
-
+    free(territory_ennemy);
+    free(territory_player);
     return sum_player;
 }
 
