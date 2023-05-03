@@ -23,7 +23,7 @@ void display_node(node_t *node);
 node_t *create_moves_tree(board_t *board, unsigned int current_player, unsigned int depth, node_t *root);
 double minmax(node_t *node, unsigned int depth, bool maxiPlayer, board_t *board, unsigned int current_player, unsigned int original_player);
 struct move_t get_move_minmax(node_t *game_tree, board_t *board, unsigned int current_player);
-double alphabeta(double alpha, double beta, board_t *board, unsigned int current_player, bool maxiPlayer, unsigned int original_player);
+double alphabeta(double alpha, double beta, board_t *board, unsigned int current_player, bool maxiPlayer, unsigned int original_player, unsigned int depth);
 struct move_t get_move_alphabeta(board_t *board, unsigned int current_player);
 
 #endif // _AMAZON_MINMAX_H
