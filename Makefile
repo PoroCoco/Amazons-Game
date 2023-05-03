@@ -34,7 +34,7 @@ valgrind: build
 %.o: $(TESTDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
-build: server client_random1.so client_power_heuristic.so client_fat.so
+build: server client_random1.so client_power_heuristic.so 
 	rm -f build/*.gcda
 	rm -f build/*.gcno
 
@@ -44,16 +44,11 @@ server: server.o graph.o queens.o game.o board.o move_logic.o
 arena: arena.o graph.o queens.o game.o board.o move_logic.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/arena
 
-client_random1.so: client_random.o board.o graph.o queens.o move_logic.o
+client_random1.so: client_random.o board.o graph.o queens.o move_logic.o territories.o heuristic.o queue.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
 
 client_power_heuristic.so: client_power_heuristic.o board.o graph.o queens.o move_logic.o heuristic.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
-
-
-client_fat.so: fat_client.o board.o graph.o queens.o move_logic.o heuristic.o territories.o queue.o
-	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
-
 
 alltests: $(TESTFILES) $(SOURCEFILES)
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/alltests -lgsl
