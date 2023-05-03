@@ -107,6 +107,7 @@ struct move_t play(struct move_t previous_move)
     if (c->board->board_cells - c->board->arrows_count - 2*c->board->queens_count < THREHOLD_ENDGAME){
         //EndGame behaviour : minmax
         // printf("Endgame : \n");
+        next_move = get_best_heuristic_move(c->board, c->id);
     }else{
         //Standard behaviour
         next_move = get_best_heuristic_move(c->board, c->id);
