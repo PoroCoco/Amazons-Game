@@ -55,8 +55,11 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
             if(board->arrows_count > board->board_width * 2){
                 board_heuristic = territory_heuristic_average(board, current_player, get_territory_queen_move);
             }
-            else {
+            else if (board->arrows_count > board->board_width ){
                 board_heuristic = territory_heuristic_average(board, current_player, get_territory_king_move);
+            }
+            else{
+                board_heuristic = power_heuristic(board, current_player);
             }
             // printf("heuristic :  %lf\n",board_heuristic);
             //determines if the new one is better than the best 
@@ -88,8 +91,11 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
                     if(board->arrows_count > board->board_width * 3){
                         board_heuristic = territory_heuristic_average(board, current_player, get_territory_queen_move);
                     }
+                    else if(board->arrows_count > board->board_width * 2){
+                        board_heuristic = territory_heuristic_average(board, current_player, get_territory_king_move);
+                    }
                     else{
-                        board_heuristic = power_heuristic_safe(board, current_player);
+                        board_heuristic = power_heuristic(board, current_player);
                     }
                     // printf("heuristic :  %lf\n",board_heuristic);
 

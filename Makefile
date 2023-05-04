@@ -1,7 +1,7 @@
 GSL_PATH ?= /net/ens/renault/save/gsl-2.6/install
 CFLAGS = -std=c99 -Wall -Wextra -fPIC -g3 -I$(GSL_PATH)/include
 LDFLAGS = -lm -L$(GSL_PATH)/lib -L$(GSL_PATH)/lib64 \
-	-Wl,--rpath=${GSL_PATH}/lib,--no-as-needed -ldl -lgsl -lgslcblas -lm --coverage
+	-Wl,--rpath=${GSL_PATH}/lib,--no-as-needed -ldl -lgsl -lgslcblas -lm
 
 # -Wstrict-prototypes 
 
@@ -47,7 +47,7 @@ arena: arena.o graph.o queens.o game.o board.o move_logic.o
 client_random1.so: client_random.o board.o graph.o queens.o move_logic.o territories.o heuristic.o queue.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
 
-aclient_cocktail.so: client_random.o board.o graph.o queens.o move_logic.o territories.o heuristic.o queue.o
+aclient_cocktail.so: aclient_cocktail.o board.o graph.o queens.o move_logic.o territories.o heuristic.o queue.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
 
 client_power_heuristic.so: client_power_heuristic.o board.o graph.o queens.o move_logic.o heuristic.o
