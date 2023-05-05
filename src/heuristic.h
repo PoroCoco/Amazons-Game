@@ -7,6 +7,8 @@
 
 
 double power_heuristic(board_t *board, unsigned int player_id);
+double power_heuristic_safe(board_t *board, unsigned int player_id);
+double territory_heuristic_average(board_t *board, unsigned int player_id,  unsigned int* get_array(board_t *, unsigned int));
 
 
 

@@ -12,9 +12,9 @@ board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], uns
     board->queens_count = queens_count;
     board->board_width = (unsigned int) sqrt(g->t->size1);
     board->board_cells = board->board_width*board->board_width;
-    board->arrows_count = board->board_width*board->board_width;
-    board->arrows = malloc(sizeof(bool)*board->arrows_count);
-    for (unsigned int i = 0; i < board->arrows_count; i++)
+    board->arrows_count = 0;
+    board->arrows = malloc(sizeof(bool)*board->board_cells);
+    for (unsigned int i = 0; i < board->board_cells; i++)
     {
         board->arrows[i] = false;
     }
@@ -23,15 +23,17 @@ board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], uns
 }
 
 bool board_add_arrow(board_t *board, unsigned int index) {
-    if (index > board->arrows_count || board->arrows[index] == true)
+    if (index > board->board_cells || board->arrows[index] == true)
         return false;
     board->arrows[index] = true;
+    board->arrows_count++;
     return true;
 }
 
 void board_remove_arrow(board_t *board, unsigned int index){
     assert(board_get_index_state(board, index) == STATE_ARROW);
     board->arrows[index] = false;
+    board->arrows_count--;
 }
 
 
