@@ -53,7 +53,7 @@ aclient_cocktail.so: aclient_cocktail.o board.o graph.o queens.o move_logic.o te
 client_power_heuristic.so: client_power_heuristic.o board.o graph.o queens.o move_logic.o heuristic.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
 
-client_new.so: client_new_heuristic.o board.o graph.o queens.o move_logic.o heuristic.o  territories.o heuristic.o queue.o
+client_new.so: client_new_heuristic.o board.o graph.o queens.o move_logic.o heuristic.o  territories.o heuristic.o queue.o alphabeta.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
 
 
