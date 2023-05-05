@@ -206,6 +206,8 @@ double territory_heuristic_average(board_t *board, unsigned int player_id,  unsi
     }
     // (tile_count_player*1.0 + 1.0)
     if(!sum_player){
+        free(territory_ennemy);
+        free(territory_player);
         return 0;
     }
 /*
