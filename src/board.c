@@ -128,3 +128,21 @@ void undo_move(board_t *board, struct move_t *move, unsigned int current_player)
     board_remove_arrow(board, move->arrow_dst);
     queens_move(board->queens[current_player], board->board_width, move->queen_dst, move->queen_src);
 }
+
+board_t * board_copy(board_t *board){
+    board_t *copy = malloc(sizeof(*board));
+    copy->g = graph_copy(board->g);
+    copy->queens[0] = queens_copy(board->queens[0], board->board_width);
+    copy->queens[1] = queens_copy(board->queens[1], board->board_width);
+    copy->queens_count = board->queens_count;
+    copy->board_width = (unsigned int) sqrt(copy->g->t->size1);
+    copy->board_cells = board->board_width*board->board_width;
+    copy->arrows_count = board->board_width*board->board_width;
+    copy->arrows = malloc(sizeof(bool)*board->arrows_count);
+    for (unsigned int i = 0; i < board->arrows_count; i++)
+    {
+        copy->arrows[i] = board->arrows[i];
+    }
+    
+    return copy;
+}

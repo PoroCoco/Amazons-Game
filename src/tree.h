@@ -4,12 +4,14 @@
 #include "board.h"
 #include "move.h"
 
+
 struct node
 {
     int nb_wins;
     int nb_game;
+    unsigned int player;
 
-    struct board *current_board;
+    struct board *board;
     struct move_t *move;
 
     struct node *parent;

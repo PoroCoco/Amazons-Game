@@ -4,15 +4,16 @@
 #include <assert.h>
 
 struct node *node_create(int win, int game,
-                         struct board *current_board,
-                         struct move_t *previous_move)
+                         struct board *board,
+                         struct move_t *move)
 {
     struct node *node = malloc(sizeof(struct node));
     node->nb_wins = win;
     node->nb_game = game;
+    node->player = 0;
 
-    node->current_board = current_board;
-    node->move = previous_move;
+    node->board = board;
+    node->move = move;
 
     node->parent = NULL;
     node->childs = NULL;
@@ -31,6 +32,7 @@ int node_add(struct node *parent, struct node *node)
     parent->childs[(parent->childs_count) - 1] = node;
 
     node->parent = parent;
+    node->player = 1 - parent->player;
     return 1;
 }
 
@@ -45,4 +47,8 @@ void node_free(struct node *node) {
     }
     free(node->childs);
     free(node);
+}
+
+void node_print() {
+    
 }

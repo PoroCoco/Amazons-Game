@@ -52,6 +52,12 @@ client_power_heuristic.so: client_power_heuristic.o board.o graph.o queens.o mov
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
 
 
+client_monte_carlo.so: montecarlo.o board.o graph.o queens.o move_logic.o heuristic.o tree.o
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
+
+
+
+
 
 alltests: $(TESTFILES) $(SOURCEFILES)
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/alltests -lgsl
