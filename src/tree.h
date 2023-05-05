@@ -10,6 +10,7 @@ struct node
     int nb_wins;
     int nb_game;
     unsigned int player;
+    unsigned int layer;
 
     struct board *board;
     struct move_t *move;
@@ -26,5 +27,7 @@ struct node *node_create(int win, int game,
 int node_add(struct node *parent, struct node *node);
 
 void node_free(struct node *node);
+
+void node_print(struct node* root, bool rec);
 
 #endif
