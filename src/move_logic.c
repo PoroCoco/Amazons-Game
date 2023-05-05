@@ -190,3 +190,41 @@ int get_queen_liberty(board_t *board, unsigned int queen_board_index){
 
     return degree;
 }
+
+
+unsigned int possible_moves_count(board_t *board, unsigned int player){
+    unsigned int count = 0;
+    
+    queen_moves_t queen_moves;
+    queen_moves.indexes = malloc(sizeof(unsigned int)*board->board_cells * LAST_DIR);
+    assert(queen_moves.indexes);
+
+    queen_moves_t arrow_moves;
+    arrow_moves.indexes = malloc(sizeof(unsigned int)*board->board_cells * LAST_DIR);
+    assert(arrow_moves.indexes);
+
+
+    //for every queen of the player
+    for (unsigned int i = 0; i < board->queens_count; i++)
+    {
+        unsigned int queen_source = board->queens[player][i];
+        queen_available_moves(board, &queen_moves, queen_source);
+
+        //for every position that a queen can move to
+        for (unsigned int j = 0; j < queen_moves.move_count; j++)
+        {
+            unsigned int queen_destination = queen_moves.indexes[j];
+            queens_move(board->queens[player], board->board_width, queen_source, queen_destination);
+            queen_available_moves(board, &arrow_moves, queen_destination);
+
+            count += arrow_moves.move_count;
+
+            queens_move(board->queens[player], board->board_width, queen_destination, queen_source);
+        }
+    }
+
+    free(queen_moves.indexes);
+    free(arrow_moves.indexes);
+    
+    return count;
+}
