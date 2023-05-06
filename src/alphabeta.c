@@ -136,7 +136,7 @@ double alphabeta(double alpha, double beta, board_t *board, unsigned int current
     assert(arrow_moves.indexes);
 
 
-    double value;
+    double value = INFINITY;
     //for every queen of the player
     for (unsigned int i = 0; i < board->queens_count; i++)
     {
@@ -189,7 +189,8 @@ double alphabeta(double alpha, double beta, board_t *board, unsigned int current
     free(arrow_moves.indexes);
     free(queen_moves.indexes);
     double node_value = power_heuristic_safe(board, current_player);
-    
+
+
     if (!maxiPlayer){
         if (node_value < value) value = node_value;
     }else{
@@ -207,10 +208,10 @@ struct move_t get_move_alphabeta(board_t *board, unsigned int current_player){
     for (size_t i = 0; i < game_tree->child_count; i++)
     {
         apply_move(board, &(game_tree->childs[i]->move), current_player);
-        board_heuristic = alphabeta(-INFINITY, INFINITY, board, current_player, true, current_player, 4);
+        board_heuristic = alphabeta(-INFINITY, INFINITY, board, current_player, true, current_player, 2);
         undo_move(board, &(game_tree->childs[i]->move), current_player);
 
-        printf("Found  heuristic : from %lf\n", board_heuristic);
+        // printf("Found  heuristic : from %lf\n", board_heuristic);
         //determines if the new one is better than the best 
         if (board_heuristic > best_move_heuristic || (board_heuristic == best_move_heuristic && rand()%3==0)){
             // printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic, board_heuristic);
