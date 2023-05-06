@@ -61,14 +61,10 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
                 board_add_arrow(board, arrow_moves.indexes[k]);
                 
                 //get new heuristic
-                if(board->arrows_count > 3* board->board_width){
+                if(board->arrows_count > 1* board->board_width){
                     board_heuristic = territory_heuristic_average(board, current_player, get_territory_queen_move);
-                }
-                else if(board->arrows_count > board->board_width * 2){
+                }else{
                     board_heuristic = territory_heuristic_average(board, current_player, get_territory_king_move);
-                }
-                else{
-                    board_heuristic = power_heuristic(board, current_player);               
                 }
                 //determines if the new one is better than the best 
                 if (board_heuristic > best_move_heuristic || (board_heuristic == best_move_heuristic && rand()%3 == 0)){
