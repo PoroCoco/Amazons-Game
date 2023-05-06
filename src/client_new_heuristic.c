@@ -111,7 +111,7 @@ struct move_t play(struct move_t previous_move)
     }
 
     struct move_t next_move = {-1, -1, -1};
-    printf("possible moves for new : %u\n", possible_moves_count(c->board, c->id));
+    // printf("possible moves for new : %u\n", possible_moves_count(c->board, c->id));
     if (possible_moves_count(c->board, c->id) < 30){
         //EndGame behaviour : minmax
         // printf("Endgame : \n");

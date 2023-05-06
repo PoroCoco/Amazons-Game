@@ -1,5 +1,12 @@
 GSL_PATH ?= /net/ens/renault/save/gsl-2.6/install
-CFLAGS = -std=c99 -Wall -Wextra -fPIC -g3 -I$(GSL_PATH)/include
+CFLAGS = -std=c99 -Wall -Wextra -fPIC -I$(GSL_PATH)/include
+
+ifeq ($(TURBO),true)
+    CFLAGS += -O3
+else
+    CFLAGS += -g3
+endif
+
 LDFLAGS = -lm -L$(GSL_PATH)/lib -L$(GSL_PATH)/lib64 \
 	-Wl,--rpath=${GSL_PATH}/lib,--no-as-needed -ldl -lgsl -lgslcblas -lm --coverage
 
