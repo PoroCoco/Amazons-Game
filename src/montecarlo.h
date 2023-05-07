@@ -14,7 +14,7 @@
 #include "board.h"
 #include "queens.h"
 #include "move_logic.h"
-
+#include "heuristic.h"
 
 typedef struct mcts_client{
     char *name;

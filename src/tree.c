@@ -55,7 +55,7 @@ void node_print(struct node* root) {
 
     if (root->childs_count > 0) {
         for (size_t child_index = 0; child_index < root->childs_count; child_index++) {
-            printf("%u/%u ,",root->childs[child_index]->nb_wins, root->childs[child_index]->nb_game);
+            printf("%u/%u \n",root->childs[child_index]->nb_wins, root->childs[child_index]->nb_game);
         }
     }
     

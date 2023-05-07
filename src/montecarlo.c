@@ -75,8 +75,6 @@ struct move_t* get_random_move(board_t* board, unsigned int id)
 
 
     free(queen_moves.indexes);
-    printf("debug grm: ");
-    print_move(next_move);
     return next_move;
 }
 
@@ -100,13 +98,12 @@ struct node* selection(struct node* root)
     if (cur_node->childs_count > 0)
     {
         struct node* max_node = cur_node->childs[0]; 
-        double ucb = cur_node->childs[0]->nb_wins/(cur_node->childs[0]->nb_game+1) + sqrt(2)*sqrt(log(cur_node->nb_game+1))/(cur_node->childs[0]->nb_game+1);
+        double ucb = cur_node->childs[0]->nb_wins/(cur_node->childs[0]->nb_game+1) + sqrt(2)*sqrt(log(cur_node->nb_game))/(cur_node->childs[0]->nb_game);
         for (unsigned int childs_index = 1; childs_index < cur_node->childs_count; childs_index++)
         {
-            double new_ucb = cur_node->childs[childs_index]->nb_wins/(cur_node->childs[childs_index]->nb_game) + sqrt(2)*sqrt(log(cur_node->nb_game))/(cur_node->childs[childs_index]->nb_game+1);
+            double new_ucb = cur_node->childs[childs_index]->nb_wins/(cur_node->childs[childs_index]->nb_game) + sqrt(2)*sqrt(log(cur_node->nb_game))/(cur_node->childs[childs_index]->nb_game);
             if(ucb < new_ucb)
             {
-                
                 ucb = new_ucb;
                 max_node = cur_node->childs[childs_index];
             }
@@ -124,16 +121,14 @@ struct node* selection(struct node* root)
 void expansion(struct node* parent,unsigned node_nb)
 {
     unsigned int moves_counts = possible_moves_count(parent->board,1-parent->player);
-    printf("move count : %u\n",moves_counts);
     struct node* new_node;
-    for (size_t i=0; (i<node_nb) && (i<moves_counts); i++) {
+    for (size_t i=0; (i<moves_counts && i<node_nb); i++) {
         struct move_t* move = get_random_move(parent->board,1-parent->player);
         while (childs_has_move(parent,move) != NULL)
             move = get_random_move(parent->board,1-parent->player);
         new_node = node_create(0,0,parent->board,move);
         node_add(parent,new_node);
     }
-    printf("????\n");
 }
 
 
@@ -141,21 +136,17 @@ bool simulation(struct node* current, unsigned int player_to_check_win)
 {    
     board_t *copy = board_copy(current->board);
     unsigned int next_player = 1-current->player;
-    unsigned int i = 0;
     while (!is_game_over_for_player(copy, next_player))
     {
         struct move_t* next_move = get_random_move(copy, next_player);
-        //printf("%u ",i++);
         apply_move(copy, next_move, next_player);
         next_player = 1-next_player;
         free(next_move);
     }
     if (is_game_over_for_player(copy, player_to_check_win)) {
-        printf("endf\n");
         board_free(copy);
         return false;
     }
-    printf("endt\n");
     board_free(copy);
     return true;
 }
@@ -164,12 +155,12 @@ void back_propagation(struct node* current ,bool has_win) {
     struct node* cursor = current;
     while (cursor->parent != NULL) {
         cursor->nb_game += 1;
-        cursor->nb_wins = (cursor->player == current->player) ? cursor->nb_wins+has_win : cursor->nb_wins+(1-has_win) ;
+        cursor->nb_wins += ((cursor->player == current->player) ? has_win : 0);
         cursor = cursor->parent;
     }
 }
 
-struct move_t MCTS(struct board* current, unsigned int nb_expension, unsigned int nb_sim_max) 
+struct move_t MCTS(struct board* current, unsigned int nb_expension, unsigned int nb_node_create,unsigned int nb_sim_max) 
 {
     
     struct node* root = node_create(0,0,current,NULL);
@@ -177,13 +168,10 @@ struct move_t MCTS(struct board* current, unsigned int nb_expension, unsigned in
 
     for (size_t exp = 0; exp<nb_expension; exp++) {
         struct node* selected_node = selection(root);
-        printf("layer :%u\n",selected_node->layer);
-        expansion(selected_node,2);
-        printf("after exp nb child:%u \n",selected_node->childs_count);
+        expansion(selected_node,nb_node_create);
         for (size_t child_i = 0; child_i < selected_node->childs_count; child_i++) {
             struct node* child = selected_node->childs[child_i];
-            print_move(child->move);
-            for (size_t nb_sim=0; nb_sim<nb_sim_max; nb_sim++) {
+            for (size_t nb_sim=0; nb_sim<nb_sim_max/child->layer; nb_sim++) {
                 apply_move(current,child->move,child->player);
                 back_propagation(child, simulation(child,c->id));
                 undo_move(current, child->move, child->player);
@@ -192,12 +180,9 @@ struct move_t MCTS(struct board* current, unsigned int nb_expension, unsigned in
         while(selected_node->parent != NULL){
             undo_move(current, selected_node->move, selected_node->player);
             selected_node = selected_node->parent;
-            printf("remont\n");
         }
-        printf("nb_exp:%lu\n",exp);
-
     }
-    //node_print(root);
+    node_print(root);
 
     struct node* better_child = get_better_child(root);
 
@@ -228,7 +213,7 @@ struct move_t play(struct move_t previous_move)
     // printf("dst : %d\n", next_move.queen_dst);
     // printf("arrow : %d\n", next_move.arrow_dst);
 
-    struct move_t next_move = MCTS(c->board,3,2);
+    struct move_t next_move = MCTS(c->board, 10, 3, 1000);
 
     unsigned int index = 0;
     while (index < c->board->queens_count - 1 && c->board->queens[c->id][index] != next_move.queen_src)

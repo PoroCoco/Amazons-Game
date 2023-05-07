@@ -140,8 +140,8 @@ board_t * board_copy(board_t *board){
     copy->board_width = (unsigned int) sqrt(copy->g->t->size1);
     copy->board_cells = board->board_width*board->board_width;
     copy->arrows_count = board->board_width*board->board_width;
-    copy->arrows = malloc(sizeof(bool)*board->arrows_count);
-    for (unsigned int i = 0; i < board->arrows_count; i++)
+    copy->arrows = malloc(sizeof(bool)*board->board_cells);
+    for (unsigned int i = 0; i < board->board_cells; i++)
     {
         copy->arrows[i] = board->arrows[i];
     }

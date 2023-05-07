@@ -25,7 +25,7 @@ play : build
 	./install/server -m 5 ./install/client_random1.so ./install/client_random2.so
 
 montecarlo : build client_monte_carlo.so
-	./install/server ./install/client_random1.so ./install/client_monte_carlo.so
+	./install/server -m 5 ./install/client_random1.so ./install/client_monte_carlo.so
 
 valgrind: build
 	valgrind ./install/server -m 5 ./install/client_random1.so ./install/client_random2.so
