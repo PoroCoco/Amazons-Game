@@ -12,6 +12,23 @@ bool is_moves_equals(struct move_t* move1, struct move_t* move2)
     return ((move1->arrow_dst == move2->arrow_dst) && (move1->queen_dst == move2->queen_dst) && (move1->queen_src == move2->queen_src));
 }
 
+double eval_heuristic_of_move(board_t* board, unsigned int current_player,struct move_t* move) {
+    double board_heuristic;
+    apply_move(board, move, current_player);
+    if(board->arrows_count > board->board_width * 2)
+        board_heuristic = territory_heuristic_average(board, current_player, get_territory_queen_move);
+    else
+        board_heuristic = territory_heuristic_average(board, current_player, get_territory_king_move);
+    undo_move(board, move, current_player);
+    return board_heuristic;
+
+}
+
+struct move_t* compare_move(board_t* board, unsigned int current_player,struct move_t* move1, struct move_t* move2){
+    return (eval_heuristic_of_move(board,current_player,move1) > eval_heuristic_of_move(board,current_player,move2) ? move1 : move2);
+
+}
+
 struct node* childs_has_move(struct node* current, struct move_t* move)
 {
     for (size_t child_index = 0; child_index < current->childs_count; child_index++)
@@ -123,9 +140,15 @@ void expansion(struct node* parent,unsigned node_nb)
     unsigned int moves_counts = possible_moves_count(parent->board,1-parent->player);
     struct node* new_node;
     for (size_t i=0; (i<moves_counts && i<node_nb); i++) {
+        unsigned int max_move_get = 0;
         struct move_t* move = get_random_move(parent->board,1-parent->player);
-        while (childs_has_move(parent,move) != NULL)
-            move = get_random_move(parent->board,1-parent->player);
+        while (max_move_get++ < 10) {
+            move = compare_move(parent->board, 1-parent->player, move, get_random_move(parent->board,1-parent->player));
+        }
+        
+        if(childs_has_move(parent,move))
+            break;
+
         new_node = node_create(0,0,parent->board,move);
         node_add(parent,new_node);
     }
@@ -213,7 +236,7 @@ struct move_t play(struct move_t previous_move)
     // printf("dst : %d\n", next_move.queen_dst);
     // printf("arrow : %d\n", next_move.arrow_dst);
 
-    struct move_t next_move = MCTS(c->board, 10, 3, 1000);
+    struct move_t next_move = MCTS(c->board, 30, 4, 30);
 
     unsigned int index = 0;
     while (index < c->board->queens_count - 1 && c->board->queens[c->id][index] != next_move.queen_src)
