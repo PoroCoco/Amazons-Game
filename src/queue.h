@@ -1,10 +1,11 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include <stdlib.h>
+/// \cond
 #include <stdbool.h>
+#include <stdlib.h>
 #include <assert.h>
-
+/// \endcond
 struct queue{
     unsigned int* elements;
     unsigned int front;

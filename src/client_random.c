@@ -1,11 +1,10 @@
 #include "client.h"
-#include "board.h"
 #include "queens.h"
 #include "territories.h"
-#include "move_logic.h"
 #include "heuristic.h"
-#include <math.h>
+/// \cond
 #include <assert.h>
+/// \endcond
 
 struct client *c = NULL;
 
@@ -63,9 +62,7 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
                 //get new heuristic
                 if(board->arrows_count > 2* board->board_width){
                     board_heuristic = territory_heuristic_average(board, current_player, get_territory_queen_move);
-                }
-                else{
-
+                }else{
                     board_heuristic = power_heuristic_safe(board, current_player);
                 }
                 //determines if the new one is better than the best 

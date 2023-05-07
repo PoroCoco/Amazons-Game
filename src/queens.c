@@ -1,6 +1,6 @@
-#include <stdlib.h>
-
 #include "queens.h"
+
+#include <stdlib.h>
 #include <assert.h>
 
 unsigned int queens_compute_number(unsigned int board_width){
