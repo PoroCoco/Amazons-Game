@@ -1,13 +1,12 @@
-#include "client_random.h"
-#include "board.h"
+#include "client.h"
 #include "queens.h"
 #include "territories.h"
-#include "move_logic.h"
 #include "heuristic.h"
-#include <math.h>
+/// \cond
 #include <assert.h>
+/// \endcond
 
-struct random_client *c = NULL;
+struct client *c = NULL;
 
 
 char const *get_player_name(void)
@@ -20,7 +19,7 @@ void initialize(unsigned int player_id, struct graph_t *graph,
 {
     if (c == NULL)
     {
-        c = malloc(sizeof(struct random_client));
+        c = malloc(sizeof(struct client));
         c->name = "Client Random";
         c->id = player_id;
         c->board = board_create(graph, queens, num_queens);

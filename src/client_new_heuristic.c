@@ -1,4 +1,4 @@
-#include "client_power_heuristic.h"
+#include "client.h"
 #include "board.h"
 #include "queens.h"
 #include "move_logic.h"

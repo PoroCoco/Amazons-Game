@@ -4,7 +4,7 @@ CFLAGS = -std=c99 -Wall -Wextra -fPIC -I$(GSL_PATH)/include
 ifeq ($(TURBO),true)
     CFLAGS += -O3
 else
-    CFLAGS += -g3
+    CFLAGS += -O3
 endif
 
 LDFLAGS = -lm -L$(GSL_PATH)/lib -L$(GSL_PATH)/lib64 \
@@ -23,7 +23,7 @@ SOURCEFILES = graph.o client_random.o queens.o board.o move_logic.o heuristic.o 
 LDFLAGS += -I$(SOURCEDIR)/
 
 
-all: build
+all: build arena
 
 powerPlay : build
 	./install/server -m 14 ./install/client_random1.so ./install/client_power_heuristic.so
