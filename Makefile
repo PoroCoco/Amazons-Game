@@ -1,5 +1,5 @@
 GSL_PATH ?= /net/ens/renault/save/gsl-2.6/install
-CFLAGS = -std=c99 -Wall -Wextra -fPIC -I$(GSL_PATH)/include
+CFLAGS = -std=c99 -Wall -Wextra -fPIC -I$(GSL_PATH)/include -lpthread
 
 ifeq ($(TURBO),true)
     CFLAGS += -O3

@@ -81,7 +81,7 @@ bool cell_has_direct_neighbor(board_t *board, unsigned int index);
 void apply_move(board_t *board, struct move_t *move, unsigned int current_player);
 void undo_move(board_t *board, struct move_t *move, unsigned int current_player);
 
-
+board_t * board_copy(board_t *board);
 
 #endif // _AMAZON_BOARD_H
 
