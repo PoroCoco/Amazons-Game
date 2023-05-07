@@ -28,6 +28,6 @@ int node_add(struct node *parent, struct node *node);
 
 void node_free(struct node *node);
 
-void node_print(struct node* root, bool rec);
+void node_print(struct node* root);
 
 #endif

@@ -51,7 +51,7 @@ void node_free(struct node *node) {
     free(node);
 }
 
-void node_print(struct node* root,bool rec) {
+void node_print(struct node* root) {
 
     if (root->childs_count > 0) {
         for (size_t child_index = 0; child_index < root->childs_count; child_index++) {
