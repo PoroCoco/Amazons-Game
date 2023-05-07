@@ -1,5 +1,6 @@
-#ifndef _CLIENT_RANDOM_H_
-#define _CLIENT_RANDOM_H_
+#ifndef _AMAZON_CLIENT_H_
+#define _AMAZON_CLIENT_H_
+
 
 #define NUM_PLAYERS 2
 
@@ -10,10 +11,10 @@
 #include <stdbool.h>
 
 
-typedef struct random_client{
+typedef struct client{
     char *name;
     int id;
     board_t *board;
-} random_client_t;
+} client_t;
 
-#endif
+#endif // _AMAZON_CLIENT_H_

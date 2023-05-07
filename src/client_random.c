@@ -1,4 +1,4 @@
-#include "client_random.h"
+#include "client.h"
 #include "board.h"
 #include "queens.h"
 #include "territories.h"
@@ -7,7 +7,7 @@
 #include <math.h>
 #include <assert.h>
 
-struct random_client *c = NULL;
+struct client *c = NULL;
 
 
 char const *get_player_name(void)
@@ -20,7 +20,7 @@ void initialize(unsigned int player_id, struct graph_t *graph,
 {
     if (c == NULL)
     {
-        c = malloc(sizeof(struct random_client));
+        c = malloc(sizeof(struct client));
         c->name = "Client Random";
         c->id = player_id;
         c->board = board_create(graph, queens, num_queens);
