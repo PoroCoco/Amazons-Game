@@ -1,12 +1,10 @@
 #include"move_logic.h"
+#include"limits.h"
 #include"board.h"
+#include"dir.h"
 #include"queue.h"
-
-/// \cond
-#include <limits.h>
-#include <assert.h>
-#include <stdlib.h>
-/// \endcond
+#include<assert.h>
+#include<stdlib.h>
 
 unsigned int* get_territory_queen_move(board_t* board, unsigned int client);
 

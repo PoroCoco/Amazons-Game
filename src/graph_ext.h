@@ -2,9 +2,7 @@
 #define _AMAZON_GRAPH_EXT_H
 
 #include "graph.h" 
-/// \cond
-#include <stdbool.h> 
-/// \endcond
+#include "stdbool.h" 
 
 /// @brief Enum specifiyng the different kinds of graph
 enum graph_type{

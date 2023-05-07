@@ -1,9 +1,7 @@
 #ifndef _AMAZON_QUEENS_H
 #define _AMAZON_QUEENS_H
 
-/// \cond
 #include <stdbool.h>
-/// \endcond
 
 /// @brief Compute the number of queens for the given board size
 /// @param board_width

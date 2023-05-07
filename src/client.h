@@ -4,11 +4,11 @@
 
 #define NUM_PLAYERS 2
 
+#include "move.h"
+#include "graph_ext.h"
+#include "dir.h"
 #include "board.h"
-
-/// \cond
 #include <stdbool.h>
-/// \endcond
 
 
 typedef struct client{

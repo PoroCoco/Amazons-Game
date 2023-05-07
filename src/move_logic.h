@@ -3,9 +3,7 @@
 
 #include "board.h"
 #include "dir.h"
-/// \cond
 #include <stdbool.h>
-/// \endcond
 
 
 typedef struct queen_moves{

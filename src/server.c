@@ -1,12 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <getopt.h>
 #include <dlfcn.h>
-
-/// \cond
 #include <sys/time.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-/// \endcond
 
 #include "game.h"
 #include "player.h"
