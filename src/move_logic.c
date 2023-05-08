@@ -163,12 +163,13 @@ void queen_available_moves(board_t *board, queen_moves_t *moves, unsigned int qu
     assert(moves->indexes);
     //assert(board_get_index_state(board, queen_index) == STATE_QUEEN_WHITE || board_get_index_state(board, queen_index) == STATE_QUEEN_BLACK );
     
+    int const steps[8] = {-1 - board->board_width, -board->board_width, 1 - board->board_width, 1, 1 + board->board_width, board->board_width, -1 + board->board_width, -1};
     unsigned int move_count = 0;
-    for (enum dir_t d = FIRST_DIR; d <= LAST_DIR; d++)
+    for (unsigned int i = 0; i < 8; i++)
     {
         unsigned int current_index = queen_index;
         unsigned int previous_index = queen_index;
-        int step = compute_step_toward_direction(d, board->board_width);
+        int step = steps[i];
         current_index += step;
         while (current_index < board->board_cells)
         {

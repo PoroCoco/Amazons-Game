@@ -125,7 +125,7 @@ node_t *create_moves_tree(board_t *board, unsigned int current_player, unsigned 
 double alphabeta(double alpha, double beta, board_t *board, unsigned int current_player, bool maxiPlayer, unsigned int original_player, unsigned int depth){
     // printf("alphabetting at %u\n", depth);
     if (depth == 0){
-        return power_heuristic(board, original_player);
+        return power_heuristic_safe(board, current_player);
     }
     queen_moves_t queen_moves;
     queen_moves.indexes = malloc(sizeof(unsigned int)*board->board_cells*board->board_cells);
@@ -136,7 +136,7 @@ double alphabeta(double alpha, double beta, board_t *board, unsigned int current
     assert(arrow_moves.indexes);
 
 
-    double value;
+    double value = INFINITY;
     //for every queen of the player
     for (unsigned int i = 0; i < board->queens_count; i++)
     {
@@ -164,10 +164,7 @@ double alphabeta(double alpha, double beta, board_t *board, unsigned int current
                     if (new_value < value) value = new_value;
                     if (alpha >= value){
                         board_remove_arrow(board, new_move.arrow_dst);
-                        queens_move(board->queens[current_player], board->board_width, queen_destination, queen_source);
-                        free(queen_moves.indexes);
-                        free(arrow_moves.indexes);
-                        return value;
+                        break;
                     }
                     beta = beta > value ? value : beta;
                 }else{
@@ -176,10 +173,7 @@ double alphabeta(double alpha, double beta, board_t *board, unsigned int current
                     if (new_value > value) value = new_value;
                     if (value >= beta){
                         board_remove_arrow(board, new_move.arrow_dst);
-                        queens_move(board->queens[current_player], board->board_width, queen_destination, queen_source);
-                        free(queen_moves.indexes);
-                        free(arrow_moves.indexes);
-                        return value;
+                        break;
                     }
                     alpha = alpha > value ? alpha : value;
                 }
@@ -194,8 +188,15 @@ double alphabeta(double alpha, double beta, board_t *board, unsigned int current
     //node is a leaf
     free(arrow_moves.indexes);
     free(queen_moves.indexes);
-    double node_value = power_heuristic(board, original_player);
-    return node_value;
+    double node_value = power_heuristic_safe(board, current_player);
+
+
+    if (!maxiPlayer){
+        if (node_value < value) value = node_value;
+    }else{
+        if (node_value > value) value = node_value;
+    }
+    return value;
 }
 
 struct move_t get_move_alphabeta(board_t *board, unsigned int current_player){
@@ -206,9 +207,11 @@ struct move_t get_move_alphabeta(board_t *board, unsigned int current_player){
     node_t * game_tree = create_moves_tree(board, current_player, 2, NULL);
     for (size_t i = 0; i < game_tree->child_count; i++)
     {
-        // apply_move(board, &(game_tree->childs[i]->move), current_player);
+        apply_move(board, &(game_tree->childs[i]->move), current_player);
         board_heuristic = alphabeta(-INFINITY, INFINITY, board, current_player, true, current_player, 2);
+        undo_move(board, &(game_tree->childs[i]->move), current_player);
 
+        // printf("Found  heuristic : from %lf\n", board_heuristic);
         //determines if the new one is better than the best 
         if (board_heuristic > best_move_heuristic || (board_heuristic == best_move_heuristic && rand()%3==0)){
             // printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic, board_heuristic);

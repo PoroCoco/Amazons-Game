@@ -44,7 +44,7 @@ void queens_free_positions(unsigned int *queens){
 
 unsigned int* queens_copy(const unsigned int *queens,  unsigned int board_width){
     assert(queens);
-    unsigned int queens_count = queens_compute_number(board_width);
+    unsigned int queens_count = 4*(board_width/10 + 1);
     unsigned int *queens_cpy = malloc(sizeof(*queens_cpy) * queens_count);
     for (unsigned int i = 0; i < queens_count; i++){
         queens_cpy[i] = queens[i];
@@ -54,7 +54,7 @@ unsigned int* queens_copy(const unsigned int *queens,  unsigned int board_width)
 
 bool queens_occupy(const unsigned int *queens, unsigned int index, unsigned int board_width){
     assert(queens != NULL);
-    unsigned int queens_count = queens_compute_number(board_width);
+    unsigned int queens_count = 4*(board_width/10 + 1);
     for (unsigned int i = 0; i < queens_count; i++){
         if(queens[i] == index) return true;    
     }
@@ -64,7 +64,7 @@ bool queens_occupy(const unsigned int *queens, unsigned int index, unsigned int 
 
 void queens_move(unsigned int *queens, unsigned int board_width, unsigned int src, unsigned int dst){
     assert(queens);
-    unsigned int queens_count = queens_compute_number(board_width);
+    unsigned int queens_count = 4*(board_width/10 + 1);
     assert(dst < (board_width * board_width));
     for (unsigned int i = 0; i < queens_count; i++){
         if(queens[i] == src){
