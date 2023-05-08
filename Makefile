@@ -31,7 +31,7 @@ powerPlay : build
 play : build
 	./install/server -m 5 ./install/client_random1.so ./install/client_random2.so
 
-montecarlo : build client_monte_carlo.so
+montecarlo : build
 	./install/server -m 5 ./install/client_monte_carlo.so ./install/client_random1.so
 
 valgrind: build
@@ -44,7 +44,7 @@ valgrind: build
 %.o: $(TESTDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
-build: server client_random1.so client_new.so aclient_cocktail.so
+build: server client_random1.so client_new.so client_monte_carlo.so
 	rm -f build/*.gcda
 	rm -f build/*.gcno
 
