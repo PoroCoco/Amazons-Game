@@ -3,7 +3,9 @@
 
 #include "graph_ext.h"
 #include "player.h"
+/// \cond
 #include <stdbool.h>
+/// \endcond
 
 typedef struct board {
     struct graph_t *g;

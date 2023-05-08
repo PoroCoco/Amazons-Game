@@ -4,7 +4,7 @@ CFLAGS = -std=c99 -Wall -Wextra -fPIC -I$(GSL_PATH)/include
 ifeq ($(TURBO),true)
     CFLAGS += -O3
 else
-    CFLAGS += -O3
+    CFLAGS += -g3
 endif
 
 LDFLAGS = -lm -L$(GSL_PATH)/lib -L$(GSL_PATH)/lib64 \
