@@ -23,7 +23,7 @@ SOURCEFILES = graph.o client_random.o queens.o board.o move_logic.o heuristic.o 
 LDFLAGS += -I$(SOURCEDIR)/
 
 
-all: build arena
+all: build 
 
 powerPlay : build
 	./install/server -m 14 ./install/client_random1.so ./install/client_power_heuristic.so
