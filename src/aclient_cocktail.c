@@ -51,6 +51,9 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
         for (unsigned int j = 0; j < queen_moves.move_count; j++){
             unsigned int queen_destination = queen_moves.indexes[j];
             queens_move(board->queens[current_player], board->board_width, queen_source, queen_destination);
+            board->queen_occupy[best_move.queen_src] = false;
+            board->queen_occupy[best_move.queen_dst] = true;
+
             if(board->arrows_count > board->board_width * 2){
                 board_heuristic = territory_heuristic_average(board, current_player, get_territory_queen_move);
             }
@@ -67,11 +70,16 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
                 best_move.queen_dst = queen_destination;
             }
             queens_move(board->queens[current_player], board->board_width, queen_destination , queen_source);
+            board->queen_occupy[best_move.queen_src] = true;
+            board->queen_occupy[best_move.queen_dst] = false;
 
         }
     }
     
     queens_move(board->queens[current_player], board->board_width, best_move.queen_src, best_move.queen_dst);
+    board->queen_occupy[best_move.queen_src] = false;
+    board->queen_occupy[best_move.queen_dst] = true;
+
     board_heuristic = -INFINITY;
     //for every position that a moved queen can fire an arrow to
     
@@ -106,6 +114,9 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
     }
     //resets board by moving queen back to its old position
     queens_move(board->queens[current_player], board->board_width, best_move.queen_dst , best_move.queen_src);
+    board->queen_occupy[best_move.queen_src] = true;
+    board->queen_occupy[best_move.queen_dst] = false;
+
 
     free(queen_moves.indexes);
     free(arrow_moves.indexes);
