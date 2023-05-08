@@ -61,7 +61,7 @@ void initialize(unsigned int player_id, struct graph_t *graph,
     if (c == NULL)
     {
         c = malloc(sizeof(struct mcts_client));
-        c->name = "Mcts_qui_bat_tout";
+        c->name = "Mcts";
         c->id = player_id;
         c->board = board_create(graph, queens, num_queens);
     }
@@ -152,8 +152,11 @@ void expansion(struct node* parent,unsigned node_nb)
             move = compare_move(parent->board, 1-parent->player, move, get_random_move(parent->board,1-parent->player));
         }
         
-        if(childs_has_move(parent,move))
+        if(childs_has_move(parent,move)){
+            free(move);
             break;
+        }
+            
 
         new_node = node_create(0,0,parent->board,move);
         node_add(parent,new_node);
