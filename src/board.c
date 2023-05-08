@@ -18,7 +18,22 @@ board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], uns
     {
         board->arrows[i] = false;
     }
+
+    board->queen_occupy = malloc(sizeof(bool)*board->board_cells);
+    for (unsigned int i = 0; i < board->board_cells; i++)
+    {
+        board->queen_occupy[i] = false;
+    }
+
+    for (unsigned int i = 0; i < queens_count; i++)
+    {
+        for (size_t j = 0; j < NUM_PLAYERS; j++)
+        {
+            board->queen_occupy[board->queens[j][i]] = true;
+        }
+    }
     
+
     return board;
 }
 
@@ -42,6 +57,7 @@ void board_free(board_t *board){
     free(board->queens[0]);
     free(board->queens[1]);
     free(board->arrows);
+    free(board->queen_occupy);
     free(board);
 }
 
@@ -58,8 +74,7 @@ bool board_index_is_available_from(board_t *board, unsigned int source, unsigned
 
 
 bool board_index_is_available(board_t *board, unsigned int index){
-    return (index < board->board_cells) && (!board->arrows[index]) 
-    && (!queens_occupy(board->queens[0], index, board->board_width) && (!queens_occupy(board->queens[1], index, board->board_width)));
+    return (index < board->board_cells) && (!board->arrows[index]) && (board->queen_occupy[index] == false);
 }
 
 enum cell_state board_get_index_state(board_t *board, unsigned int index){
@@ -124,11 +139,15 @@ bool cell_has_direct_neighbor(board_t *board, unsigned int index){
 void apply_move(board_t *board, struct move_t *move, unsigned int current_player){
     board_add_arrow(board, move->arrow_dst);
     queens_move(board->queens[current_player], board->board_width, move->queen_src, move->queen_dst);
+    board->queen_occupy[move->queen_src] = false;
+    board->queen_occupy[move->queen_dst] = true;
 }
 
 void undo_move(board_t *board, struct move_t *move, unsigned int current_player){
     board_remove_arrow(board, move->arrow_dst);
     queens_move(board->queens[current_player], board->board_width, move->queen_dst, move->queen_src);
+    board->queen_occupy[move->queen_dst] = false;
+    board->queen_occupy[move->queen_src] = true;
 }
 
 board_t * board_copy(board_t *board){
@@ -145,6 +164,12 @@ board_t * board_copy(board_t *board){
     {
         copy->arrows[i] = board->arrows[i];
     }
-    
+    copy->queen_occupy = malloc(sizeof(bool)*board->board_cells);
+    for (unsigned int i = 0; i < board->board_cells; i++)
+    {
+        copy->queen_occupy[i] = board->queen_occupy[i];
+    }
+
+
     return copy;
 }

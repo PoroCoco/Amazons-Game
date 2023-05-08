@@ -103,9 +103,7 @@ int play_game(char ** libraries_paths, unsigned int board_size, char board_type,
             break;
         }
 
-        board_add_arrow(game_board, m.arrow_dst);
-        queens_move(game_board->queens[current_player], game_board->board_width, m.queen_src, m.queen_dst);
-
+        apply_move(game_board, &m, current_player);
         current_player++;
         if (current_player >= NUM_PLAYERS){
             current_player = 0;

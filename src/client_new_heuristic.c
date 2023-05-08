@@ -54,6 +54,8 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
         {
             unsigned int queen_destination = queen_moves.indexes[j];
             queens_move(board->queens[current_player], board->board_width, queen_source, queen_destination);
+            board->queen_occupy[queen_source] = false;
+            board->queen_occupy[queen_destination] = true;
             queen_available_moves(c->board, &arrow_moves, queen_destination);
 
             //for every position that a moved queen can fire an arrow to
@@ -80,6 +82,8 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
 
             //resets board by moving queen back to its old position
             queens_move(board->queens[current_player], board->board_width, queen_destination, queen_source);
+            board->queen_occupy[queen_destination] = false;
+            board->queen_occupy[queen_source] = true;
         }
     }
     free(queen_moves.indexes);
@@ -94,12 +98,7 @@ struct move_t play(struct move_t previous_move)
 {
     if (previous_move.arrow_dst != UINT_MAX && previous_move.queen_src != UINT_MAX && previous_move.queen_dst != UINT_MAX)
     {
-        unsigned int index = 0;
-        while (index < c->board->queens_count - 1 && c->board->queens[1 - c->id][index] != previous_move.queen_src)
-            index++;
-
-        c->board->queens[1 - c->id][index] = previous_move.queen_dst;
-        board_add_arrow(c->board, previous_move.arrow_dst);
+        apply_move(c->board, &previous_move, 1 - c->id);
     }
 
     struct move_t next_move = {-1, -1, -1};
@@ -114,12 +113,8 @@ struct move_t play(struct move_t previous_move)
         next_move = get_best_heuristic_move(c->board, c->id);
     }
 
-    unsigned int index = 0;
-    while (index < c->board->queens_count - 1 && c->board->queens[c->id][index] != next_move.queen_src)
-        index++;
+    apply_move(c->board, &next_move, c->id);
 
-    c->board->queens[c->id][index] = next_move.queen_dst;
-    board_add_arrow(c->board, next_move.arrow_dst);
     // board_print(c->board);
     return next_move;
 }
