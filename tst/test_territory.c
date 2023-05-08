@@ -126,6 +126,7 @@ int test_territory_array(void){
     free(computed_array_king_p1);
     destroy_graph(game_board->g);
     free(game_board->arrows);
+    free(game_board->queen_occupy);
     free(game_board);
     return 0;
 }
