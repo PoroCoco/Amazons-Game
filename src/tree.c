@@ -40,13 +40,9 @@ int node_add(struct node *parent, struct node *node)
 
 void node_free(struct node *node) {
     for (unsigned int i = 0; i < node->childs_count; i++) {
-        if (node->childs[i]->childs_count != 0) {
-            for (unsigned int j = 0; j < node->childs[i]->childs_count; j++) {
-                node_free(node->childs[i]->childs[j]);
-            }
-        }
-        free(node->childs[(node->childs_count) - 1]);
+        node_free(node->childs[i]);
     }
+    free(node->move);
     free(node->childs);
     free(node);
 }

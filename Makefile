@@ -35,7 +35,7 @@ montecarlo : build
 	./install/server -m 5 ./install/client_monte_carlo.so ./install/client_random1.so
 
 valgrind: build
-	valgrind ./install/server -m 5 ./install/client_random1.so ./install/client_random2.so
+	valgrind ./install/server -m 5 ./install/client_random1.so ./install/client_monte_carlo.so
 
 
 %.o: $(SOURCEDIR)/%.c

@@ -25,7 +25,14 @@ double eval_heuristic_of_move(board_t* board, unsigned int current_player,struct
 }
 
 struct move_t* compare_move(board_t* board, unsigned int current_player,struct move_t* move1, struct move_t* move2){
-    return (eval_heuristic_of_move(board,current_player,move1) > eval_heuristic_of_move(board,current_player,move2) ? move1 : move2);
+    if (eval_heuristic_of_move(board,current_player,move1) > eval_heuristic_of_move(board,current_player,move2)) {
+        free(move2);
+        return move1;
+    } 
+    else {
+        free(move1);
+        return move2 ;
+    }
 
 }
 
@@ -206,7 +213,6 @@ struct move_t MCTS(struct board* current, unsigned int nb_expension, unsigned in
     }
 
     struct node* better_child = get_better_child(root);
-
     struct move_t r = {.arrow_dst = better_child->move->arrow_dst, .queen_dst = better_child->move->queen_dst, .queen_src = better_child->move->queen_src};
     node_free(root);
     return r;
