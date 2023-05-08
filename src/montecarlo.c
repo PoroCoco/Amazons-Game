@@ -93,9 +93,14 @@ struct move_t* get_random_move(board_t* board, unsigned int id)
     }
     next_move->queen_dst = new_dst;
     queens_move(board->queens[id], board->board_width, next_move->queen_src, next_move->queen_dst);
+    board->queen_occupy[next_move->queen_src] = false;
+    board->queen_occupy[next_move->queen_dst] = true;
+
     queen_available_moves(board, &queen_moves, next_move->queen_dst);
     next_move->arrow_dst = queen_moves.indexes[rand() % (queen_moves.move_count)];
     queens_move(board->queens[id], board->board_width, next_move->queen_dst, next_move->queen_src);
+    board->queen_occupy[next_move->queen_src] = true;
+    board->queen_occupy[next_move->queen_dst] = false;
 
 
     free(queen_moves.indexes);
