@@ -229,12 +229,7 @@ struct move_t play(struct move_t previous_move)
     // board_print(c->board);
     if (previous_move.arrow_dst != UINT_MAX && previous_move.queen_src != UINT_MAX && previous_move.queen_dst != UINT_MAX)
     {
-        unsigned int index = 0;
-        while (index < c->board->queens_count - 1 && c->board->queens[1 - c->id][index] != previous_move.queen_src)
-            index++;
-
-        c->board->queens[1 - c->id][index] = previous_move.queen_dst;
-        board_add_arrow(c->board, previous_move.arrow_dst);
+        apply_move(c->board, &previous_move, 1 - c->id);
     }
 
     // printf("my queen at %d move are : \n", c->board->queens[c->id][0]);
@@ -246,12 +241,8 @@ struct move_t play(struct move_t previous_move)
 
     struct move_t next_move = MCTS(c->board, 30, 4, 30);
 
-    unsigned int index = 0;
-    while (index < c->board->queens_count - 1 && c->board->queens[c->id][index] != next_move.queen_src)
-        index++;
+    apply_move(c->board, &next_move, c->id);
 
-    c->board->queens[c->id][index] = next_move.queen_dst;
-    board_add_arrow(c->board, next_move.arrow_dst);
     // board_print(c->board);
     return next_move;
 }
