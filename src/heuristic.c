@@ -187,60 +187,16 @@ double delta(unsigned int val1,unsigned int val2){
     }
 }
 
-double territory_heuristic_average(board_t *board, unsigned int player_id,  unsigned int* get_array(board_t *, unsigned int)){
+double territory_heuristic_average(board_t *board, unsigned int player_id,  struct territory_cell* get_array(board_t *, unsigned int)){
     unsigned int ennemy_id = get_ennemy_id(player_id);
-    unsigned int* territory_ennemy = get_array(board,ennemy_id);
-    unsigned int* territory_player =  get_array(board, player_id);
-    double sum_player = 0;//, sum_ennemy = 0;
-    unsigned int tile_count_player = 0;//, tile_count_ennemy = 0;
+    struct territory_cell* territory_ennemy = get_array(board,ennemy_id);
+    struct territory_cell* territory_player =  get_array(board, player_id);
+    double sum_player = 0;
+    unsigned int tile_count_player = 0;
     for(unsigned int i = 0; i < board->board_cells; i++){
-        //if(territory_player[i] && territory_player[i] != UINT_MAX){
-            tile_count_player++;
-            sum_player+= delta(territory_player[i], territory_ennemy[i]);
-        //}
-        /*
-        if(territory_ennemy[i] && territory_ennemy[i] != UINT_MAX){
-            tile_count_ennemy++;
-            sum_ennemy += territory_ennemy[i];
-        }*/
+        tile_count_player++;
+        sum_player+= delta(territory_player [i].distance, territory_ennemy[i].distance);
     }
-    // (tile_count_player*1.0 + 1.0)
-    if(!sum_player){
-        free(territory_ennemy);
-        free(territory_player);
-        return 0;
-    }
-/*
-    printf("Player:\n");
-    for(unsigned int i = 0; i <  board->board_cells; i++){
-        if(territory_ennemy[i] > 10){
-            printf("| ");
-        }
-        else{
-            printf("%d ",territory_ennemy[i]);
-        }
-        if(i%6 == 5){
-            printf("\n");
-        }
-    }
-    printf("\n");
-
-
-    printf("Ennemy:\n");
-    for(unsigned int i = 0; i <  board->board_cells; i++){
-        if(territory_player[i] > 10){
-            printf("| ");
-        }
-        else{
-            printf("%d ",territory_player[i]);
-        }
-        if(i%6 == 5){
-            printf("\n");
-        }
-    }
-    printf("\n");
-    printf("%f\n",sum_player);
-*/
     free(territory_ennemy);
     free(territory_player);
     return sum_player;

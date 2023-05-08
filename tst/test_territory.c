@@ -5,6 +5,25 @@
 #include "territories.h"
 #include "limits.h"
 
+
+
+float variance(unsigned int arr[], int n) {
+    float mean = 0.0, variance = 0.0;
+    int i;
+
+    for (i = 0; i < n; i++) {
+        printf("%d\n", arr[i]);
+        mean += arr[i];
+    }
+    mean /= n;
+    for (i = 0; i < n; i++) {
+        variance += (arr[i] - mean) * (arr[i] - mean);
+    }
+    variance /= n;
+
+    return variance;
+}
+
 int test_queue(void){
     struct queue* queue = queue_new(100);
     for(unsigned int i = 0; i < 22; i++){
@@ -42,8 +61,8 @@ int test_territory_array(void){
     for(int i = 0; i < 26; i++){
         board_add_arrow(game_board,shooted_arrows[i]);
     }
-    unsigned int* computed_array_queens_p0 = get_territory_queen_move(game_board, 0);
-    unsigned int* computed_array_queens_p1 = get_territory_queen_move(game_board, 1);
+    struct territory_cell* computed_array_queens_p0 = get_territory_queen_move(game_board, 0);
+    struct territory_cell* computed_array_queens_p1 = get_territory_queen_move(game_board, 1);
 
     unsigned int expected_array_queens_p0[100] = {
         4,5,UINT_MAX,0,UINT_MAX,2,1,2,2,2,
@@ -73,14 +92,14 @@ int test_territory_array(void){
 
 
 
-    unsigned int* computed_array_king_p0 = get_territory_king_move(game_board, 0);
-    unsigned int* computed_array_king_p1 = get_territory_king_move(game_board, 1);
+    struct territory_cell* computed_array_king_p0 = get_territory_king_move(game_board, 0);
+    struct territory_cell* computed_array_king_p1 = get_territory_king_move(game_board, 1);
     unsigned int expected_array_king_p0[100] = {
         7,7,UINT_MAX,0,UINT_MAX,2,2,3,4,5,
         6,6,UINT_MAX,UINT_MAX,UINT_MAX,1,2,3,4,5,
         5,5,UINT_MAX,UINT_MAX,0,UINT_MAX,UINT_MAX,UINT_MAX,UINT_MAX,5,
         4,UINT_MAX,UINT_MAX,1,UINT_MAX,1,UINT_MAX,3,UINT_MAX,5,
-        UINT_MAX,3,2,2,2,UINT_MAX,2,3,4,5,
+           UINT_MAX,3,2,2,2,UINT_MAX,2,3,4,5,
         3,UINT_MAX,UINT_MAX,3,3,UINT_MAX,UINT_MAX,UINT_MAX,4,4,
         3,2,2,UINT_MAX,2,2,2,UINT_MAX,3,3,
         3,UINT_MAX,1,1,1,1,1,UINT_MAX,2,UINT_MAX,
@@ -102,31 +121,37 @@ int test_territory_array(void){
 
 
     for(int i = 0; i < 100; i++){
-        if(expected_array_queens_p1[i] != computed_array_queens_p1[i] || expected_array_queens_p0[i] != computed_array_queens_p0[i] || 
-        expected_array_king_p1[i] != computed_array_king_p1[i] || expected_array_king_p0[i] != computed_array_king_p0[i]){
+        if(expected_array_queens_p1[i] != computed_array_queens_p1[i].distance || expected_array_queens_p0[i] != computed_array_queens_p0[i].distance || 
+        expected_array_king_p1[i] != computed_array_king_p1[i].distance || expected_array_king_p0[i] != computed_array_king_p0[i].distance){
             return !0;
         }
     }
-
-    /*
+/*
+    unsigned int* queens_access = malloc (sizeof(unsigned int) * 4 );
+    for(unsigned int i = 0; i < 4; i++){
+            queens_access[i] = 0; 
+    }
     for(unsigned int i = 0; i < 100; i++){
-        if(computed_array_queens_p0[i] > 100){
-            printf(" |");
+        if(computed_array_queens_p1[i].queens_index > 4){
+            printf("| ");
         }
         else{
-            printf("%d ",computed_array_queens_p0[i]);
-        }
-        if(i%10 == 9){
+        printf("%d ",computed_array_queens_p1[i].queens_index);}
+        if(i % 10 == 9){
             printf("\n");
         }
-    }*/
+        if(computed_array_queens_p1[i].queens_index != UINT_MAX){
+            queens_access[computed_array_queens_p1[i].queens_index]++; 
+        }
+    }
+    printf("%f\n", variance(queens_access,4));*/
     free(computed_array_queens_p0);
     free(computed_array_queens_p1);
     free(computed_array_king_p0);
     free(computed_array_king_p1);
     destroy_graph(game_board->g);
     free(game_board->arrows);
-    free(game_board->queen_occupy);
     free(game_board);
+    return 0;
     return 0;
 }
