@@ -124,7 +124,6 @@ struct node* selection(struct node* root)
                 ucb = new_ucb;
                 max_node = cur_node->childs[childs_index];
             }
-            //printf("%lf\n",ucb);
         }
         apply_move(root->board, max_node->move, max_node->player);        
         cur_node = selection(max_node);
@@ -205,11 +204,11 @@ struct move_t MCTS(struct board* current, unsigned int nb_expension, unsigned in
             selected_node = selected_node->parent;
         }
     }
-    node_print(root);
 
     struct node* better_child = get_better_child(root);
 
     struct move_t r = {.arrow_dst = better_child->move->arrow_dst, .queen_dst = better_child->move->queen_dst, .queen_src = better_child->move->queen_src};
+    node_free(root);
     return r;
 
 }
