@@ -97,6 +97,8 @@ node_t *create_moves_tree(board_t *board, unsigned int current_player, unsigned 
         {
             unsigned int queen_destination = queen_moves.indexes[j];
             queens_move(board->queens[current_player], board->board_width, queen_source, queen_destination);
+            board->queen_occupy[queen_source] = false;
+            board->queen_occupy[queen_destination] = true;
             queen_available_moves(board, &arrow_moves, queen_destination);
 
             //for every position that a moved queen can fire an arrow to
@@ -114,6 +116,8 @@ node_t *create_moves_tree(board_t *board, unsigned int current_player, unsigned 
 
             //resets board by moving queen back to its old position
             queens_move(board->queens[current_player], board->board_width, queen_destination, queen_source);
+            board->queen_occupy[queen_source] = true;
+            board->queen_occupy[queen_destination] = false;
         }
     }
 
@@ -125,7 +129,7 @@ node_t *create_moves_tree(board_t *board, unsigned int current_player, unsigned 
 double alphabeta(double alpha, double beta, board_t *board, unsigned int current_player, bool maxiPlayer, unsigned int original_player, unsigned int depth){
     // printf("alphabetting at %u\n", depth);
     if (depth == 0){
-        return power_heuristic_safe(board, current_player);
+        return territory_heuristic_average(board, current_player, get_territory_queen_move);
     }
     queen_moves_t queen_moves;
     queen_moves.indexes = malloc(sizeof(unsigned int)*board->board_cells*board->board_cells);
@@ -148,6 +152,8 @@ double alphabeta(double alpha, double beta, board_t *board, unsigned int current
         {
             unsigned int queen_destination = queen_moves.indexes[j];
             queens_move(board->queens[current_player], board->board_width, queen_source, queen_destination);
+            board->queen_occupy[queen_source] = false;
+            board->queen_occupy[queen_destination] = true;
             queen_available_moves(board, &arrow_moves, queen_destination);
 
             //for every position that a moved queen can fire an arrow to
@@ -182,13 +188,15 @@ double alphabeta(double alpha, double beta, board_t *board, unsigned int current
 
             //resets board by moving queen back to its old position
             queens_move(board->queens[current_player], board->board_width, queen_destination, queen_source);
+            board->queen_occupy[queen_source] = true;
+            board->queen_occupy[queen_destination] = false;
         }
     }
 
     //node is a leaf
     free(arrow_moves.indexes);
     free(queen_moves.indexes);
-    double node_value = power_heuristic_safe(board, current_player);
+    double node_value = territory_heuristic_average(board, current_player, get_territory_queen_move);
 
 
     if (!maxiPlayer){
@@ -211,7 +219,7 @@ struct move_t get_move_alphabeta(board_t *board, unsigned int current_player){
         board_heuristic = alphabeta(-INFINITY, INFINITY, board, current_player, true, current_player, 2);
         undo_move(board, &(game_tree->childs[i]->move), current_player);
 
-        // printf("Found  heuristic : from %lf\n", board_heuristic);
+        // printf("Found  heuristic :  %lf\n", board_heuristic);
         //determines if the new one is better than the best 
         if (board_heuristic > best_move_heuristic || (board_heuristic == best_move_heuristic && rand()%3==0)){
             // printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic, board_heuristic);

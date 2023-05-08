@@ -102,16 +102,13 @@ struct move_t play(struct move_t previous_move)
     }
 
     struct move_t next_move = {-1, -1, -1};
-    // printf("possible moves for new : %u\n", possible_moves_count(c->board, c->id));
-    if (possible_moves_count(c->board, c->id) < 30){
-        //EndGame behaviour : minmax
-        // printf("Endgame : \n");
-        next_move = get_best_heuristic_move(c->board, c->id);
+    // if (possible_moves_count(c->board, c->id) < 30){
+        // EndGame behaviour : minmax
         // next_move = get_move_alphabeta(c->board, c->id);
-    }else{
+    // }else{
         //Standard behaviour
         next_move = get_best_heuristic_move(c->board, c->id);
-    }
+    // }
 
     apply_move(c->board, &next_move, c->id);
 
