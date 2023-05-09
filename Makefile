@@ -44,7 +44,7 @@ valgrind: build
 %.o: $(TESTDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
-build: server client_random1.so client_new.so 
+build: server client_new.so 
 	rm -f build/*.gcda
 	rm -f build/*.gcno
 
@@ -77,8 +77,8 @@ test: alltests
 
 install: 
 	mv $(BUILDDIR)/server $(INSTALLDIR)/server
-	mv $(BUILDDIR)/client_new.so $(INSTALLDIR)/client_new.so
-	mv $(BUILDDIR)/client_random1.so $(INSTALLDIR)/client_random1.so
+	cp $(BUILDDIR)/client_new.so $(INSTALLDIR)/client_new2.so
+	mv $(BUILDDIR)/client_new.so $(INSTALLDIR)/client_new1.so
 
 clean:
 	@rm -f *~ src/*~ build/* install/*

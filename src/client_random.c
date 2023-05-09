@@ -26,7 +26,7 @@ void initialize(unsigned int player_id, struct graph_t *graph,
     }
 }
 
-struct move_t get_best_heuristic_move(board_t *board, unsigned int current_player, struct queue * queue){
+struct move_t get_best_heuristic_move(board_t *board, unsigned int current_player, struct queue * queue, struct queen_moves queen_moves_territory){
     struct move_t best_move = {-1, -1, -1};
     double board_heuristic = -INFINITY;
     double best_move_heuristic = -INFINITY;
@@ -66,7 +66,7 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
                 
                 //get new heuristic
                 if(board->arrows_count > 2* board->board_width){
-                    board_heuristic = territory_heuristic_average(board, current_player, get_territory_queen_move, queue);
+                    board_heuristic = territory_heuristic_average(board, current_player, get_territory_queen_move, queue, queen_moves_territory);
                 }else{
                     board_heuristic = power_heuristic_safe(board, current_player);
                 }
@@ -106,9 +106,13 @@ struct move_t play(struct move_t previous_move)
     }
 
     struct queue* queue = queue_new(c->board->board_cells);
-    struct move_t next_move = get_best_heuristic_move(c->board, c->id, queue);
-    queue_free(queue);
+    struct queen_moves queen_moves_territory;
+    queen_moves_territory.indexes = malloc(sizeof(unsigned int) * c->board->board_cells * c->board->board_cells);
+    assert(queen_moves_territory.indexes);
 
+    struct move_t next_move = get_best_heuristic_move(c->board, c->id, queue, queen_moves_territory);
+    queue_free(queue);
+    free(queen_moves_territory.indexes);
     apply_move(c->board, &next_move, c->id);
 
     // board_print(c->board);
