@@ -15,6 +15,7 @@ typedef struct board {
     unsigned int arrows_count;
     unsigned int *queens[NUM_PLAYERS];
     unsigned int queens_count;
+    bool *queen_occupy;
 } board_t;
 
 enum cell_state{

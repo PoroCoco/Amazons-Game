@@ -232,11 +232,15 @@ unsigned int possible_moves_count(board_t *board, unsigned int player){
         {
             unsigned int queen_destination = queen_moves.indexes[j];
             queens_move(board->queens[player], board->board_width, queen_source, queen_destination);
+            board->queen_occupy[queen_source] = false;
+            board->queen_occupy[queen_destination] = true;
             queen_available_moves(board, &arrow_moves, queen_destination);
 
             count += arrow_moves.move_count;
 
             queens_move(board->queens[player], board->board_width, queen_destination, queen_source);
+            board->queen_occupy[queen_destination] = false;
+            board->queen_occupy[queen_source] = true;
         }
     }
 

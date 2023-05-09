@@ -93,9 +93,14 @@ struct move_t* get_random_move(board_t* board, unsigned int id)
     }
     next_move->queen_dst = new_dst;
     queens_move(board->queens[id], board->board_width, next_move->queen_src, next_move->queen_dst);
+    board->queen_occupy[next_move->queen_src] = false;
+    board->queen_occupy[next_move->queen_dst] = true;
+
     queen_available_moves(board, &queen_moves, next_move->queen_dst);
     next_move->arrow_dst = queen_moves.indexes[rand() % (queen_moves.move_count)];
     queens_move(board->queens[id], board->board_width, next_move->queen_dst, next_move->queen_src);
+    board->queen_occupy[next_move->queen_src] = true;
+    board->queen_occupy[next_move->queen_dst] = false;
 
 
     free(queen_moves.indexes);
@@ -229,12 +234,7 @@ struct move_t play(struct move_t previous_move)
     // board_print(c->board);
     if (previous_move.arrow_dst != UINT_MAX && previous_move.queen_src != UINT_MAX && previous_move.queen_dst != UINT_MAX)
     {
-        unsigned int index = 0;
-        while (index < c->board->queens_count - 1 && c->board->queens[1 - c->id][index] != previous_move.queen_src)
-            index++;
-
-        c->board->queens[1 - c->id][index] = previous_move.queen_dst;
-        board_add_arrow(c->board, previous_move.arrow_dst);
+        apply_move(c->board, &previous_move, 1 - c->id);
     }
 
     // printf("my queen at %d move are : \n", c->board->queens[c->id][0]);
@@ -246,12 +246,8 @@ struct move_t play(struct move_t previous_move)
 
     struct move_t next_move = MCTS(c->board, 30, 4, 30);
 
-    unsigned int index = 0;
-    while (index < c->board->queens_count - 1 && c->board->queens[c->id][index] != next_move.queen_src)
-        index++;
+    apply_move(c->board, &next_move, c->id);
 
-    c->board->queens[c->id][index] = next_move.queen_dst;
-    board_add_arrow(c->board, next_move.arrow_dst);
     // board_print(c->board);
     return next_move;
 }
