@@ -49,22 +49,22 @@ build: server client_random1.so client_new.so client_monte_carlo.so
 	rm -f build/*.gcno
 
 server: server.o graph.o queens.o game.o board.o move_logic.o
-	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/server 
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(BUILDDIR)/server 
 
 arena: arena.o graph.o queens.o game.o board.o move_logic.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/arena
 
 client_random1.so: client_random.o board.o graph.o queens.o move_logic.o territories.o heuristic.o queue.o
-	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(BUILDDIR)/$@
 
 client_power_heuristic.so: client_power_heuristic.o board.o graph.o queens.o move_logic.o heuristic.o
-	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(BUILDDIR)/$@
 
 client_new.so: client_new_heuristic.o board.o graph.o queens.o move_logic.o heuristic.o  territories.o heuristic.o queue.o alphabeta.o
-	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(BUILDDIR)/$@
 
 client_monte_carlo.so: montecarlo.o board.o graph.o queens.o move_logic.o heuristic.o tree.o territories.o queue.o heuristic.o
-	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(INSTALLDIR)/$@
+	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(BUILDDIR)/$@
 
 
 
@@ -75,7 +75,11 @@ alltests: $(TESTFILES) $(SOURCEFILES)
 
 test: alltests
 
-install: server client test
+install: 
+	mv $(BUILDDIR)/server $(INSTALLDIR)/server
+	mv $(BUILDDIR)/client_new.so $(INSTALLDIR)/client_new.so
+	mv $(BUILDDIR)/client_monte_carlo.so $(INSTALLDIR)/client_monte_carlo.so
+	mv $(BUILDDIR)/client_random1.so $(INSTALLDIR)/client_random1.so
 
 clean:
 	@rm -f *~ src/*~ build/* install/*
