@@ -187,10 +187,10 @@ double delta(unsigned int val1,unsigned int val2){
     }
 }
 
-double territory_heuristic_average(board_t *board, unsigned int player_id,  struct territory_cell* get_array(board_t *, unsigned int)){
+double territory_heuristic_average(board_t *board, unsigned int player_id,  struct territory_cell* get_array(board_t *, unsigned int, struct queue *), struct queue * queue){
     unsigned int ennemy_id = get_ennemy_id(player_id);
-    struct territory_cell* territory_ennemy = get_array(board,ennemy_id);
-    struct territory_cell* territory_player =  get_array(board, player_id);
+    struct territory_cell* territory_ennemy = get_array(board,ennemy_id, queue);
+    struct territory_cell* territory_player =  get_array(board, player_id, queue);
     double sum_player = 0;
     unsigned int tile_count_player = 0;
     for(unsigned int i = 0; i < board->board_cells; i++){

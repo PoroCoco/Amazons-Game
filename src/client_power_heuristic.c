@@ -39,6 +39,9 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
     arrow_moves.indexes = malloc(sizeof(unsigned int)*c->board->board_cells*c->board->board_cells);
     assert(arrow_moves.indexes);
 
+
+    struct queue* queue = queue_new(board->board_cells);
+
     unsigned int total_possible_state_count = 0;
     //for every queen of the player
     for (unsigned int i = 0; i < board->queens_count; i++)
@@ -82,6 +85,7 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
     }
     free(queen_moves.indexes);
     free(arrow_moves.indexes);
+    queue_free(queue);
 
     // printf("Computed %u possibles states\n", total_possible_state_count);
 

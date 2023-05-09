@@ -10,8 +10,7 @@ bool index_can_improve(unsigned int index, struct territory_cell *territory, uns
     return false;
 }
 
-void breadth_fist_search_update(board_t* board, struct territory_cell* territory_array, unsigned int client, void get_moves(board_t *, queen_moves_t *, unsigned int)){
-    struct queue* queue = queue_new(board->board_cells);
+void breadth_fist_search_update(board_t* board, struct territory_cell* territory_array, unsigned int client, void get_moves(board_t *, queen_moves_t *, unsigned int), struct queue* queue){
     
     struct queen_moves queen_moves;
     queen_moves.indexes = malloc(sizeof(unsigned int) * board->board_cells * board->board_cells);
@@ -37,29 +36,30 @@ void breadth_fist_search_update(board_t* board, struct territory_cell* territory
             queen_moves.move_count--;
         }
     }
-    queue_free(queue);
+    queue->front = board->board_cells - 1 ;
+    queue->rear = board->board_cells - 1;
     free(queen_moves.indexes);
 }
 
-struct territory_cell* get_territory_queen_move(board_t* board, unsigned int client){
+struct territory_cell* get_territory_queen_move(board_t* board, unsigned int client, struct queue * queue){
     struct territory_cell* territory_array = malloc(sizeof(struct territory_cell) * board->board_cells);
     for(unsigned int i = 0; i < board->board_cells; i++){
         territory_array[i].distance = UINT_MAX;
         territory_array[i].queens_index = UINT_MAX;       
     }
 
-    breadth_fist_search_update(board, territory_array, client, queen_available_moves);
+    breadth_fist_search_update(board, territory_array, client, queen_available_moves, queue);
 
     return territory_array;
 }
-struct territory_cell* get_territory_king_move(board_t* board, unsigned int client){
+struct territory_cell* get_territory_king_move(board_t* board, unsigned int client, struct queue * queue){
     struct territory_cell* territory_array = malloc(sizeof(struct territory_cell) * board->board_cells);
     for(unsigned int i = 0; i < board->board_cells; i++){
         territory_array[i].distance = UINT_MAX;
         territory_array[i].queens_index = UINT_MAX;
     }
 
-    breadth_fist_search_update(board, territory_array, client, king_available_moves);
+    breadth_fist_search_update(board, territory_array, client, king_available_moves, queue);
 
     return territory_array;
 }

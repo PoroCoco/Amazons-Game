@@ -5,7 +5,7 @@
 #define NUM_PLAYERS 2
 
 #include "board.h"
-
+#include "queue.h"
 /// \cond
 #include <stdbool.h>
 /// \endcond

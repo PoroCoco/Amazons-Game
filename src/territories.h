@@ -18,7 +18,7 @@ struct territory_cell{
 };
 
 
-struct territory_cell* get_territory_queen_move(board_t* board, unsigned int client);
+struct territory_cell* get_territory_queen_move(board_t* board, unsigned int client, struct queue * queue);
+struct territory_cell* get_territory_king_move(board_t* board, unsigned int client, struct queue * queue);
 
-struct territory_cell* get_territory_king_move(board_t* board, unsigned int client);
 #endif 

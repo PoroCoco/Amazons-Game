@@ -42,6 +42,9 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
     arrow_moves.indexes = malloc(sizeof(unsigned int)*c->board->board_cells*c->board->board_cells);
     assert(arrow_moves.indexes);
 
+    struct queue* queue = queue_new(board->board_cells);
+
+
     unsigned int total_possible_state_count = 0;
     //for every queen of the player
     for (unsigned int i = 0; i < board->queens_count; i++)
@@ -65,7 +68,7 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
                 board_add_arrow(board, arrow_moves.indexes[k]);
                 
                 //get new heuristic
-                        board_heuristic = territory_heuristic_average(board, current_player, get_territory_queen_move);
+                        board_heuristic = territory_heuristic_average(board, current_player, get_territory_queen_move, queue);
                 //determines if the new one is better than the best 
                 if (board_heuristic > best_move_heuristic || (board_heuristic == best_move_heuristic && rand()%3==0)){
                     // printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic, board_heuristic);
@@ -88,6 +91,7 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
     }
     free(queen_moves.indexes);
     free(arrow_moves.indexes);
+    queue_free(queue);
 
     // printf("Computed %u possibles states\n", total_possible_state_count);
 
