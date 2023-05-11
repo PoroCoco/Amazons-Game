@@ -32,6 +32,20 @@ board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], uns
             board->queen_occupy[board->queens[j][i]] = true;
         }
     }
+
+    board->directions = malloc(sizeof(enum dir_t *) * board->board_cells);
+    assert(board->directions);
+
+    for (size_t i = 0; i < board->board_cells; i++)
+    {
+        board->directions[i] = malloc(sizeof(enum dir_t) * board->board_cells);
+        assert(board->directions[i]);
+        for (size_t j = 0; j < board->board_cells; j++)
+        {
+            board->directions[i][j] = compute_get_move_direction(board, i, j);
+        }
+        
+    }
     
 
     return board;
@@ -170,6 +184,17 @@ board_t * board_copy(board_t *board){
         copy->queen_occupy[i] = board->queen_occupy[i];
     }
 
+    copy->directions = malloc(sizeof(enum dir_t *)*board->board_cells);
+    for (size_t i = 0; i < board->board_cells; i++)
+    {
+        copy->directions[i] = malloc(sizeof(enum dir_t)*board->board_cells);
+        for (size_t j = 0; j < board->board_cells; j++)
+        {
+            copy->directions[i][j] = board->directions[i][j];
+        }
+        
+    }
+    
 
     return copy;
 }

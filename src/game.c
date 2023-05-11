@@ -11,9 +11,9 @@
 #include "graph_ext.h"
 #include "queens.h"
 #include "move_logic.h"
+#include "client_explo.h"
 
-
-typedef struct client {
+typedef struct client_server {
     unsigned int id;
     char const* (*get_player_name)(void);
     void (*initialize)(unsigned int player_id, struct graph_t* graph,
@@ -21,10 +21,10 @@ typedef struct client {
     struct move_t (*play)(struct move_t previous_move);
     void (*finalize)(void);
     void * handle;
-} client_t;
+} client_server_t;
 
 
-void display_client(client_t *clients){
+void display_client(client_server_t *clients){
     for (size_t i = 0; i < NUM_PLAYERS; i++)
     {
         printf("I'm client id %u\n", clients[i].id);
@@ -47,10 +47,10 @@ int play_game(char ** libraries_paths, unsigned int board_size, char board_type,
 
 
     //creates each client struc (open, load funcs)
-    client_t clients[NUM_PLAYERS];
-    for (unsigned int i = 0; i < NUM_PLAYERS; i++)
+    client_server_t clients[1];
+    for (unsigned int i = 0; i < 1; i++)
     {
-        clients[i] = load_client(i, libraries_paths[i]);
+        clients[i] = load_client(1, libraries_paths[i]);
     }
 
     // display_client(clients);
@@ -60,7 +60,7 @@ int play_game(char ** libraries_paths, unsigned int board_size, char board_type,
     board_t *game_board = board_create(g, queens, queen_number);
 
     //init each client
-    for (unsigned int i = 0; i < NUM_PLAYERS; i++)
+    for (unsigned int i = 0; i < 1; i++)
     {
         struct graph_t *graph_cpy = graph_copy(g); //malloc copy
         unsigned int *queens_cpy[NUM_PLAYERS];
@@ -73,24 +73,52 @@ int play_game(char ** libraries_paths, unsigned int board_size, char board_type,
         clients[i].initialize(clients[i].id, graph_cpy, queen_number, queens_cpy);
     }
 
+        struct graph_t *graph_cpy = graph_copy(g); //malloc copy
+        unsigned int *queens_cpy[NUM_PLAYERS];
+        for (unsigned int i = 0; i < NUM_PLAYERS; i++)
+        {
+            queens_cpy[i] = queens_copy(queens[i], board_size); //malloc copy
+            assert(queens_cpy[i] != NULL);
+        }
+        
+        client_explo_t *c = initialize_explo(0, graph_cpy, queen_number, queens_cpy);
+    printf("%s\n", get_player_name_explo(c));
+
+
+    // for (size_t i = 0; i < game_board->board_cells; i++)
+    // {
+    //     for (size_t j = 0; j < game_board->board_cells; j++)
+    //     {
+    //         printf("%d", get_move_direction(game_board, i, j));
+    //     }
+    //     printf("\n");
+    // }
+    
+
     //game loop
     clock_t start_time, end_time;
     struct move_t m = {-1, -1, -1};
     size_t max_turns = game_board->board_cells;
-    unsigned int current_player = 0;
+    unsigned int current_player = 1;
     for (size_t i = 0; i < max_turns; i++)
     {
         if (verbose > 1) board_print(game_board);
 
         //checks if the current player can move
         if(is_game_over_for_player(game_board, current_player)){
-            if (verbose > 0) printf("Player %u %s cannot move. Game is won by player %u %s!\n", current_player, clients[current_player].get_player_name(),  1 - current_player, clients[1 - current_player].get_player_name());
             break;
         }
-        if (verbose > 1) printf("Playing turn number %zu with player named %s id %u:\n", i, clients[current_player].get_player_name(), current_player);
+
   
         start_time = clock();
-        m = clients[current_player].play(m);
+        if (current_player == clients[0].id){
+            // printf("calling play client\n");
+            m = clients[0].play(m);
+        }else{
+            // printf("calling play explo\n");
+            m = play_explo(c, m);
+        }
+
         end_time = clock();
         
         // printf("Playing turn took %lf for player named %s id %u:\n", (double)(end_time - start_time) / CLOCKS_PER_SEC, clients[current_player].get_player_name(), current_player);
@@ -112,22 +140,22 @@ int play_game(char ** libraries_paths, unsigned int board_size, char board_type,
     
 
     //finalize each client
-    for (unsigned int i = 0; i < NUM_PLAYERS; i++)
+    for (unsigned int i = 0; i < 1; i++)
     {
         clients[i].finalize();
         dlclose(clients[i].handle);
     }
-    
+    finalize_explo(c);
     //free game_board
     board_free(game_board);
 
     return 1 - current_player;
 }
 
-struct client load_client(unsigned int id, char * library_path){
+struct client_server load_client(unsigned int id, char * library_path){
     assert(library_path);
     
-    struct client c;
+    struct client_server c;
     c.id = id;
 
     char *error;

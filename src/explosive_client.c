@@ -1,4 +1,4 @@
-#include "client.h"
+#include "client_explo.h"
 #include "queens.h"
 #include "territories.h"
 #include "heuristic.h"
@@ -6,30 +6,28 @@
 #include <assert.h>
 /// \endcond
 
-struct client *c = NULL;
+struct client_explo *c = NULL;
 
 
-char const *get_player_name(void)
+char const *get_player_name_explo(client_explo_t *c)
 {
     return c->name;
 }
 
-void initialize(unsigned int player_id, struct graph_t *graph,
+client_explo_t * initialize_explo(unsigned int player_id, struct graph_t *graph,
                 unsigned int num_queens, unsigned int *queens[NUM_PLAYERS])
 {
-    if (c == NULL)
-    {
-        c = malloc(sizeof(struct client));
+        struct client_explo *c = malloc(sizeof(struct client_explo));
         c->name = "Client explosive";
         c->id = player_id;
         c->board = board_create(graph, queens, num_queens);
-    }
+    return c;
 }
 
 
 
 
-struct move_t get_best_heuristic_move(board_t *board, unsigned int current_player){
+struct move_t get_best_heuristic_move(struct client_explo *c, board_t *board, unsigned int current_player){
     struct move_t best_move = {-1, -1, -1};
 
     struct heuristic_data best_move_heuristic = {
@@ -111,14 +109,16 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
     return best_move;
 }
 
-struct move_t play(struct move_t previous_move)
+struct move_t play_explo(struct client_explo *c, struct move_t previous_move)
 {
+    printf("entered\n");
     if (previous_move.arrow_dst != UINT_MAX && previous_move.queen_src != UINT_MAX && previous_move.queen_dst != UINT_MAX)
     {
         apply_move(c->board, &previous_move, 1 - c->id);
     }
 
-    struct move_t next_move = get_best_heuristic_move(c->board, c->id);
+    printf("platying\n");
+    struct move_t next_move = get_best_heuristic_move(c, c->board, c->id);
 
     apply_move(c->board, &next_move, c->id);
 
@@ -126,7 +126,7 @@ struct move_t play(struct move_t previous_move)
     return next_move;
 }
 
-void finalize(void)
+void finalize_explo(struct client_explo *c)
 {
     // printf("finalize for me client id %u, my ptr is %p\n", c->id, c);
     board_free(c->board);

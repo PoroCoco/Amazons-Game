@@ -23,11 +23,18 @@ bool is_game_over_for_player(board_t *board, unsigned int player){
     return true;
 }
 
-enum dir_t get_move_direction(board_t *board, unsigned int origin, unsigned int destination)
+enum dir_t get_move_direction(board_t *board, unsigned int origin, unsigned int destination){
+    if (origin >= board->board_cells || destination >= board->board_cells) return DIR_ERROR;
+    return board->directions[origin][destination];
+}
+
+enum dir_t compute_get_move_direction(board_t *board, unsigned int origin, unsigned int destination)
 {
     if (origin == destination)
         return DIR_ERROR;
+
     unsigned int width = board_width(board);
+
     unsigned int origin_x = origin % width;
     unsigned int origin_y = origin / width;
 
@@ -39,24 +46,19 @@ enum dir_t get_move_direction(board_t *board, unsigned int origin, unsigned int 
     {
         return origin_y > destination_y ? DIR_NORTH : DIR_SOUTH;
     }
-
     // origin and destination on the same line
-    if (origin_y == destination_y)
+    else if (origin_y == destination_y)
     {
         return origin_x > destination_x ? DIR_WEST : DIR_EAST;
     }
-
-    if (destination_x > origin_x)
+    else if (destination_x > origin_x)
     {
         return destination_y > origin_y ? DIR_SE : DIR_NE;
     }
-
-    if (destination_x < origin_x)
+    else // if (destination_x < origin_x)
     {
         return destination_y > origin_y ? DIR_SW : DIR_NW;
     }
-
-    return DIR_ERROR;
 }
 
 int compute_step_toward_direction(enum dir_t direction, unsigned int board_width)

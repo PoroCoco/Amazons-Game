@@ -1,10 +1,10 @@
 GSL_PATH ?= /net/ens/renault/save/gsl-2.6/install
-CFLAGS = -std=c99 -Wall -Wextra -fPIC -I$(GSL_PATH)/include
+CFLAGS = -std=c99 -Wall -Wextra -fPIC -I$(GSL_PATH)/include -pg
 
 ifeq ($(TURBO),true)
     CFLAGS += -O3
 else
-    CFLAGS += -O3
+    CFLAGS += -g3
 endif
 
 LDFLAGS = -lm -L$(GSL_PATH)/lib -L$(GSL_PATH)/lib64 \
@@ -44,11 +44,11 @@ play : build
 %.o: $(TESTDIR)/%.c
 	$(COMPILER) -c $(CFLAGS) $(LDFLAGS) -o $(BUILDDIR)/$@ $<
 
-build: server client_random1.so client_new.so explosive_client.so
+build: server client_random1.so client_new.so 
 	rm -f build/*.gcda
 	rm -f build/*.gcno
 
-server: server.o graph.o queens.o game.o board.o move_logic.o
+server: server.o graph.o queens.o game.o board.o move_logic.o explosive_client.o heuristic.o  territories.o heuristic.o queue.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) $(addprefix $(BUILDDIR)/, $^) -o $(BUILDDIR)/server 
 
 arena: arena.o graph.o queens.o game.o board.o move_logic.o
@@ -82,7 +82,6 @@ test: alltests
 install: 
 	mv $(BUILDDIR)/server $(INSTALLDIR)/server
 	mv $(BUILDDIR)/client_new.so $(INSTALLDIR)/client_new.so
-	mv $(BUILDDIR)/explosive_client.so $(INSTALLDIR)/explosive_client.so
 	mv $(BUILDDIR)/client_random1.so $(INSTALLDIR)/client_random1.so
 
 clean:

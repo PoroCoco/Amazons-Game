@@ -3,6 +3,7 @@
 
 #include "graph_ext.h"
 #include "player.h"
+#include "dir.h"
 /// \cond
 #include <stdbool.h>
 /// \endcond
@@ -16,6 +17,7 @@ typedef struct board {
     unsigned int *queens[NUM_PLAYERS];
     unsigned int queens_count;
     bool *queen_occupy;
+    enum dir_t **directions;
 } board_t;
 
 enum cell_state{

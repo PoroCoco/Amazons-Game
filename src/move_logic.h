@@ -59,6 +59,8 @@ bool is_game_over_for_player(board_t *board, unsigned int player);
  */
 enum dir_t get_move_direction(board_t *client, unsigned int origin, unsigned int destination);
 
+enum dir_t compute_get_move_direction(board_t *board, unsigned int origin, unsigned int destination);
+
 /**
  * @brief This function compute an integer to add in order to go in the given destination
  * 
