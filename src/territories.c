@@ -29,11 +29,13 @@ void breadth_fist_search_update(board_t* board, struct territory_cell* territory
         get_moves(board, &queen_moves, index);
         while(queen_moves.move_count){
             unsigned int index_move = queen_moves.indexes[queen_moves.move_count - 1];
-            if(territory_array[index_move].distance > territory_array[index].distance + 1 ){
+            if(territory_array[index_move].distance > territory_array[index].distance + 1){
                 queue_push(queue, index_move);
                 territory_array[index_move].distance = territory_array[index].distance + 1 ;
                 territory_array[index_move].queens_index = territory_array[index].queens_index;
             }
+            else if(territory_array[index_move].distance == territory_array[index].distance + 1)
+                territory_array[index_move].queens_index = UINT_MAX;
             queen_moves.move_count--;
         }
     }
