@@ -164,31 +164,52 @@ bool is_move_valid(board_t *board, struct move_t *move, unsigned int player_id)
     return true;
 }
 
-void queen_available_moves(board_t *board, queen_moves_t *moves, unsigned int queen_index)
+void queen_available_moves(board_t *board, queen_moves_t *moves, unsigned int queen_index){
+    directions_lines_t *dirs_line = &(board->reachable_cells[queen_index]);
+    unsigned int move_count = 0;
+
+
+    for (size_t dir = 0; dir < NUM_DIRS; dir++)
+    {
+        for (size_t i = 0; i < board->board_width; i++)
+        {
+            if (dirs_line->dir_line[dir][i] == UINT_MAX || board->arrows[dirs_line->dir_line[dir][i]] == true || board->queen_occupy[dirs_line->dir_line[dir][i]] == true) break;
+            moves->indexes[move_count] = dirs_line->dir_line[dir][i];
+            move_count++;
+        }
+    }
+    moves->move_count = move_count;
+}
+
+void compute_queen_available_moves(board_t *board, directions_lines_t *moves, unsigned int queen_index)
 {
-    assert(moves->indexes);
     //assert(board_get_index_state(board, queen_index) == STATE_QUEEN_WHITE || board_get_index_state(board, queen_index) == STATE_QUEEN_BLACK );
     
     int const steps[8] = {-1 - board->board_width, -board->board_width, 1 - board->board_width, 1, 1 + board->board_width, board->board_width, -1 + board->board_width, -1};
-    unsigned int move_count = 0;
     for (unsigned int i = 0; i < 8; i++)
     {
         unsigned int current_index = queen_index;
         unsigned int previous_index = queen_index;
         int step = steps[i];
+        unsigned int step_count = 0;
         current_index += step;
         while (current_index < board->board_cells)
         {
-            if (!board_index_is_available_from(board, previous_index, current_index))
+            if (!empty_board_index_is_available_from(board, previous_index, current_index))
                 break;
-            moves->indexes[move_count] = current_index;
-            move_count++;
+            moves->dir_line[i][step_count] = current_index;
             previous_index = current_index;
             current_index += step;
+            step_count++;
         }
+
+        while (step_count < board->board_width){
+            moves->dir_line[i][step_count] = UINT_MAX;
+            step_count++;
+        }
+        
     }
 
-    moves->move_count = move_count;
 }
 
 

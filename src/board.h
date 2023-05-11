@@ -8,6 +8,10 @@
 #include <stdbool.h>
 /// \endcond
 
+typedef struct directions_lines {
+    unsigned int * dir_line[NUM_DIRS];
+} directions_lines_t;
+
 typedef struct board {
     struct graph_t *g;
     unsigned int board_width;
@@ -18,6 +22,7 @@ typedef struct board {
     unsigned int queens_count;
     bool *queen_occupy;
     enum dir_t **directions;
+    directions_lines_t *reachable_cells;
 } board_t;
 
 enum cell_state{
@@ -88,7 +93,8 @@ void undo_move(board_t *board, struct move_t *move, unsigned int current_player)
 
 board_t * board_copy(board_t *board);
 
-
+bool empty_board_index_is_available_from(board_t *board, unsigned int source, unsigned int dest);
+bool empty_board_index_is_available(board_t *board, unsigned int index);
 #endif // _AMAZON_BOARD_H
 
 

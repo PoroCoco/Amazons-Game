@@ -46,6 +46,18 @@ board_t * board_create(struct graph_t *g, unsigned int *queens[NUM_PLAYERS], uns
         }
     }
 
+    board->reachable_cells = malloc(sizeof(directions_lines_t) * board->board_cells);
+    assert(board->reachable_cells);
+    for (size_t i = 0; i < board->board_cells; i++)
+    {
+        for (size_t dir = 0; dir < NUM_DIRS; dir++)
+        {
+            board->reachable_cells[i].dir_line[dir] = malloc(sizeof(unsigned int) * (board->board_width));
+        }
+        
+        compute_queen_available_moves(board, &(board->reachable_cells[i]), i);
+    }
+
     return board;
 }
 
@@ -75,6 +87,15 @@ void board_free(board_t *board){
     }
     free(board->directions);
 
+    for (size_t i = 0; i < board->board_cells; i++){
+        for (size_t dir = 0; dir < NUM_DIRS; dir++)
+        {
+            free(board->reachable_cells[i].dir_line[dir]);
+        }
+        
+    }
+    free(board->reachable_cells);
+
     free(board);
 }
 
@@ -83,12 +104,20 @@ unsigned int board_width(board_t *board){
     return board->board_width;
 }
 
+bool empty_board_index_is_available_from(board_t *board, unsigned int source, unsigned int dest){
+    enum dir_t d = get_move_direction(board, source, dest);
+    return empty_board_index_is_available(board, dest) && exist_edge_value(board->g, source, dest, d);
+}
+
 bool board_index_is_available_from(board_t *board, unsigned int source, unsigned int dest){
     enum dir_t d = get_move_direction(board, source, dest);
     return board_index_is_available(board, dest) && exist_edge_value(board->g, source, dest, d);
 }
 
 
+bool empty_board_index_is_available(board_t *board, unsigned int index){
+    return (index < board->board_cells);
+}
 
 bool board_index_is_available(board_t *board, unsigned int index){
     return (index < board->board_cells) && (!board->arrows[index]) && (board->queen_occupy[index] == false);
@@ -154,8 +183,8 @@ bool cell_has_direct_neighbor(board_t *board, unsigned int index){
 }
 
 void apply_move(board_t *board, struct move_t *move, unsigned int current_player){
-    board_add_arrow(board, move->arrow_dst);
     queens_move(board->queens[current_player], board->board_width, move->queen_src, move->queen_dst);
+    board_add_arrow(board, move->arrow_dst);
     board->queen_occupy[move->queen_src] = false;
     board->queen_occupy[move->queen_dst] = true;
 }
@@ -197,6 +226,21 @@ board_t * board_copy(board_t *board){
         for (size_t j = 0; j < board->board_cells; j++)
         {
             copy->directions[i][j] = board->directions[i][j];
+        }
+    }
+
+    copy->reachable_cells = malloc(sizeof(directions_lines_t) * board->board_cells);
+    assert(copy->reachable_cells);
+    for (size_t i = 0; i < board->board_cells; i++)
+    {
+        for (size_t dir = 0; dir < NUM_DIRS; dir++)
+        {
+            copy->reachable_cells[i].dir_line[dir] = malloc(sizeof(unsigned int) * (board->board_width));
+            for (size_t j = 0; j < board->board_width-1; j++)
+            {
+                copy->reachable_cells[i].dir_line[dir][j] = board->reachable_cells[i].dir_line[dir][j] ;
+            }
+            
         }
     }
 

@@ -134,6 +134,21 @@ int test_territory_array(void){
     free(computed_array_king_p1);    
     destroy_graph(game_board->g);
     
-    board_free(game_board);
+    free(game_board->arrows);
+    free(game_board->queen_occupy);
+    for (size_t i = 0; i < game_board->board_cells; i++){
+        free(game_board->directions[i]);
+    }
+    free(game_board->directions);
+
+    for (size_t i = 0; i < game_board->board_cells; i++){
+        for (size_t dir = 0; dir < NUM_DIRS; dir++)
+        {
+            free(game_board->reachable_cells[i].dir_line[dir]);
+        }
+        
+    }
+    free(game_board->reachable_cells);
+    free(game_board);
     return 0;
 }

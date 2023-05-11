@@ -21,6 +21,8 @@ typedef struct queen_moves{
 /// @pre moves->indexes should be of correct size (board size, can even be smaller because is should only hold at max all the possible destination for a queen)
 void queen_available_moves(board_t *board, queen_moves_t *moves, unsigned int queen_index);
 
+void compute_queen_available_moves(board_t *board, directions_lines_t *moves, unsigned int queen_index);
+
 /**
  * @brief Updates the given queen moves structure and fill the array with the indexes of the possible position of a queen 1 tile away from her.
  * 
