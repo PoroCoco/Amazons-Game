@@ -7,23 +7,6 @@
 
 
 
-float variance(unsigned int arr[], int n) {
-    float mean = 0.0, variance = 0.0;
-    int i;
-
-    for (i = 0; i < n; i++) {
-        printf("%d\n", arr[i]);
-        mean += arr[i];
-    }
-    mean /= n;
-    for (i = 0; i < n; i++) {
-        variance += (arr[i] - mean) * (arr[i] - mean);
-    }
-    variance /= n;
-
-    return variance;
-}
-
 int test_queue(void){
     struct queue* queue = queue_new(100);
     for(unsigned int i = 0; i < 22; i++){

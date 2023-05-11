@@ -28,9 +28,15 @@ void initialize(unsigned int player_id, struct graph_t *graph,
 
 struct move_t get_best_heuristic_move(board_t *board, unsigned int current_player){
     struct move_t best_move = {-1, -1, -1};
-    double board_heuristic = -INFINITY;
-    double best_move_heuristic = -INFINITY;
+    struct heuristic_data best_move_heuristic = {
+        .variance = -INFINITY,
+        .heuristic = -INFINITY
+    };
 
+    struct heuristic_data board_heuristic = {
+        .variance = -INFINITY,
+        .heuristic = -INFINITY
+    };
     queen_moves_t queen_moves;
     queen_moves.indexes = malloc(sizeof(unsigned int)*c->board->board_cells*c->board->board_cells);
     assert(queen_moves.indexes);
@@ -63,21 +69,29 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
                 board_add_arrow(board, arrow_moves.indexes[k]);
                 
                 //get new heuristic
-                if(board->arrows_count > 2* board->board_width){
-                    board_heuristic = territory_heuristic_average(board, current_player, get_territory_queen_move);
-                }else{
-                    board_heuristic = power_heuristic_safe(board, current_player);
-                }
+                board_heuristic = automatic_territory(board, current_player);
+
                 //determines if the new one is better than the best 
-                if (board_heuristic > best_move_heuristic || (board_heuristic == best_move_heuristic && rand()%3 == 0)){
-                    // printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic, board_heuristic);
+                if (board_heuristic.heuristic > best_move_heuristic.heuristic){
+                    //printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic.variance, board_heuristic.variance);
                     //switch if necessary
-                    best_move_heuristic = board_heuristic;
+                    best_move_heuristic.heuristic = board_heuristic.heuristic;
+                    best_move_heuristic.variance = board_heuristic.variance;
                     best_move.queen_src = queen_source;
                     best_move.queen_dst = queen_destination;
                     best_move.arrow_dst = arrow_moves.indexes[k];
-                }
+                }/*
+                else if((board_heuristic.heuristic == best_move_heuristic.heuristic)){
 
+                    if(board_heuristic.variance < best_move_heuristic.variance){
+
+                    printf("Found better heuristic : from %f to %f\n",best_move_heuristic.variance, board_heuristic.variance);
+                        best_move_heuristic.variance = board_heuristic.variance;
+                        best_move.queen_src = queen_source;
+                        best_move.queen_dst = queen_destination;
+                        best_move.arrow_dst = arrow_moves.indexes[k];
+                    }
+                }*/
                 //reset board by removing arrow
                 board_remove_arrow(board, arrow_moves.indexes[k]);
             }

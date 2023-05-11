@@ -16,9 +16,9 @@ double eval_heuristic_of_move(board_t* board, unsigned int current_player,struct
     double board_heuristic;
     apply_move(board, move, current_player);
     if(board->arrows_count > board->board_width * 2)
-        board_heuristic = territory_heuristic_average(board, current_player, get_territory_queen_move);
+        board_heuristic = territory_heuristic_average(board, current_player);
     else
-        board_heuristic = territory_heuristic_average(board, current_player, get_territory_king_move);
+        board_heuristic = territory_heuristic_average(board, current_player);
     undo_move(board, move, current_player);
     return board_heuristic;
 

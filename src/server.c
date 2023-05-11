@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     {
         player2_path = argv[optind++];
     }
-      if (!player1_path || !player2_path) {
+    if (!player1_path || !player2_path) {
         fprintf(stderr, "Usage: %s -m [M] -t [T] player1_path player2_path\n", argv[0]);
         exit(EXIT_FAILURE);
     }

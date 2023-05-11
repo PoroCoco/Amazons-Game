@@ -8,7 +8,7 @@
 #include "game.h"
 #include "player.h"
 
-#define TEST_BOARDS 6
+#define TEST_BOARDS 2
 
 long get_current_time_microseconds(void)
 {
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     long seed = get_current_time_microseconds();
     char *player1_path = NULL;
     char *player2_path = NULL;
-    size_t rounds = 10;
+    size_t rounds = 50;
     size_t clients_count = 2;
     while ((opt = getopt(argc, argv, "s:r:")) != -1)
     {
@@ -70,9 +70,10 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     
-    char board_shapes[TEST_BOARDS] = {'s', 's', 's', 'd', 'c', '8'};
-    char board_sizes[TEST_BOARDS] = {5, 8, 10, 9, 15, 8};
+    char board_shapes[TEST_BOARDS] = {'s', 's',  's', 'c', '8'};
+    char board_sizes[TEST_BOARDS] = {5, 10, 12, 15 ,15};
     char *libraries_paths[NUM_PLAYERS] = {player1_path, player2_path}; 
+    char *libraries_paths_reversed[NUM_PLAYERS] = {player2_path, player1_path}; 
 
     srand(seed);
     printf("Seed : %ld\n", seed);
@@ -88,8 +89,15 @@ int main(int argc, char *argv[])
 
         for (size_t j = 0; j < rounds; j++)
         {
-            int winner = play_game(libraries_paths, board_size, board_shape, 0, times);
-            wins[winner] += 1;
+            //if(j % 2){
+                int winner = play_game(libraries_paths, board_size, board_shape, 0, times);
+                wins[winner] += 1;
+                /*
+            }
+            else{
+                int winner = play_game(libraries_paths_reversed, board_size, board_shape, 0, times);
+                wins[!winner] += 1;
+            }*/
         }
 
         printf("\tWinner is Player %u\n", index_max(wins, clients_count));

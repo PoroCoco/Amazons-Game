@@ -129,7 +129,7 @@ node_t *create_moves_tree(board_t *board, unsigned int current_player, unsigned 
 double alphabeta(double alpha, double beta, board_t *board, unsigned int current_player, bool maxiPlayer, unsigned int original_player, unsigned int depth){
     // printf("alphabetting at %u\n", depth);
     if (depth == 0){
-        return territory_heuristic_average(board, current_player, get_territory_queen_move);
+        return territory_heuristic_average(board, current_player);
     }
     queen_moves_t queen_moves;
     queen_moves.indexes = malloc(sizeof(unsigned int)*board->board_cells*board->board_cells);
@@ -196,7 +196,7 @@ double alphabeta(double alpha, double beta, board_t *board, unsigned int current
     //node is a leaf
     free(arrow_moves.indexes);
     free(queen_moves.indexes);
-    double node_value = territory_heuristic_average(board, current_player, get_territory_queen_move);
+    double node_value = territory_heuristic_average(board, current_player);
 
 
     if (!maxiPlayer){

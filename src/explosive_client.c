@@ -1,13 +1,10 @@
 #include "client.h"
-#include "board.h"
 #include "queens.h"
-#include "move_logic.h"
-#include "heuristic.h"
 #include "territories.h"
-#include "alphabeta.h"
-#include <math.h>
+#include "heuristic.h"
+/// \cond
 #include <assert.h>
-
+/// \endcond
 
 struct client *c = NULL;
 
@@ -23,17 +20,27 @@ void initialize(unsigned int player_id, struct graph_t *graph,
     if (c == NULL)
     {
         c = malloc(sizeof(struct client));
-        c->name = "New Client";
+        c->name = "Client explosive";
         c->id = player_id;
         c->board = board_create(graph, queens, num_queens);
     }
 }
 
+
+
+
 struct move_t get_best_heuristic_move(board_t *board, unsigned int current_player){
     struct move_t best_move = {-1, -1, -1};
-    double board_heuristic = -INFINITY;
-    double best_move_heuristic = -INFINITY;
 
+    struct heuristic_data best_move_heuristic = {
+        .variance = -INFINITY,
+        .heuristic = -INFINITY
+    };
+
+    struct heuristic_data board_heuristic = {
+        .variance = -INFINITY,
+        .heuristic = -INFINITY
+    };
     queen_moves_t queen_moves;
     queen_moves.indexes = malloc(sizeof(unsigned int)*c->board->board_cells*c->board->board_cells);
     assert(queen_moves.indexes);
@@ -49,9 +56,6 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
         unsigned int queen_source = board->queens[current_player][i];
         queen_available_moves(c->board, &queen_moves, queen_source);
 
-        if(!board->arrows_count){
-            
-        }    
         //for every position that a queen can move to
         for (unsigned int j = 0; j < queen_moves.move_count; j++)
         {
@@ -59,6 +63,7 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
             queens_move(board->queens[current_player], board->board_width, queen_source, queen_destination);
             board->queen_occupy[queen_source] = false;
             board->queen_occupy[queen_destination] = true;
+
             queen_available_moves(c->board, &arrow_moves, queen_destination);
 
             //for every position that a moved queen can fire an arrow to
@@ -68,19 +73,26 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
                 board_add_arrow(board, arrow_moves.indexes[k]);
                 
                 //get new heuristic
-
-                board_heuristic = territory_heuristic_average(board, current_player);
+                board_heuristic = automatic_explosion(board,current_player);
 
                 //determines if the new one is better than the best 
-                if (board_heuristic > best_move_heuristic || (board_heuristic == best_move_heuristic && rand()%3==0)){
+                if (board_heuristic.heuristic > best_move_heuristic.heuristic){
                     //printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic, board_heuristic);
                     //switch if necessary
-                    best_move_heuristic = board_heuristic;
+                    best_move_heuristic.heuristic = board_heuristic.heuristic;
+                    best_move_heuristic.variance = board_heuristic.variance;
                     best_move.queen_src = queen_source;
                     best_move.queen_dst = queen_destination;
                     best_move.arrow_dst = arrow_moves.indexes[k];
                 }
-
+                else if((board_heuristic.heuristic == best_move_heuristic.heuristic)){
+                    if(board_heuristic.variance < best_move_heuristic.variance){
+                        best_move_heuristic.variance = board_heuristic.variance;
+                        best_move.queen_src = queen_source;
+                        best_move.queen_dst = queen_destination;
+                        best_move.arrow_dst = arrow_moves.indexes[k];
+                    }
+                }
                 //reset board by removing arrow
                 board_remove_arrow(board, arrow_moves.indexes[k]);
             }
@@ -106,14 +118,7 @@ struct move_t play(struct move_t previous_move)
         apply_move(c->board, &previous_move, 1 - c->id);
     }
 
-    struct move_t next_move = {-1, -1, -1};
-    // if (possible_moves_count(c->board, c->id) < 30){
-        // EndGame behaviour : minmax
-        // next_move = get_move_alphabeta(c->board, c->id);
-    // }else{
-        //Standard behaviour
-        next_move = get_best_heuristic_move(c->board, c->id);
-    // }
+    struct move_t next_move = get_best_heuristic_move(c->board, c->id);
 
     apply_move(c->board, &next_move, c->id);
 
