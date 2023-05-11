@@ -23,7 +23,13 @@ bool is_game_over_for_player(board_t *board, unsigned int player){
     return true;
 }
 
-enum dir_t get_move_direction(board_t *board, unsigned int origin, unsigned int destination)
+enum dir_t get_move_direction(board_t *board, unsigned int origin, unsigned int destination){
+    if (origin >= board->board_cells || destination >= board->board_cells) return DIR_ERROR;
+    return board->directions[origin][destination];
+}
+
+
+enum dir_t compute_get_move_direction(board_t *board, unsigned int origin, unsigned int destination)
 {
     if (origin == destination)
         return DIR_ERROR;
