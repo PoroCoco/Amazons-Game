@@ -3,7 +3,6 @@
 
 
 #include"move_logic.h"
-#include"board.h"
 #include"queue.h"
 
 /// \cond

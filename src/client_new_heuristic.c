@@ -1,12 +1,18 @@
 #include "client.h"
-#include "board.h"
 #include "queens.h"
 #include "move_logic.h"
 #include "heuristic.h"
 #include "territories.h"
-#include "alphabeta.h"
-#include <math.h>
+/// \cond
+#include "board.h"
+/// \endcond
+
+
+
+/// \cond
 #include <assert.h>
+/// \endcond
+
 
 
 struct client *c = NULL;

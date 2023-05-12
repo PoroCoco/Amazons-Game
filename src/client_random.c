@@ -69,10 +69,18 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
                 board_add_arrow(board, arrow_moves.indexes[k]);
                 
                 //get new heuristic
-                board_heuristic = automatic_territory(board, current_player);
-
+                if(board->arrows_count > 1 && board->board_width < 11){
+                    board_heuristic = automatic_territory(board, current_player);  
+                }
+                else
+                    board_heuristic = automatic_explosion(board, current_player);
+                
                 //determines if the new one is better than the best 
                 if (board_heuristic.heuristic > best_move_heuristic.heuristic){
+<<<<<<< HEAD
+=======
+                    //printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic.heuristic, board_heuristic.heuristic);
+>>>>>>> 081f09d57c94de7b71ecf9ef2b9e1139a07eab78
                     //switch if necessary
                     best_move_heuristic.heuristic = board_heuristic.heuristic;
                     best_move_heuristic.variance = board_heuristic.variance;
@@ -80,6 +88,20 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
                     best_move.queen_dst = queen_destination;
                     best_move.arrow_dst = arrow_moves.indexes[k];
                 }
+<<<<<<< HEAD
+=======
+                else if((board_heuristic.heuristic == best_move_heuristic.heuristic)){
+
+                    if(board_heuristic.variance < best_move_heuristic.variance){
+
+                    //printf("Found better heuristic : from %f to %f\n",best_move_heuristic.variance, board_heuristic.variance);
+                        best_move_heuristic.variance = board_heuristic.variance;
+                        best_move.queen_src = queen_source;
+                        best_move.queen_dst = queen_destination;
+                        best_move.arrow_dst = arrow_moves.indexes[k];
+                    }
+                }
+>>>>>>> 081f09d57c94de7b71ecf9ef2b9e1139a07eab78
                 //reset board by removing arrow
                 board_remove_arrow(board, arrow_moves.indexes[k]);
             }
