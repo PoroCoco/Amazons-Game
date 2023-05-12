@@ -93,7 +93,6 @@ int play_game(char ** libraries_paths, unsigned int board_size, char board_type,
         m = clients[current_player].play(m);
         end_time = clock();
         
-        // printf("Playing turn took %lf for player named %s id %u:\n", (double)(end_time - start_time) / CLOCKS_PER_SEC, clients[current_player].get_player_name(), current_player);
         times[current_player] += (double)(end_time - start_time) / CLOCKS_PER_SEC;
 
         //check move valid

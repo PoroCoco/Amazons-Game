@@ -60,10 +60,9 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
             else{
                 board_heuristic = territory_heuristic_average(board, current_player, get_territory_king_move);
             }
-            // printf("heuristic :  %lf\n",board_heuristic);
             //determines if the new one is better than the best 
             if (board_heuristic >= best_move_heuristic){
-                // printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic, board_heuristic);
+
                 //switch if necessary
                 best_move_heuristic = board_heuristic;
                 best_move.queen_src = queen_source;
@@ -99,11 +98,8 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
         else{
             board_heuristic = power_heuristic_safe(board, current_player);                
         }
-        // printf("heuristic :  %lf\n",board_heuristic);
-
         //determines if the new one is better than the best 
         if (board_heuristic > best_shot_heuristic){
-            // printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic, board_heuristic);
             //switch if necessary
             best_shot_heuristic = board_heuristic;
             best_move.arrow_dst = arrow_moves.indexes[k];
@@ -120,8 +116,6 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
 
     free(queen_moves.indexes);
     free(arrow_moves.indexes);
-
-    // printf("Computed %u possibles states\n", total_possible_state_count);
 
     return best_move;
 }
@@ -143,7 +137,6 @@ struct move_t play(struct move_t previous_move)
 
 void finalize(void)
 {
-    // printf("finalize for me client id *, my ptr is %p\n", c->id, c);
     board_free(c->board);
     free(c);
 }

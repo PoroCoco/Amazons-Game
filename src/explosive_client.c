@@ -77,7 +77,6 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
 
                 //determines if the new one is better than the best 
                 if (board_heuristic.heuristic > best_move_heuristic.heuristic){
-                    //printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic, board_heuristic);
                     //switch if necessary
                     best_move_heuristic.heuristic = board_heuristic.heuristic;
                     best_move_heuristic.variance = board_heuristic.variance;
@@ -106,8 +105,6 @@ struct move_t get_best_heuristic_move(board_t *board, unsigned int current_playe
     free(queen_moves.indexes);
     free(arrow_moves.indexes);
 
-    // printf("Computed %u possibles states\n", total_possible_state_count);
-
     return best_move;
 }
 
@@ -128,7 +125,6 @@ struct move_t play(struct move_t previous_move)
 
 void finalize(void)
 {
-    // printf("finalize for me client id %u, my ptr is %p\n", c->id, c);
     board_free(c->board);
     free(c);
 }

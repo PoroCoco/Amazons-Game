@@ -141,7 +141,6 @@ struct node* selection(struct node* root)
         cur_node = selection(max_node);
 
     }
-    //printf("%lf\n",cur_node->nb_wins/cur_node->nb_game);
     return cur_node;
     
 }
@@ -237,12 +236,6 @@ struct move_t play(struct move_t previous_move)
         apply_move(c->board, &previous_move, 1 - c->id);
     }
 
-    // printf("my queen at %d move are : \n", c->board->queens[c->id][0]);
-
-
-    // printf("src : %d\n", next_move.queen_src);
-    // printf("dst : %d\n", next_move.queen_dst);
-    // printf("arrow : %d\n", next_move.arrow_dst);
 
     struct move_t next_move = MCTS(c->board, 30, 4, 30);
 
@@ -254,7 +247,6 @@ struct move_t play(struct move_t previous_move)
 
 void finalize(void)
 {
-    // printf("finalize for me client id %u, my ptr is %p\n", c->id, c);
     board_free(c->board);
     free(c);
 }

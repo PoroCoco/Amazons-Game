@@ -127,7 +127,6 @@ node_t *create_moves_tree(board_t *board, unsigned int current_player, unsigned 
 }
 
 double alphabeta(double alpha, double beta, board_t *board, unsigned int current_player, bool maxiPlayer, unsigned int original_player, unsigned int depth){
-    // printf("alphabetting at %u\n", depth);
     if (depth == 0){
         return territory_heuristic_average(board, current_player);
     }
@@ -219,10 +218,8 @@ struct move_t get_move_alphabeta(board_t *board, unsigned int current_player){
         board_heuristic = alphabeta(-INFINITY, INFINITY, board, current_player, true, current_player, 2);
         undo_move(board, &(game_tree->childs[i]->move), current_player);
 
-        // printf("Found  heuristic :  %lf\n", board_heuristic);
         //determines if the new one is better than the best 
         if (board_heuristic > best_move_heuristic || (board_heuristic == best_move_heuristic && rand()%3==0)){
-            // printf("Found better heuristic : from %lf to %lf\n",best_move_heuristic, board_heuristic);
             //switch if necessary
             best_move_heuristic = board_heuristic;
             best_move = game_tree->childs[i]->move;
