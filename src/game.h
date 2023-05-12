@@ -1,8 +1,9 @@
 #ifndef _AMAZON_GAME_H
 #define _AMAZON_GAME_H
 
-struct client;
+#include "board.h"
 
+struct client;
 
 /// @return The client id that won the game
 int play_game(char ** libraries_paths, unsigned int board_size, char board_type, int verbose, double *times);

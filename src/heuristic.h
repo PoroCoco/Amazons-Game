@@ -2,9 +2,8 @@
 #define _AMAZON_HEURISTIC_H_
 
 #include "board.h"
-#include "move_logic.h"
 #include "territories.h"
-#include<math.h>
+#include <math.h>
 
 
 

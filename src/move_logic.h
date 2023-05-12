@@ -2,7 +2,6 @@
 #define _AMAZON_MOVE_LOGIC_H_
 
 #include "board.h"
-#include "dir.h"
 /// \cond
 #include <stdbool.h>
 /// \endcond

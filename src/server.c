@@ -9,7 +9,6 @@
 /// \endcond
 
 #include "game.h"
-#include "player.h"
 
 long get_current_time_microseconds(void)
 {

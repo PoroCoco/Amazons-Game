@@ -90,7 +90,6 @@ double power_heuristic_safe(board_t *board, unsigned int player_id){
     free(board_powers_player);
     return 1./ (current_heuristic+1.);
 }
-#include "heuristic.h"
 
 
 double power_heuristic(board_t *board, unsigned int player_id){
