@@ -8,7 +8,7 @@
 #include "game.h"
 #include "player.h"
 
-#define TEST_BOARDS 2
+#define TEST_BOARDS 5
 
 long get_current_time_microseconds(void)
 {
@@ -70,10 +70,9 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     
-    char board_shapes[TEST_BOARDS] = {'s', 's',  's', 'c', '8'};
-    char board_sizes[TEST_BOARDS] = {5, 10, 12, 15 ,15};
+    char board_shapes[TEST_BOARDS] = {'s', 's',  'd', 'c', '8'};
+    char board_sizes[TEST_BOARDS] = {5, 10, 15, 15 ,15};
     char *libraries_paths[NUM_PLAYERS] = {player1_path, player2_path}; 
-    char *libraries_paths_reversed[NUM_PLAYERS] = {player2_path, player1_path}; 
 
     srand(seed);
     printf("Seed : %ld\n", seed);
