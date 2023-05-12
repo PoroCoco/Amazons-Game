@@ -60,7 +60,7 @@ client_random1.so: client_random.o board.o graph.o queens.o move_logic.o territo
 client_power_heuristic.so: client_power_heuristic.o board.o graph.o queens.o move_logic.o heuristic.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(BUILDDIR)/$@
 
-client_new.so: client_new_heuristic.o board.o graph.o queens.o move_logic.o heuristic.o  territories.o heuristic.o queue.o alphabeta.o
+client_new.so: client_new_heuristic.o board.o graph.o queens.o move_logic.o heuristic.o  territories.o heuristic.o queue.o
 	$(COMPILER) $(CFLAGS) $(LDFLAGS) --shared $(addprefix $(BUILDDIR)/, $^) -o $(BUILDDIR)/$@
 
 client_monte_carlo.so: montecarlo.o board.o graph.o queens.o move_logic.o heuristic.o tree.o territories.o queue.o heuristic.o

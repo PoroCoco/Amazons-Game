@@ -4,7 +4,6 @@
 #include "move_logic.h"
 #include "heuristic.h"
 #include "territories.h"
-#include "alphabeta.h"
 #include <math.h>
 #include <assert.h>
 
