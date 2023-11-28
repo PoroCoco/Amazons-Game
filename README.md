@@ -1,13 +1,6 @@
-# Sujet de programmation impérative
-
-La page du sujet :
-
-https://www.labri.fr/perso/renault/working/teaching/projets/2022-23-S6-C-Amazons.php
-
-La page sur thor :
-
-https://thor.enseirb-matmeca.fr/ruby/projects/projetss6-amaz/overview
-
+# Subject
+The subject is available [here](https://www.labri.fr/perso/renault/working/teaching/projets/2022-23-S6-C-Amazons.php).
+This project was made by Tanguy Daponte, Abdurahman El Califa Kan It Bensaidi, Maximilien Vidiani and Louis Peyrondet over a 1.5-month period for the 1st year programming project at the Enseirb-Matmeca school. 
 
 # Compilation
 
